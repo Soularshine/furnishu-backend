@@ -6,7 +6,7 @@ const path       = require('path');
 const { createClient } = require('@supabase/supabase-js');
 const { Resend }       = require('resend');
 
-const app = express();
+const app = express();h
 
 // ── Middleware ──────────────────────────────────────────────────────────
 app.use(cors());
@@ -62,7 +62,7 @@ app.post('/api/auth/send-code', async (req, res) => {
 
   // Send via Resend
   const { error: emailErr } = await resend.emails.send({
-    from:    'FurnishU <noreply@themintcollective.org>',
+    from:    'FurnishU <noreply@furnishu.app>',
     to:      email,
     subject: `${code} — your FurnishU verification code`,
     html: `
