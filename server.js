@@ -6,7 +6,7 @@ const path       = require('path');
 const { createClient } = require('@supabase/supabase-js');
 const { Resend }       = require('resend');
 
-const app = express();h
+const app = express()
 
 // ── Middleware ──────────────────────────────────────────────────────────
 app.use(cors());
