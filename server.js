@@ -252,6 +252,45 @@ app.post('/api/listings/:id/unclaim', requireAuth, async (req, res) => {
 app.post('/api/listings/:id/pickup', requireAuth, async (req, res) => {
   const { id } = req.params;
 
+// ── Contact owner ─────────────────────────────────────────────
+app.post('/api/listings/:id/contact', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { senderEmail, message } = req.body;
+    if (!senderEmail || !message) return res.status(400).json({ error: 'Missing fields' });
+    const { data: listing } = await supabase.from('listings').select('name,owner_email').eq('id', id).single();
+    if (!listing) return res.status(404).json({ error: 'Listing not found' });
+    await resend.emails.send({
+      from: 'FurnishU <noreply@furnishu.app>',
+      to: listing.owner_email,
+      subject: 'Someone wants your item on FurnishU!',
+      html: '<p>Hi! A student is interested in your listing: <strong>' + listing.name + '</strong></p>' +
+            '<p>They said: <em>' + message + '</em></p>' +
+            '<p>Reply to them at: <a href="mailto:' + senderEmail + '">' + senderEmail + '</a></p>' +
+            '<p>— The FurnishU Team</p>'
+    });
+    res.json({ ok: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── Report listing ────────────────────────────────────────────
+app.post('/api/listings/:id/report', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reporterEmail, reason } = req.body;
+    const { data: listing } = await supabase.from('listings').select('name,owner_email').eq('id', id).single();
+    await resend.emails.send({
+      from: 'FurnishU <noreply@furnishu.app>',
+      to: 'shawnowenslemons@gmail.com',
+      subject: 'FurnishU: Listing Reported',
+      html: '<p>Listing <strong>' + (listing ? listing.name : id) + '</strong> (ID: ' + id + ') was reported.</p>' +
+            '<p>Reason: ' + (reason || 'No reason given') + '</p>' +
+            '<p>Reporter: ' + (reporterEmail || 'anonymous') + '</p>'
+    });
+    res.json({ ok: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
   const { data: listing } = await supabase
     .from('listings').select('*').eq('id', id).single();
 
