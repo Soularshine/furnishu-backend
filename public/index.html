@@ -6,9 +6,9 @@
 <title>FurnishU</title>
 <style>
 :root {
-  --primary: #6B1A23;
-  --primary-h: #8B2535;
-  --primary-pale: #F9EFEF;
+  --primary: #3D1C02;
+  --primary-h: #5C2A0A;
+  --primary-pale: #FDF6EC;
   --gray: #6B7280;
   --gray-light: #F3F4F6;
   --gray-med: #D1D5DB;
@@ -266,16 +266,16 @@ textarea { resize: vertical; min-height: 80px; }
 <div id="auth-screen">
   <div class="auth-card">
     <div class="logo">Furnish<span>U</span></div>
-    <div class="tagline">Pass it forward. Furnish your future.</div>
-    <div class="school-badge" id="school-badge">Texas Southern University</div>
+    <div class="tagline">Furnish your college life. Help others furnish theirs.</div>
+    <div class="school-badge" id="school-badge">Any .edu — All Welcome</div>
 
     <!-- Step 1 -->
     <div id="step-email">
       <div class="auth-title">Sign in</div>
-      <div class="auth-sub" id="auth-sub">Use your TSU .edu email to get started.</div>
+      <div class="auth-sub" id="auth-sub">Use your .edu email to get started.</div>
       <div class="field">
         <label>School Email</label>
-        <input type="email" id="email-in" placeholder="you@tsu.edu" autocomplete="email" />
+        <input type="email" id="email-in" placeholder="you@university.edu" autocomplete="email" />
       </div>
       <button class="btn" id="send-btn" onclick="sendCode()">Send Verification Code</button>
     </div>
@@ -393,11 +393,11 @@ textarea { resize: vertical; min-height: 80px; }
 // ════════════════════════════════════════
 const CFG = {
   school:   'Texas Southern University',
-  short:    'TSU',
-  primary:  '#6B1A23',   // maroon
-  hover:    '#8B2535',
-  pale:     '#F9EFEF',
-};
+  short:    'EDU',
+  primary:  '#3D1C02',   // walnut
+  hover:    '#5C2A0A',
+  pale:     '#FDF6EC',
+  valid:    e => e.endsWith('.edu')};
 
 // Apply colors
 const R = document.documentElement.style;
@@ -792,5 +792,7 @@ document.getElementById('email-in').addEventListener('keydown',e=>{ if(e.key==='
 
 boot();
 </script>
+
+<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;"><a href="/about.html" style="color:#3D1C02;text-decoration:none;font-weight:500;">About FurnishU</a></div>
 </body>
 </html>
