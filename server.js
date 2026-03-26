@@ -8,13 +8,13 @@ const { Resend }       = require('resend');
 
 const app = express()
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Middleware ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ── Middleware ──────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json({ limit: '15mb' })); // allow base64 photo uploads
 app.use((req,res,next)=>{ res.set('Cache-Control','no-store'); next(); });
 app.use(express.static(path.join(__dirname, 'public'), { index: 'about.html' }));
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Clients ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ── Clients ─────────────────────────────────────────────────────────────
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -22,9 +22,9 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ══════════════════════════════════════════════════════════════════════════
 //  AUTH MIDDLEWARE
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ══════════════════════════════════════════════════════════════════════════
 function requireAuth(req, res, next) {
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
@@ -36,9 +36,9 @@ function requireAuth(req, res, next) {
   }
 }
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ══════════════════════════════════════════════════════════════════════════
 //  AUTH ROUTES
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ══════════════════════════════════════════════════════════════════════════
 
 // POST /api/auth/send-code
 // Generates a 4-digit code, stores it, emails it via Resend
@@ -65,7 +65,7 @@ app.post('/api/auth/send-code', async (req, res) => {
   const { error: emailErr } = await resend.emails.send({
     from:    'FurnishU <noreply@furnishu.app>',
     to:      email,
-    subject: `${code} ÃÂ¢ÃÂÃÂ your FurnishU verification code`,
+    subject: `${code} — your FurnishU verification code`,
     html: `
       <div style="font-family:-apple-system,sans-serif;max-width:420px;margin:0 auto;padding:24px;">
         <h2 style="color:#6C3FC5;margin-bottom:4px;">Furnish<span style="color:#F5A623;">U</span></h2>
@@ -119,11 +119,11 @@ app.post('/api/auth/verify-code', async (req, res) => {
   res.json({ token, email: emailLower });
 });
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ══════════════════════════════════════════════════════════════════════════
 //  LISTINGS ROUTES
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ══════════════════════════════════════════════════════════════════════════
 
-// GET /api/listings ÃÂ¢ÃÂÃÂ browse all active listings
+// GET /api/listings — browse all active listings
 app.get('/api/listings', async (req, res) => {
   const { category, building, q } = req.query;
 
@@ -142,7 +142,7 @@ app.get('/api/listings', async (req, res) => {
   res.json(data);
 });
 
-// POST /api/listings ÃÂ¢ÃÂÃÂ create a listing (auth required)
+// POST /api/listings — create a listing (auth required)
 app.post('/api/listings', requireAuth, async (req, res) => {
   const { name, category, building, description, free, price, must_go_by, photo_base64 } = req.body;
 
@@ -167,7 +167,7 @@ app.post('/api/listings', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// PUT /api/listings/:id ÃÂ¢ÃÂÃÂ update a listing (owner only)
+// PUT /api/listings/:id — update a listing (owner only)
 app.put('/api/listings/:id', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -191,7 +191,7 @@ app.put('/api/listings/:id', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// DELETE /api/listings/:id ÃÂ¢ÃÂÃÂ remove a listing (owner only)
+// DELETE /api/listings/:id — remove a listing (owner only)
 app.delete('/api/listings/:id', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -206,7 +206,7 @@ app.delete('/api/listings/:id', requireAuth, async (req, res) => {
   res.json({ success: true });
 });
 
-// POST /api/listings/:id/claim ÃÂ¢ÃÂÃÂ claim an item
+// POST /api/listings/:id/claim — claim an item
 app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -227,7 +227,7 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// POST /api/listings/:id/unclaim ÃÂ¢ÃÂÃÂ release a claim
+// POST /api/listings/:id/unclaim — release a claim
 app.post('/api/listings/:id/unclaim', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -248,48 +248,36 @@ app.post('/api/listings/:id/unclaim', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// POST /api/listings/:id/pickup ÃÂ¢ÃÂÃÂ confirm pickup (removes listing)
+// POST /api/listings/:id/pickup — confirm pickup (removes listing)
 app.post('/api/listings/:id/pickup', requireAuth, async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const { error } = await supabase.from('listings').update({ status: 'completed' }).eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Contact owner ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// POST /api/listings/:id/contact — “I Want This” button
 app.post('/api/listings/:id/contact', async (req, res) => {
   try {
     const { id } = req.params;
     const { email: claimerEmail, name: claimerName, message } = req.body;
     if (!claimerEmail) return res.status(400).json({ error: 'claimerEmail is required' });
-
-    const { data: listing, error: dbErr } = await supabase
-      .from('listings')
-      .select('id, name, building, owner_email, status')
-      .eq('id', id)
-      .single();
-
+    const { data: listing, error: dbErr } = await supabase.from('listings').select('id, name, building, owner_email, status').eq('id', id).single();
     if (dbErr || !listing) return res.status(404).json({ error: 'Listing not found' });
     if (listing.status !== 'available') return res.status(409).json({ error: 'Item no longer available' });
-
     const shareUrl = `https://furnishu.app/app?listing=${listing.id}`;
     const displayName = claimerName || claimerEmail.split('@')[0];
-
-    // Confirmation email → claimer
-    await resend.emails.send({
-      from: 'FurnishU <no-reply@furnishu.app>',
-      to: claimerEmail,
+    await resend.emails.send({ from: 'FurnishU <no-reply@furnishu.app>', to: claimerEmail,
       subject: `You expressed interest in "${listing.name}" – FurnishU`,
-      html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3;border-radius:0 0 8px 8px"><p>Hi ${displayName},</p><p>You expressed interest in <strong>${listing.name}</strong> (${listing.building}). The owner has been notified and will reach out to you at <strong>${claimerEmail}</strong>.</p><a href="${shareUrl}" style="display:inline-block;margin:16px 0;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none;font-weight:bold">View Listing</a><p style="color:#999;font-size:12px">FurnishU – Furniture sharing within your building community.</p></div></div>`
-    });
-
-    // Notification email → owner
-    await resend.emails.send({
-      from: 'FurnishU <no-reply@furnishu.app>',
-      to: listing.owner_email,
+      html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3"><p>Hi ${displayName}, you expressed interest in <strong>${listing.name}</strong> (${listing.building}). The owner will reach out at <strong>${claimerEmail}</strong>.</p><a href="${shareUrl}" style="display:inline-block;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none">View Listing</a></div></div>` });
+    await resend.emails.send({ from: 'FurnishU <no-reply@furnishu.app>', to: listing.owner_email,
       subject: `Someone wants your "${listing.name}" – FurnishU`,
-      html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3;border-radius:0 0 8px 8px"><p>Great news! <strong>${displayName}</strong> wants your listing:</p><h2 style="color:#3D1C02">${listing.name}</h2><p>Reply directly: <a href="mailto:${claimerEmail}" style="color:#D97706">${claimerEmail}</a></p>${message ? `<blockquote style="border-left:3px solid #D97706;padding-left:12px;color:#555">&ldquo;${message}&rdquo;</blockquote>` : ''}<a href="${shareUrl}" style="display:inline-block;margin:16px 0;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none;font-weight:bold">View Your Listing</a><p style="color:#555;font-size:13px">Once picked up, mark it <strong>Completed</strong> in the app.</p><p style="color:#999;font-size:12px">FurnishU – Furniture sharing within your building community.</p></div></div>`
-    });
-
-    // Mark pending + record claimer
+      html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3"><p><strong>${displayName}</strong> wants your listing: <strong>${listing.name}</strong>.</p><p>Reply at: <a href="mailto:${claimerEmail}" style="color:#D97706">${claimerEmail}</a></p>${message ? '<p><em>' + message + '</em></p>' : ''}<a href="${shareUrl}" style="display:inline-block;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none">View Listing</a></div></div>` });
     await supabase.from('listings').update({ status: 'pending', claimed_by: claimerEmail }).eq('id', id);
-
     return res.json({ success: true, message: 'Emails sent to both parties' });
   } catch (err) {
     console.error('[contact]', err);
@@ -324,54 +312,31 @@ app.post('/api/listings/:id/report', async (req, res) => {
   res.json({ success: true });
 });
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Catch-all: serve frontend ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ── Catch-all: serve frontend ────────────────────────────────────────────
 app.get('/app', (req,res) => res.sendFile(path.join(__dirname,'public','index.html')));
 
 app.get('*', (req, res) => {
   res.redirect(302, '/about.html');
 });
 
-// ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Start ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ
+// ── Start ────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 
-// POST /api/cron/expire-listings — called daily by Railway Cron (0 3 * * *)
+// POST /api/cron/expire-listings — Railway Cron: 0 3 * * *
 app.post('/api/cron/expire-listings', async (req, res) => {
   try {
-    const auth = req.headers.authorization || '';
-    if (auth !== `Bearer ${process.env.CRON_SECRET}`) return res.status(401).json({ error: 'Unauthorized' });
-
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 90);
-
-    const { data: expiring, error: fetchErr } = await supabase
-      .from('listings')
-      .select('id, name, owner_email')
-      .in('status', ['available', 'pending'])
-      .lt('created_at', cutoff.toISOString());
-
+    if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) return res.status(401).json({ error: 'Unauthorized' });
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 90);
+    const { data: expiring, error: fetchErr } = await supabase.from('listings').select('id, name, owner_email').in('status', ['available','pending']).lt('created_at', cutoff.toISOString());
     if (fetchErr) throw fetchErr;
-    if (!expiring || expiring.length === 0) return res.json({ expired: 0 });
-
-    const ids = expiring.map(l => l.id);
-    await supabase.from('listings').update({ status: 'completed' }).in('id', ids);
-
-    await Promise.allSettled(expiring.map(listing =>
-      resend.emails.send({
-        from: 'FurnishU <no-reply@furnishu.app>',
-        to: listing.owner_email,
-        subject: `Your listing "${listing.name}" has expired – FurnishU`,
-        html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3;border-radius:0 0 8px 8px"><p>Your listing <strong>${listing.name}</strong> was automatically removed after 90 days.</p><p>If it is still available, feel free to re-post it.</p><a href="https://furnishu.app/app" style="display:inline-block;margin:16px 0;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none;font-weight:bold">Post Again</a><p style="color:#999;font-size:12px">FurnishU – Furniture sharing within your building community.</p></div></div>`
-      }).catch(e => console.error('[expire-email]', listing.owner_email, e.message))
-    ));
-
-    console.log(`[cron] Expired ${ids.length} listings`);
-    return res.json({ expired: ids.length, ids });
+    if (!expiring || !expiring.length) return res.json({ expired: 0 });
+    await supabase.from('listings').update({ status: 'completed' }).in('id', expiring.map(l => l.id));
+    await Promise.allSettled(expiring.map(l => resend.emails.send({ from: 'FurnishU <no-reply@furnishu.app>', to: l.owner_email, subject: `Your listing has expired - FurnishU`, html: `<p>Your listing <strong>${l.name}</strong> was removed after 90 days. <a href='https://furnishu.app/app'>Re-post it here.</a></p>` }).catch(e => console.error('[expire]', e.message))));
+    return res.json({ expired: expiring.length });
   } catch (err) {
-    console.error('[cron/expire-listings]', err);
     return res.status(500).json({ error: err.message });
   }
 });
-
 app.listen(PORT, () => {
-  console.log(`\nÃÂ°ÃÂÃÂÃÂ FurnishU server running on http://localhost:${PORT}\n`);
+  console.log(`\n🎓 FurnishU server running on http://localhost:${PORT}\n`);
 });
