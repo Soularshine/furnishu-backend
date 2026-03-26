@@ -733,7 +733,7 @@ async function submitPost() {
   if (!bldg) return toast('Please enter your dorm or building name.');
   const btn = document.getElementById('post-btn');
   setLoading(btn, true);
-  const body = { name, category:cat, building:bldg, description:desc, free, price, must_go_by:date, photo_base64:S.photo };
+  const body = { name, category:cat, building:bldg, description:desc, free, price, must_go_by:date, photo_base64:S.photo, condition:V('p-cond') };
   try {
     if (S.editId) {
       await call(`/api/listings/${S.editId}`, 'PUT', body);
@@ -818,6 +818,108 @@ function bypassLogin() {
     el.style.borderColor = '#DC2626';
     setTimeout(() => el.style.borderColor = '', 1500);
   }
+}
+
+// ── Search + filter + My Listings ────────────────────────────
+let showingMine = false;
+const _origRender = typeof render === 'function' ? render : null;
+
+function toggleMyListings() {
+  showingMine = !showingMine;
+  const btn = document.getElementById('my-tab-btn');
+  if (btn) { btn.style.background = showingMine ? 'var(--primary)' : 'white'; btn.style.color = showingMine ? '#fff' : 'var(--primary)'; }
+  render();
+}
+
+// Patch render() to apply search + free + mine filters
+const _baseRender = render;
+window.render = function() {
+  _baseRender();
+  const q = (document.getElementById('search-in') || {}).value || '';
+  const freeOnly = (document.getElementById('free-only') || {}).checked;
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.card');
+  cards.forEach(card => {
+    const name = (card.querySelector('.card-name') || {}).textContent || '';
+    const loc = (card.querySelector('.card-loc') || {}).textContent || '';
+    const price = card.dataset.free === 'true';
+    const matchQ = !q || name.toLowerCase().includes(q.toLowerCase()) || loc.toLowerCase().includes(q.toLowerCase());
+    const matchFree = !freeOnly || price;
+    const matchMine = !showingMine || card.dataset.owner === (S.email || '');
+    card.style.display = (matchQ && matchFree && matchMine) ? '' : 'none';
+  });
+};
+
+// ── Urgent badge helper ───────────────────────────────────────
+function isUrgent(mustGoBy) {
+  if (!mustGoBy) return false;
+  const diff = (new Date(mustGoBy) - new Date()) / 86400000;
+  return diff >= 0 && diff <= 7;
+}
+
+// ── "I want this" contact ─────────────────────────────────────
+let _currentDetailId = null;
+const _baseOpenDetail = typeof openDetail === 'function' ? openDetail : null;
+if (_baseOpenDetail) {
+  window.openDetail = function(id) {
+    _currentDetailId = id;
+    _baseOpenDetail(id);
+    // Show condition in badges
+    const listing = (window.S && window.S.listings || []).find(l => l.id === id);
+    if (listing) {
+      const badges = document.getElementById('d-badges');
+      if (badges && listing.condition) {
+        const cond = document.createElement('span');
+        cond.textContent = listing.condition;
+        cond.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:#F3F4F6;color:#374151;margin-right:6px;';
+        badges.appendChild(cond);
+      }
+      if (badges && isUrgent(listing.must_go_by)) {
+        const urg = document.createElement('span');
+        urg.textContent = '🔥 Urgent';
+        urg.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:#FEE2E2;color:#DC2626;';
+        badges.appendChild(urg);
+      }
+    }
+    document.getElementById('d-contact').style.display = 'none';
+  };
+}
+
+function toggleContact() {
+  const el = document.getElementById('d-contact');
+  el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+
+async function sendContact() {
+  const msg = (document.getElementById('d-msg') || {}).value || '';
+  if (!msg.trim()) { showToast('Write a message first'); return; }
+  const sender = window.S && window.S.email;
+  if (!sender) { showToast('You must be signed in'); return; }
+  try {
+    await api('/api/listings/' + _currentDetailId + '/contact', 'POST', { senderEmail: sender, message: msg });
+    document.getElementById('d-contact').style.display = 'none';
+    document.getElementById('d-msg').value = '';
+    showToast('Message sent to owner!');
+  } catch(e) { showToast('Could not send: ' + e.message); }
+}
+
+function shareItem() {
+  const url = window.location.origin + '/?item=' + _currentDetailId;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showToast('Link copied!'));
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+
+async function reportItem() {
+  const reason = prompt('Why are you reporting this listing? (optional)');
+  if (reason === null) return;
+  try {
+    await api('/api/listings/' + _currentDetailId + '/report', 'POST', { reporterEmail: window.S && window.S.email, reason });
+    showToast('Report submitted. Thank you.');
+  } catch(e) { showToast('Could not send report'); }
 }
 </script>
 
