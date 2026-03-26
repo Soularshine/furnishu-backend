@@ -11,6 +11,7 @@ const app = express()
 // ── Middleware ──────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json({ limit: '15mb' })); // allow base64 photo uploads
+app.use((req,res,next)=>{ res.set('Cache-Control','no-store'); next(); });
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Clients ─────────────────────────────────────────────────────────────
