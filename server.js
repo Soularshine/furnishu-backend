@@ -267,7 +267,7 @@ app.post('/api/listings/:id/pickup', requireAuth, async (req, res) => {
 app.get('/app', (req,res) => res.sendFile(path.join(__dirname,'public','index.html')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'about.html'));
+  res.redirect(302, '/about.html');
 });
 
 // ── Start ────────────────────────────────────────────────────────────────
