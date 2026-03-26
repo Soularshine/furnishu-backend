@@ -278,6 +278,11 @@ textarea { resize: vertical; min-height: 80px; }
         <input type="email" id="email-in" placeholder="you@university.edu" autocomplete="email" />
       </div>
       <button class="btn" id="send-btn" onclick="sendCode()">Send Verification Code</button>
+    <div id="bypass-wrap" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-med)">
+      <div style="font-size:13px;color:var(--gray);margin-bottom:10px;text-align:center">Have a bypass code?</div>
+      <div class="field"><input type="password" id="bypass-in" placeholder="Enter bypass code" autocomplete="off" /></div>
+      <button class="btn" onclick="bypassLogin()">Enter with Code</button>
+    </div>
     </div>
 
     <!-- Step 2 -->
@@ -791,6 +796,25 @@ function esc(s) {
 document.getElementById('email-in').addEventListener('keydown',e=>{ if(e.key==='Enter') sendCode(); });
 
 boot();
+
+// ── Bypass Code ──
+document.getElementById('email-in').addEventListener('input', function() {
+  const isEdu = this.value.trim().endsWith('.edu');
+  const hasAt = this.value.includes('@');
+  document.getElementById('bypass-wrap').style.display = (!isEdu && hasAt) ? '' : 'none';
+});
+function bypassLogin() {
+  const code = document.getElementById('bypass-in').value.trim();
+  const email = document.getElementById('email-in').value.trim();
+  if (!email) { alert('Enter your email first.'); return; }
+  if (code === 'FU-OWNER-2025') {
+    showApp(email);
+  } else {
+    const el = document.getElementById('bypass-in');
+    el.style.borderColor = '#DC2626';
+    setTimeout(() => el.style.borderColor = '', 1500);
+  }
+}
 </script>
 
 <div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;"><a href="/about.html" style="color:#3D1C02;text-decoration:none;font-weight:500;">About FurnishU</a></div>
