@@ -5,5 +5,792 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <title>FurnishU</title>
 <style>
-  
-  	ensure this is the full base64 string, not truncated.
+:root {
+  --primary: #6B1A23;
+  --primary-h: #8B2535;
+  --primary-pale: #F9EFEF;
+  --gray: #6B7280;
+  --gray-light: #F3F4F6;
+  --gray-med: #D1D5DB;
+  --text: #111827;
+  --white: #fff;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--gray-light);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── AUTH ── */
+#auth-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(150deg, var(--primary) 0%, #2A0910 100%);
+}
+.auth-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+.logo { font-size: 34px; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
+.logo span { color: #808080; }
+.tagline { color: var(--gray); font-size: 14px; margin-top: 2px; margin-bottom: 8px; }
+.school-badge {
+  display: inline-block;
+  background: var(--primary-pale);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+}
+.auth-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.auth-sub { color: var(--gray); font-size: 14px; margin-bottom: 20px; }
+
+/* ── FORMS ── */
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+input, select, textarea {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--gray-med); border-radius: 10px;
+  font-size: 15px; font-family: inherit; background: white;
+  color: var(--text); outline: none; transition: border-color .15s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+textarea { resize: vertical; min-height: 80px; }
+
+.btn {
+  display: block; width: 100%; padding: 14px;
+  background: var(--primary); color: white; border: none;
+  border-radius: 10px; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: background .15s, transform .1s;
+}
+.btn:hover { background: var(--primary-h); }
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.btn-sm { width: auto; padding: 9px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; }
+.btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+.btn-outline:hover { background: var(--primary-pale); }
+.btn-gray { background: var(--gray-med); color: var(--text); }
+.btn-gray:hover { background: #b5bcc5; }
+.btn-danger { background: #DC2626; }
+.btn-danger:hover { background: #B91C1C; }
+
+/* ── OTP ── */
+.code-wrap { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
+.code-wrap input {
+  width: 62px; height: 72px; text-align: center;
+  font-size: 30px; font-weight: 800; padding: 0; border-radius: 12px;
+}
+.back-link { text-align: center; margin-top: 14px; font-size: 13px; color: #9CA3AF; }
+.back-link a { color: var(--primary); text-decoration: none; }
+
+/* ── APP SHELL ── */
+#app-screen { display: none; min-height: 100vh; flex-direction: column; }
+
+.topbar {
+  background: var(--primary); color: white;
+  padding: 0 16px; height: 54px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.topbar-logo { font-size: 22px; font-weight: 900; color: white; letter-spacing: -.5px; }
+.topbar-logo span { color: #c0b0b0; }
+.icon-btn {
+  background: rgba(255,255,255,.15); border: none; color: white;
+  width: 36px; height: 36px; border-radius: 8px; font-size: 18px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.icon-btn:hover { background: rgba(255,255,255,.28); }
+
+.tabs { background: white; display: flex; border-bottom: 1px solid var(--gray-med); }
+.tab {
+  flex: 1; padding: 12px 6px; text-align: center;
+  font-size: 13px; font-weight: 600; color: var(--gray);
+  cursor: pointer; border-bottom: 2.5px solid transparent; transition: all .15s;
+  user-select: none;
+}
+.tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.filters {
+  background: white; padding: 10px 12px;
+  display: flex; gap: 8px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--gray-med);
+}
+.filters input, .filters select { flex: 1; min-width: 130px; padding: 9px 12px; font-size: 14px; }
+
+.listings-wrap { flex: 1; padding: 12px 12px 80px; }
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 12px;
+}
+@media(min-width:480px) { .listings-grid { grid-template-columns: repeat(auto-fill, minmax(185px,1fr)); } }
+@media(min-width:768px) { .listings-grid { grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); } }
+
+/* ── CARDS ── */
+.card {
+  background: white; border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow);
+  cursor: pointer; transition: transform .15s, box-shadow .15s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.13); }
+.card-img {
+  width: 100%; aspect-ratio: 1; background: var(--gray-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px; overflow: hidden;
+}
+.card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-body { padding: 10px 12px 12px; }
+.card-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-loc { font-size: 12px; color: var(--gray); margin-bottom: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-foot { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+
+.badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+.badge-free  { background: #D1FAE5; color: #065F46; }
+.badge-paid  { background: #FEF3C7; color: #92400E; }
+.badge-pend  { background: #DBEAFE; color: #1E40AF; }
+.badge-mine  { background: var(--primary-pale); color: var(--primary); }
+.urgent { font-size: 11px; font-weight: 700; color: #DC2626; }
+
+/* ── EMPTY STATE ── */
+.empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray); }
+.empty-icon { font-size: 56px; margin-bottom: 14px; }
+.empty h3 { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.empty p { font-size: 14px; line-height: 1.5; }
+
+/* ── FAB ── */
+.fab {
+  position: fixed; bottom: 22px; right: 22px;
+  width: 58px; height: 58px; background: var(--primary); color: white;
+  border: none; border-radius: 50%; font-size: 30px;
+  cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.3);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 150; transition: background .15s, transform .1s;
+}
+.fab:hover { background: var(--primary-h); transform: scale(1.06); }
+
+/* ── MODAL ── */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  z-index: 200; display: flex;
+  align-items: flex-end; justify-content: center;
+}
+@media(min-width:600px) { .overlay { align-items: center; padding: 24px; } }
+.modal {
+  background: white; border-radius: 20px 20px 0 0;
+  padding: 24px 20px 36px; width: 100%; max-width: 500px;
+  max-height: 92vh; overflow-y: auto;
+}
+@media(min-width:600px) { .modal { border-radius: 20px; } }
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.modal-title { font-size: 18px; font-weight: 800; }
+.close-btn {
+  background: var(--gray-light); border: none;
+  width: 32px; height: 32px; border-radius: 8px;
+  font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── DETAIL MODAL ── */
+.detail-img {
+  width: 100%; border-radius: 12px; margin-bottom: 16px;
+  background: var(--gray-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px; padding: 28px 0;
+}
+.detail-img img { width: 100%; border-radius: 12px; max-height: 280px; object-fit: cover; }
+.detail-name { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+.detail-badges { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+.detail-badge { font-size: 13px; padding: 5px 12px; }
+.detail-info { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 18px; }
+.detail-info strong { color: var(--text); }
+
+/* ── PRICE TOGGLE ── */
+.free-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.free-row input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
+.free-row label { font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* ── PHOTO UPLOAD ── */
+.photo-zone {
+  border: 2px dashed var(--gray-med); border-radius: 12px;
+  padding: 22px; text-align: center; cursor: pointer;
+  color: var(--gray); font-size: 14px; transition: border-color .15s;
+}
+.photo-zone:hover { border-color: var(--primary); color: var(--primary); }
+#photo-prev { width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 88px; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: #1F2937; color: white;
+  padding: 12px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 600;
+  z-index: 999; opacity: 0; transition: all .3s;
+  pointer-events: none; white-space: nowrap; max-width: 90vw;
+  text-align: center;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── SPINNER ── */
+.spin {
+  display: inline-block; width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: white; border-radius: 50%;
+  animation: rot .6s linear infinite; vertical-align: middle;
+}
+@keyframes rot { to { transform: rotate(360deg); } }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ AUTH ═══════════ -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="logo">Furnish<span>U</span></div>
+    <div class="tagline">Pass it forward. Furnish your future.</div>
+    <div class="school-badge" id="school-badge">Texas Southern University</div>
+
+    <!-- Step 1 -->
+    <div id="step-email">
+      <div class="auth-title">Sign in</div>
+      <div class="auth-sub" id="auth-sub">Use your TSU .edu email to get started.</div>
+      <div class="field">
+        <label>School Email</label>
+        <input type="email" id="email-in" placeholder="you@tsu.edu" autocomplete="email" />
+      </div>
+      <button class="btn" id="send-btn" onclick="sendCode()">Send Verification Code</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step-otp" class="hidden">
+      <div class="auth-title">Enter your code</div>
+      <div class="auth-sub" id="otp-sub">We sent a 4-digit code to your email.</div>
+      <div class="code-wrap">
+  3     <input type="tel" maxlength="1" id="d0" oninput="otpIn(0)" onkeydown="otpKey(event,0)" />
+        <input type="tel" maxlength="1" id="d1" oninput="otpIn(1)" onkeydown="otpKey(event,1)" />
+        <input type="tel" maxlength="1" id="d2" oninput="otpIn(2)" onkeydown="otpKey(event,2)" />
+        <input type="tel" maxlength="1" id="d3" oninput="otpIn(3)" onkeydown="otpKey(event,3)" />
+      </div>
+      <button class="btn" id="verify-btn" onclick="verifyCode()">Verify Code</button>
+      <div class="back-link"><a href="#" onclick="backToEmail();return false;">Use a different email</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div id="app-screen">
+  <div class="topbar">
+    <div class="topbar-logo">Furnish<span>U</span></div>
+    <button class="icon-btn" title="Sign out" onclick="logout()">↩</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">🛋 Browse</div>
+    <div class="tab" id="tab-mine"   onclick="switchTab('mine')">📦 My Items</div>
+    <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">🤝 Claimed</div>
+  </div>
+
+  <div class="filters" id="filter-bar">
+    <input  type="text" id="q-in"  placeholder="🔍 Search…" oninput="render()" />
+    <select id="cat-in" onchange="render()">
+      <option value="">All Categories</option>
+      <option>Furniture</option><option>Bedding</option><option>Kitchen</option>
+      <option>Electronics</option><option>Decor</option><option>Clothing</option>
+      <option>Books</option><option>Other</option>
+    </select>
+  </div>
+
+  <div class="listings-wrap">
+    <div class="listings-grid" id="grid"></div>
+  </div>
+
+  <button class="fab" id="fab" onclick="openPost()" title="Post an item">＋</button>
+</div>
+
+<!-- ═══════════ POST/EDIT MODAL ═══════════ -->
+<div class="overlay hidden" id="post-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="post-title">Post an Item</div>
+      <button class="close-btn" onclick="closePost()">×</button>
+    </div>
+    <div class="field"><label>Item Name *</label>
+      <input type="text" id="p-name" placeholder="e.g. Twin XL Mattress" /></div>
+    <div class="field"><label>Category *</label>
+      <select id="p-cat">
+        <option value="">Select a category</option>
+        <option>Furniture</option><option>Bedding</option><option>Kitchen</option>
+        <option>Electronics</option><option>Decor</option><option>Clothing</option>
+        <option>Books</option><option>Other</option>
+      </select></div>
+    <div class="field"><label>Dorm / Building *</label>
+      <input type="text" id="p-bldg" placeholder="e.g. Tiger Village, Lanier Hall" /></div>
+    <div class="field"><label>Description</label>
+      <textarea id="p-desc" placeholder="Condition, size, any details worth knowing…"></textarea></div>
+    <div class="field">
+      <div class="free-row">
+        <input type="checkbox" id="p-free" checked onchange="togglePrice()" />
+        <label for="p-free">This item is FREE</label>
+      </div>
+      <div id="price-wrap" class="hidden">
+        <label>Price ($)</label>
+        <input type="number" id="p-price" placeholder="0.00" min="0" step="0.01" />
+      </div>
+    </div>
+    <div class="field"><label>Must be picked up by (optional)</label>
+      <input type="date" id="p-date" /></div>
+    <div class="field"><label>Photo (optional)</label>
+      <div class="photo-zone" onclick="document.getElementById('photo-in').click()">
+        📷 Tap to add a photo
+        <img id="photo-prev" alt="preview" />
+      </div>
+      <input type="file" id="photo-in" accept="image/*" style="display:none" onchange="handlePhoto()" />
+    </div>
+    <input type="hidden" id="edit-id" />
+    <button class="btn" id="post-btn" onclick="submitPost()">Post Item</button>
+  </div>
+</div>
+
+<!-- ═══════════ DETAIL MODAL ═══════════ -->
+<div class="overlay hidden" id="detail-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="d-title">Item</div>
+      <button class="close-btn" onclick="closeDetail()">×</button>
+    </div>
+    <div id="d-img"></div>
+    <div class="detail-name" id="d-name"></div>
+    <div class="detail-badges" id="d-badges"></div>
+    <div class="detail-info" id="d-info"></div>
+    <div id="d-actions"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+// CONFIG — swap school/colors here
+// ════════════════════════════════════════
+const CFG = {
+  school:   'Texas Southern University',
+  short:    'TSU',
+  primary:  '#6B1A23',   // maroon
+  hover:    '#8B2535',
+  pale:     '#F9EFEF',
+};
+
+// Apply colors
+const R = document.documentElement.style;
+R.setProperty('--primary',      CFG.primary);
+R.setProperty('--primary-h',    CFG.hover);
+R.setProperty('--primary-pale', CFG.pale);
+// Apply school name
+document.getElementById('school-badge').textContent = CFG.school;
+document.getElementById('auth-sub').textContent = `Use your ${CFG.short} .edu email to get started.`;
+document.getElementById('email-in').placeholder = `you@tsu.edu`;
+document.title = `FurnishU — ${CFG.school}`;
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const S = {
+  token:    localStorage.getItem('fu_tok'),
+  email:    localStorage.getItem('fu_email'),
+  listings: [],
+  tab:      'browse',
+  editId:   null,
+  photo:    null,
+};
+
+// ════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════
+function boot() {
+  S.token && S.email ? showApp() : showAuth();
+}
+function showAuth() {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app-screen').style.display  = 'none';
+}
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display  = 'flex';
+  load();
+}
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+async function sendCode() {
+  const email = document.getElementById('email-in').value.trim();
+  if (!email) return toast('Enter your email address.');
+  if (!email.toLowerCase().endsWith('.edu')) return toast('Please use your .edu school email.');
+  const btn = document.getElementById('send-btn');
+  setLoading(btn, true);
+  try {
+    const r = await call('/api/auth/send-code', 'POST', { email });
+    if (r.success) {
+      document.getElementById('otp-sub').textContent = `Code sent to ${email}`;
+      show('step-otp'); hide('step-email');
+      document.getElementById('d0').focus();
+    } else toast(r.error || 'Could not send code.');
+  } catch(e) { toast('Network error — please try again.'); }
+  setLoading(btn, false, 'Send Verification Code');
+}
+
+function otpIn(i) {
+  const v = document.getElementById(`d${i}`).value;
+  if (v && i < 3) document.getElementById(`d${i+1}`).focus();
+  const code = [0,1,2,3].map(n=>document.getElementById(`d${n}`).value).join('');
+  if (code.length === 4) verifyCode();
+}
+function otpKey(e,i) {
+  if (e.key==='Backspace' && !document.getElementById(`d${i}`).value && i>0)
+    document.getElementById(`d${i-1}`).focus();
+}
+
+async function verifyCode() {
+  const code = [0,1,2,3].map(n=>document.getElementById(`d${n}`).value).join('');
+  if (code.length < 4) return toast('Enter all 4 digits.');
+  const email = document.getElementById('email-in').value.trim();
+  const btn = document.getElementById('verify-btn');
+  setLoading(btn, true);
+  try {
+    const r = await call('/api/auth/verify-code', 'POST', { email, code });
+    if (r.token) {
+      S.token = r.token; S.email = r.email;
+      localStorage.setItem('fu_tok', r.token);
+      localStorage.setItem('fu_email', r.email);
+      showApp();
+    } else {
+      toast(r.error || 'Invalid code, try again.');
+      [0,1,2,3].forEach(n=>{ document.getElementById(`d${n}`).value=''; });
+      document.getElementById('d0').focus();
+    }
+  } catch(e) { toast('Network error — please try again.'); }
+  setLoading(btn, false, 'Verify Code');
+}
+
+function backToEmail() {
+  show('step-email'); hide('step-otp');
+  [0,1,2,3].forEach(n=>{ document.getElementById(`d${n}`).value=''; });
+}
+
+function logout() {
+  localStorage.removeItem('fu_tok');
+  localStorage.removeItem('fu_email');
+  S.token = S.email = null;
+  showAuth();
+}
+
+// ════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════
+function switchTab(t) {
+  S.tab = t;
+  ['browse','mine','claimed'].forEach(x => {
+    document.getElementById(`tab-${x}`).classList.toggle('active', x===t);
+  });
+  document.getElementById('filter-bar').style.display = t==='browse' ? 'flex' : 'none';
+  document.getElementById('fab').style.display        = t==='browse' ? 'flex' : 'none';
+  render();
+}
+
+// ════════════════════════════════════════
+// LISTINGS
+// ════════════════════════════════════════
+async function load() {
+  try { S.listings = await call('/api/listings') || []; render(); }
+  catch(e) { toast('Could not load listings.'); }
+}
+
+function render() {
+  const q   = (document.getElementById('q-in')?.value||'').toLowerCase();
+  const cat = document.getElementById('cat-in')?.value || '';
+  let items = S.listings;
+  if (S.tab==='mine')    items = items.filter(l=>l.owner_email===S.email);
+  else if (S.tab==='claimed') items = items.filter(l=>l.claimed_by===S.email);
+  else {
+    if (cat) items = items.filter(l=>l.category===cat);
+    if (q)   items = items.filter(l=>
+      l.name.toLowerCase().includes(q) ||
+      (l.description||'').toLowerCase().includes(q) ||
+      (l.building||'').toLowerCase().includes(q)
+    );
+  }
+  const grid = document.getElementById('grid');
+  if (!items.length) {
+    const m = {
+      browse:  {i:'🛋', h:'No listings yet',      p:'Be the first to post something!'},
+      mine:    {i:'📦', h:'You haven\'t posted anything yet', p:'Tap + to list an item.'},
+      claimed: {i:'🤝', h:'Nothing claimed yet',   p:'Browse items and claim one.'},
+    }[S.tab];
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">${m.i}</div><h3>${m.h}</h3><p>${m.p}</p></div>`;
+    return;
+  }
+  grid.innerHTML = items.map(cardHTML).join('');
+}
+
+function cardHTML(l) {
+  const mine  = l.owner_email === S.email;
+  const days  = l.must_go_by ? Math.ceil((new Date(l.must_go_by)-Date.now())/86400000) : null;
+  const urg   = days!==null && days<=3;
+  const photo = l.photo_base64
+    ? `<div class="card-img"><img src="${l.photo_base64}" alt="" loading="lazy"/></div>`
+    : `<div class="card-img">${catIcon(l.category)}</div>`;
+  const pBadge = l.status==='pending'
+    ? `<span class="badge badge-pend">Claimed</span>`
+    : l.free ? `<span class="badge badge-free">FREE</span>`
+             : `<span class="badge badge-paid">$${(+l.price).toFixed(2)}</span>`;
+  const urgTxt = urg ? `<span class="urgent">⚡${days<=0?'Today!':days===1?'1 day':days+'d'}</span>` : '';
+  return `<div class="card" onclick="openDetail('${l.id}')">
+    ${photo}
+    <div class="card-body">
+      <div class="card-name">${esc(l.name)}</div>
+      <div class="card-loc">📍 ${esc(l.building)}</div>
+      <div class="card-foot">${pBadge}${mine?'<span class="badge badge-mine">Mine</span>':''}${urgTxt}</div>
+    </div></div>`;
+}
+
+function catIcon(c) {
+  return {Furniture:'🪑',Bedding:'🛏',Kitchen:'🍳',Electronics:'💻',Decor:'🪴',Clothing:'👕',Books:'📚',Other:'📦'}[c]||'📦';
+}
+
+// ════════════════════════════════════════
+// DETAIL
+// ════════════════════════════════════════
+function openDetail(id) {
+  const l = S.listings.find(x=>x.id===id);
+  if (!l) return;
+  const mine    = l.owner_email===S.email;
+  const claimer = l.claimed_by===S.email;
+
+  document.getElementById('d-title').textContent = l.name;
+  document.getElementById('d-name').textContent  = l.name;
+
+  // photo
+  const dImg = document.getElementById('d-img');
+  dImg.innerHTML = l.photo_base64
+    ? `<img src="${l.photo_base64}" alt="" class="detail-img" style="padding:0;font-size:0;" />`
+    : `<div class="detail-img">${catIcon(l.category)}</div>`;
+
+  // badges
+  const pb = l.free
+    ? `<span class="badge badge-free detail-badge">FREE</span>`
+    : `<span class="badge badge-paid detail-badge">$${(+l.price).toFixed(2)}</span>`;
+  const sb = l.status==='pending' ? `<span class="badge badge-pend detail-badge">Claimed</span>` : '';
+  const cb = `<span class="badge detail-badge" style="background:var(--gray-light);color:var(--text)">${esc(l.category)}</span>`;
+  document.getElementById('d-badges').innerHTML = pb+cb+sb;
+
+  // info
+  const days = l.must_go_by ? Math.ceil((new Date(l.must_go_by)-Date.now())/86400000) : null;
+  let info = '';
+  if (l.description) info += `<p>${esc(l.description)}</p><br>`;
+  info += `<p>📍 <strong>${esc(l.building)}</strong></p>`;
+  if (days!==null) {
+    const dStr = days<=0 ? '⚡ Needed gone today!' : days===1 ? '⚡ Must go tomorrow!'
+      : `Must be picked up by ${new Date(l.must_go_by).toLocaleDateString()}`;
+    info += `<p style="margin-top:6px;${days<=2?'color:#DC2626;font-weight:700;':''}">${dStr}</p>`;
+  }
+  document.getElementById('d-info').innerHTML = info;
+
+  // actions
+  let act = '';
+  if (mine) {
+    act = `<div style="display:flex;gap:8px">
+      <button class="btn btn-outline btn-sm" style="flex:1" onclick="openEdit('${l.id}');closeDetail()">✏️ Edit</button>
+      <button class="btn btn-danger btn-sm" style="flex:1" onclick="delListing('${l.id}')">🗑 Delete</button>
+    </div>`;
+  } else if (l.status==='available') {
+    act = `<button class="btn" onclick="claimIt('${l.id}')">🤝 Claim This Item</button>`;
+  } else if (claimer) {
+    act = `<div style="display:flex;gap:8px">
+      <button class="btn btn-gray btn-sm" style="flex:1" onclick="unclaimIt('${l.id}')">↩ Unclaim</button>
+      <button class="btn btn-sm" style="flex:1" onclick="pickupIt('${l.id}')">✅ Confirm Pickup</button>
+    </div>`;
+  } else {
+    act = `<p style="text-align:center;color:var(--gray);font-size:14px;padding:10px">This item has already been claimed.</p>`;
+  }
+  document.getElementById('d-actions').innerHTML = act;
+  show('detail-overlay');
+}
+function closeDetail() { hide('detail-overlay'); }
+
+// ════════════════════════════════════════
+// CLAIM / UNCLAIM / PICKUP
+// ════════════════════════════════════════
+async function claimIt(id) {
+  try {
+    await call(`/api/listings/${id}/claim`, 'POST');
+    toast('Item claimed! 🎉 Reach out to the owner to arrange pickup.');
+    closeDetail(); await load(); switchTab('claimed');
+  } catch(e) { toast(e.message||'Could not claim item.'); }
+}
+async function unclaimIt(id) {
+  try {
+    await call(`/api/listings/${id}/unclaim`, 'POST');
+    toast('Claim released.'); closeDetail(); await load();
+  } catch(e) { toast(e.message||'Could not unclaim.'); }
+}
+async function pickupIt(id) {
+  if (!confirm('Confirm you picked up this item? It will be removed from the feed.')) return;
+  try {
+    await call(`/api/listings/${id}/pickup`, 'POST');
+    toast('🎉 Enjoy your new item!'); closeDetail(); await load(); switchTab('browse');
+  } catch(e) { toast(e.message||'Could not confirm pickup.'); }
+}
+
+// ════════════════════════════════════════
+// POST / EDIT
+// ════════════════════════════════════════
+function openPost() {
+  S.editId = null; S.photo = null;
+  document.getElementById('post-title').textContent = 'Post an Item';
+  document.getElementById('post-btn').textContent   = 'Post Item';
+  ['p-name','p-bldg','p-desc','p-price'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-cat').value    = '';
+  document.getElementById('p-date').value   = '';
+  document.getElementById('p-free').checked = true;
+  document.getElementById('edit-id').value  = '';
+  document.getElementById('photo-prev').style.display = 'none';
+  document.getElementById('photo-in').value = '';
+  hide('price-wrap');
+  show('post-overlay');
+}
+
+function openEdit(id) {
+  const l = S.listings.find(x=>x.id===id);
+  if (!l) return;
+  S.editId = id; S.photo = l.photo_base64||null;
+  document.getElementById('post-title').textContent = 'Edit Listing';
+  document.getElementById('post-btn').textContent   = 'Save Changes';
+  document.getElementById('p-name').value   = l.name;
+  document.getElementById('p-cat').value    = l.category;
+  document.getElementById('p-bldg').value   = l.building;
+  document.getElementById('p-desc').value   = l.description||'';
+  document.getElementById('p-free').checked = l.free;
+  document.getElementById('p-price').value  = l.price||'';
+  document.getElementById('p-date').value   = l.must_go_by||'';
+  document.getElementById('edit-id').value  = id;
+  document.getElementById('price-wrap').classList.toggle('hidden', l.free);
+  const prev = document.getElementById('photo-prev');
+  if (l.photo_base64) { prev.src = l.photo_base64; prev.style.display='block'; }
+  else prev.style.display='none';
+  show('post-overlay');
+}
+
+function closePost() { hide('post-overlay'); }
+function togglePrice() {
+  document.getElementById('price-wrap').classList.toggle('hidden', document.getElementById('p-free').checked);
+}
+function handlePhoto() {
+  const f = document.getElementById('photo-in').files[0];
+  if (!f) return;
+  if (f.size > 8*1024*1024) return toast('Photo must be under 8 MB.');
+  new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(f); })
+    .then(d=>{ S.photo=d; const p=document.getElementById('photo-prev'); p.src=d; p.style.display='block'; });
+}
+
+async function submitPost() {
+  const name  = document.getElementById('p-name').value.trim();
+  const cat   = document.getElementById('p-cat').value;
+  const bldg  = document.getElementById('p-bldg').value.trim();
+  const desc  = document.getElementById('p-desc').value.trim();
+  const free  = document.getElementById('p-free').checked;
+  const price = free ? 0 : parseFloat(document.getElementById('p-price').value)||0;
+  const date  = document.getElementById('p-date').value||null;
+  if (!name) return toast('Please enter an item name.');
+  if (!cat)  return toast('Please select a category.');
+  if (!bldg) return toast('Please enter your dorm or building name.');
+  const btn = document.getElementById('post-btn');
+  setLoading(btn, true);
+  const body = { name, category:cat, building:bldg, description:desc, free, price, must_go_by:date, photo_base64:S.photo };
+  try {
+    if (S.editId) {
+      await call(`/api/listings/${S.editId}`, 'PUT', body);
+      toast('Listing updated!');
+    } else {
+      await call('/api/listings', 'POST', body);
+      toast('Item posted! 🎉');
+    }
+    closePost(); await load();
+    switchTab(S.editId ? 'mine' : 'mine');
+  } catch(e) { toast(e.message||'Could not save listing.'); }
+  setLoading(btn, false, S.editId?'Save Changes':'Post Item');
+}
+
+async function delListing(id) {
+  if (!confirm('Delete this listing? This cannot be undone.')) return;
+  try {
+    await call(`/api/listings/${id}`, 'DELETE');
+    toast('Listing deleted.'); closeDetail(); await load();
+  } catch(e) { toast('Could not delete listing.'); }
+}
+
+// ════════════════════════════════════════
+// API
+// ════════════════════════════════════════
+async function call(path, method='GET', body=null) {
+  const opts = { method, headers: {'Content-Type':'application/json'} };
+  if (S.token) opts.headers['Authorization'] = `Bearer ${S.token}`;
+  if (body)    opts.body = JSON.stringify(body);
+  const res = await fetch(path, opts);
+  const data = await res.json();
+  if (!res.ok) {
+    if (res.status===401) { logout(); throw new Error('Session expired. Please sign in again.'); }
+    throw new Error(data.error||`Error ${res.status}`);
+  }
+  return data;
+}
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+let _tt;
+function toast(msg, ms=3200) {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'), ms);
+}
+function setLoading(btn, on, label='') {
+  btn.disabled=on;
+  btn.innerHTML=on?'<span class="spin"></span>':label;
+}
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Close overlays on backdrop click
+['post-overlay','detail-overlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{
+    if (e.target===document.getElementById(id)) document.getElementById(id).classList.add('hidden');
+  });
+});
+document.getElementById('email-in').addEventListener('keydown',e=>{ if(e.key==='Enter') sendCode(); });
+
+boot();
+</script>
+</body>
+</html>
