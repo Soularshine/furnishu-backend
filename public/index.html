@@ -29,7 +29,7 @@ body {
   min-height: 100vh;
 }
 
-/* ── AUTH ── */
+/* ââ AUTH ââ */
 #auth-screen {
   min-height: 100vh;
   display: flex;
@@ -63,7 +63,7 @@ body {
 .auth-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
 .auth-sub { color: var(--gray); font-size: 14px; margin-bottom: 20px; }
 
-/* ── FORMS ── */
+/* ââ FORMS ââ */
 .field { margin-bottom: 16px; }
 .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 input, select, textarea {
@@ -92,7 +92,7 @@ textarea { resize: vertical; min-height: 80px; }
 .btn-danger { background: #DC2626; }
 .btn-danger:hover { background: #B91C1C; }
 
-/* ── OTP ── */
+/* ââ OTP ââ */
 .code-wrap { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
 .code-wrap input {
   width: 62px; height: 72px; text-align: center;
@@ -101,7 +101,7 @@ textarea { resize: vertical; min-height: 80px; }
 .back-link { text-align: center; margin-top: 14px; font-size: 13px; color: #9CA3AF; }
 .back-link a { color: var(--primary); text-decoration: none; }
 
-/* ── APP SHELL ── */
+/* ââ APP SHELL ââ */
 #app-screen { display: none; min-height: 100vh; flex-direction: column; }
 
 .topbar {
@@ -145,7 +145,7 @@ textarea { resize: vertical; min-height: 80px; }
 @media(min-width:480px) { .listings-grid { grid-template-columns: repeat(auto-fill, minmax(185px,1fr)); } }
 @media(min-width:768px) { .listings-grid { grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); } }
 
-/* ── CARDS ── */
+/* ââ CARDS ââ */
 .card {
   background: white; border-radius: var(--radius);
   overflow: hidden; box-shadow: var(--shadow);
@@ -170,13 +170,13 @@ textarea { resize: vertical; min-height: 80px; }
 .badge-mine  { background: var(--primary-pale); color: var(--primary); }
 .urgent { font-size: 11px; font-weight: 700; color: #DC2626; }
 
-/* ── EMPTY STATE ── */
+/* ââ EMPTY STATE ââ */
 .empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray); }
 .empty-icon { font-size: 56px; margin-bottom: 14px; }
 .empty h3 { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
 .empty p { font-size: 14px; line-height: 1.5; }
 
-/* ── FAB ── */
+/* ââ FAB ââ */
 .fab {
   position: fixed; bottom: 22px; right: 22px;
   width: 58px; height: 58px; background: var(--primary); color: white;
@@ -187,7 +187,7 @@ textarea { resize: vertical; min-height: 80px; }
 }
 .fab:hover { background: var(--primary-h); transform: scale(1.06); }
 
-/* ── MODAL ── */
+/* ââ MODAL ââ */
 .overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,.5);
   z-index: 200; display: flex;
@@ -212,7 +212,7 @@ textarea { resize: vertical; min-height: 80px; }
   display: flex; align-items: center; justify-content: center;
 }
 
-/* ── DETAIL MODAL ── */
+/* ââ DETAIL MODAL ââ */
 .detail-img {
   width: 100%; border-radius: 12px; margin-bottom: 16px;
   background: var(--gray-light);
@@ -226,12 +226,12 @@ textarea { resize: vertical; min-height: 80px; }
 .detail-info { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 18px; }
 .detail-info strong { color: var(--text); }
 
-/* ── PRICE TOGGLE ── */
+/* ââ PRICE TOGGLE ââ */
 .free-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .free-row input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
 .free-row label { font-size: 14px; font-weight: 600; cursor: pointer; }
 
-/* ── PHOTO UPLOAD ── */
+/* ââ PHOTO UPLOAD ââ */
 .photo-zone {
   border: 2px dashed var(--gray-med); border-radius: 12px;
   padding: 22px; text-align: center; cursor: pointer;
@@ -240,7 +240,7 @@ textarea { resize: vertical; min-height: 80px; }
 .photo-zone:hover { border-color: var(--primary); color: var(--primary); }
 #photo-prev { width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
 
-/* ── TOAST ── */
+/* ââ TOAST ââ */
 #toast {
   position: fixed; bottom: 88px; left: 50%;
   transform: translateX(-50%) translateY(16px);
@@ -253,7 +253,7 @@ textarea { resize: vertical; min-height: 80px; }
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ── SPINNER ── */
+/* ââ SPINNER ââ */
 .spin {
   display: inline-block; width: 18px; height: 18px;
   border: 2px solid rgba(255,255,255,.4);
@@ -266,12 +266,12 @@ textarea { resize: vertical; min-height: 80px; }
 </head>
 <body>
 
-<!-- ═══════════ AUTH ═══════════ -->
+<!-- âââââââââââ AUTH âââââââââââ -->
 <div id="auth-screen">
   <div class="auth-card">
     <div class="logo">Furnish<span>U</span></div>
     <div class="tagline">Furnish your college life. Help others furnish theirs.</div>
-    <div class="school-badge" id="school-badge">Any .edu — All Welcome</div>
+    <div class="school-badge" id="school-badge">Any .edu â All Welcome</div>
 
     <!-- Step 1 -->
     <div id="step-email">
@@ -305,21 +305,21 @@ textarea { resize: vertical; min-height: 80px; }
   </div>
 </div>
 
-<!-- ═══════════ APP ═══════════ -->
+<!-- âââââââââââ APP âââââââââââ -->
 <div id="app-screen">
   <div class="topbar">
     <div class="topbar-logo">Furnish<span>U</span></div>
-    <button class="icon-btn" title="Sign out" onclick="logout()">↩</button>
+    <button class="icon-btn" title="Sign out" onclick="logout()">â©</button>
   </div>
 
   <div class="tabs">
-    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">🛋 Browse</div>
-    <div class="tab" id="tab-mine"   onclick="switchTab('mine')">📦 My Items</div>
-    <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">🤝 Claimed</div>
+    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">ð Browse</div>
+    <div class="tab" id="tab-mine"   onclick="switchTab('mine')">ð¦ My Items</div>
+    <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">ð¤ Claimed</div>
   </div>
 
   <div class="filters" id="filter-bar">
-    <input  type="text" id="q-in"  placeholder="🔍 Search…" oninput="render()" />
+    <input  type="text" id="q-in"  placeholder="ð Searchâ¦" oninput="render()" />
     <select id="cat-in" onchange="render()">
       <option value="">All Categories</option>
       <option>Furniture</option><option>Bedding</option><option>Kitchen</option>
@@ -332,15 +332,15 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="listings-grid" id="grid"></div>
   </div>
 
-  <button class="fab" id="fab" onclick="openPost()" title="Post an item">＋</button>
+  <button class="fab" id="fab" onclick="openPost()" title="Post an item">ï¼</button>
 </div>
 
-<!-- ═══════════ POST/EDIT MODAL ═══════════ -->
+<!-- âââââââââââ POST/EDIT MODAL âââââââââââ -->
 <div class="overlay hidden" id="post-overlay">
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title" id="post-title">Post an Item</div>
-      <button class="close-btn" onclick="closePost()">×</button>
+      <button class="close-btn" onclick="closePost()">Ã</button>
     </div>
     <div class="field"><label>Item Name *</label>
       <input type="text" id="p-name" placeholder="e.g. Twin XL Mattress" /></div>
@@ -354,7 +354,7 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="field"><label>Dorm / Building *</label>
       <input type="text" id="p-bldg" placeholder="e.g. Tiger Village, Lanier Hall" /></div>
     <div class="field"><label>Description</label>
-      <textarea id="p-desc" placeholder="Condition, size, any details worth knowing…"></textarea></div>
+      <textarea id="p-desc" placeholder="Condition, size, any details worth knowingâ¦"></textarea></div>
     <div class="field">
       <div class="free-row">
         <input type="checkbox" id="p-free" checked onchange="togglePrice()" />
@@ -369,7 +369,7 @@ textarea { resize: vertical; min-height: 80px; }
       <input type="date" id="p-date" /></div>
     <div class="field"><label>Photo (optional)</label>
       <div class="photo-zone" onclick="document.getElementById('photo-in').click()">
-        📷 Tap to add a photo
+        ð· Tap to add a photo
         <img id="photo-prev" alt="preview" />
       </div>
       <input type="file" id="photo-in" accept="image/*" style="display:none" onchange="handlePhoto()" />
@@ -379,12 +379,12 @@ textarea { resize: vertical; min-height: 80px; }
   </div>
 </div>
 
-<!-- ═══════════ DETAIL MODAL ═══════════ -->
+<!-- âââââââââââ DETAIL MODAL âââââââââââ -->
 <div class="overlay hidden" id="detail-overlay">
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title" id="d-title">Item</div>
-      <button class="close-btn" onclick="closeDetail()">×</button>
+      <button class="close-btn" onclick="closeDetail()">Ã</button>
     </div>
     <div id="d-img"></div>
     <div class="detail-name" id="d-name"></div>
@@ -397,9 +397,9 @@ textarea { resize: vertical; min-height: 80px; }
 <div id="toast"></div>
 
 <script>
-// ════════════════════════════════════════
-// CONFIG — swap school/colors here
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
+// CONFIG â swap school/colors here
+// ââââââââââââââââââââââââââââââââââââââââ
 const CFG = {
   school:   'FurnishU',
   short:    'EDU',
@@ -417,11 +417,11 @@ R.setProperty('--primary-pale', CFG.pale);
 document.getElementById('school-badge').textContent = CFG.school;
 document.getElementById('auth-sub').textContent = `Use your ${CFG.short} .edu email to get started.`;
 document.getElementById('email-in').placeholder = `you@tsu.edu`;
-document.title = `FurnishU — ${CFG.school}`;
+document.title = `FurnishU â ${CFG.school}`;
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // STATE
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 const S = {
   token:    localStorage.getItem('fu_tok'),
   email:    localStorage.getItem('fu_email'),
@@ -431,9 +431,9 @@ const S = {
   photo:    null,
 };
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // BOOT
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 function boot() {
   S.token && S.email ? showApp() : showAuth();
 }
@@ -447,9 +447,9 @@ function showApp() {
   load();
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // AUTH
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 async function sendCode() {
   const email = document.getElementById('email-in').value.trim();
   if (!email) return toast('Enter your email address.');
@@ -463,7 +463,7 @@ async function sendCode() {
       show('step-otp'); hide('step-email');
       document.getElementById('d0').focus();
     } else toast(r.error || 'Could not send code.');
-  } catch(e) { toast('Network error — please try again.'); }
+  } catch(e) { toast('Network error â please try again.'); }
   setLoading(btn, false, 'Send Verification Code');
 }
 
@@ -496,7 +496,7 @@ async function verifyCode() {
       [0,1,2,3].forEach(n=>{ document.getElementById(`d${n}`).value=''; });
       document.getElementById('d0').focus();
     }
-  } catch(e) { toast('Network error — please try again.'); }
+  } catch(e) { toast('Network error â please try again.'); }
   setLoading(btn, false, 'Verify Code');
 }
 
@@ -512,9 +512,9 @@ function logout() {
   showAuth();
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // TABS
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 function switchTab(t) {
   S.tab = t;
   ['browse','mine','claimed'].forEach(x => {
@@ -525,9 +525,9 @@ function switchTab(t) {
   render();
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // LISTINGS
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 async function load() {
   try { S.listings = await call('/api/listings') || []; render(); }
   catch(e) { toast('Could not load listings.'); }
@@ -550,9 +550,9 @@ function render() {
   const grid = document.getElementById('grid');
   if (!items.length) {
     const m = {
-      browse:  {i:'🛋', h:'No listings yet',      p:'Be the first to post something!'},
-      mine:    {i:'📦', h:'You haven\'t posted anything yet', p:'Tap + to list an item.'},
-      claimed: {i:'🤝', h:'Nothing claimed yet',   p:'Browse items and claim one.'},
+      browse:  {i:'ð', h:'No listings yet',      p:'Be the first to post something!'},
+      mine:    {i:'ð¦', h:'You haven\'t posted anything yet', p:'Tap + to list an item.'},
+      claimed: {i:'ð¤', h:'Nothing claimed yet',   p:'Browse items and claim one.'},
     }[S.tab];
     grid.innerHTML = `<div class="empty"><div class="empty-icon">${m.i}</div><h3>${m.h}</h3><p>${m.p}</p></div>`;
     return;
@@ -571,23 +571,23 @@ function cardHTML(l) {
     ? `<span class="badge badge-pend">Claimed</span>`
     : l.free ? `<span class="badge badge-free">FREE</span>`
              : `<span class="badge badge-paid">$${(+l.price).toFixed(2)}</span>`;
-  const urgTxt = urg ? `<span class="urgent">⚡${days<=0?'Today!':days===1?'1 day':days+'d'}</span>` : '';
-  return `<div class="card" onclick="openDetail('${l.id}')">
+  const urgTxt = urg ? `<span class="urgent">â¡${days<=0?'Today!':days===1?'1 day':days+'d'}</span>` : '';
+  return `<div class="card" data-listing-id="${l.id}" onclick="openDetail('${l.id}')">
     ${photo}
     <div class="card-body">
       <div class="card-name">${esc(l.name)}</div>
-      <div class="card-loc">📍 ${esc(l.building)}</div>
+      <div class="card-loc">ð ${esc(l.building)}</div>
       <div class="card-foot">${pBadge}${mine?'<span class="badge badge-mine">Mine</span>':''}${urgTxt}</div>
     </div></div>`;
 }
 
 function catIcon(c) {
-  return {Furniture:'🪑',Bedding:'🛏',Kitchen:'🍳',Electronics:'💻',Decor:'🪴',Clothing:'👕',Books:'📚',Other:'📦'}[c]||'📦';
+  return {Furniture:'ðª',Bedding:'ð',Kitchen:'ð³',Electronics:'ð»',Decor:'ðª´',Clothing:'ð',Books:'ð',Other:'ð¦'}[c]||'ð¦';
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // DETAIL
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 function openDetail(id) {
   const l = S.listings.find(x=>x.id===id);
   if (!l) return;
@@ -615,9 +615,9 @@ function openDetail(id) {
   const days = l.must_go_by ? Math.ceil((new Date(l.must_go_by)-Date.now())/86400000) : null;
   let info = '';
   if (l.description) info += `<p>${esc(l.description)}</p><br>`;
-  info += `<p>📍 <strong>${esc(l.building)}</strong></p>`;
+  info += `<p>ð <strong>${esc(l.building)}</strong></p>`;
   if (days!==null) {
-    const dStr = days<=0 ? '⚡ Needed gone today!' : days===1 ? '⚡ Must go tomorrow!'
+    const dStr = days<=0 ? 'â¡ Needed gone today!' : days===1 ? 'â¡ Must go tomorrow!'
       : `Must be picked up by ${new Date(l.must_go_by).toLocaleDateString()}`;
     info += `<p style="margin-top:6px;${days<=2?'color:#DC2626;font-weight:700;':''}">${dStr}</p>`;
   }
@@ -627,15 +627,15 @@ function openDetail(id) {
   let act = '';
   if (mine) {
     act = `<div style="display:flex;gap:8px">
-      <button class="btn btn-outline btn-sm" style="flex:1" onclick="openEdit('${l.id}');closeDetail()">✏️ Edit</button>
-      <button class="btn btn-danger btn-sm" style="flex:1" onclick="delListing('${l.id}')">🗑 Delete</button>
+      <button class="btn btn-outline btn-sm" style="flex:1" onclick="openEdit('${l.id}');closeDetail()">âï¸ Edit</button>
+      <button class="btn btn-danger btn-sm" style="flex:1" onclick="delListing('${l.id}')">ð Delete</button>
     </div>`;
   } else if (l.status==='available') {
-    act = `<button class="btn" onclick="claimIt('${l.id}')">🤝 Claim This Item</button>`;
+    act = `<button class="btn" onclick="claimIt('${l.id}')">ð¤ Claim This Item</button>`;
   } else if (claimer) {
     act = `<div style="display:flex;gap:8px">
-      <button class="btn btn-gray btn-sm" style="flex:1" onclick="unclaimIt('${l.id}')">↩ Unclaim</button>
-      <button class="btn btn-sm" style="flex:1" onclick="pickupIt('${l.id}')">✅ Confirm Pickup</button>
+      <button class="btn btn-gray btn-sm" style="flex:1" onclick="unclaimIt('${l.id}')">â© Unclaim</button>
+      <button class="btn btn-sm" style="flex:1" onclick="pickupIt('${l.id}')">â Confirm Pickup</button>
     </div>`;
   } else {
     act = `<p style="text-align:center;color:var(--gray);font-size:14px;padding:10px">This item has already been claimed.</p>`;
@@ -645,13 +645,13 @@ function openDetail(id) {
 }
 function closeDetail() { hide('detail-overlay'); }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // CLAIM / UNCLAIM / PICKUP
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 async function claimIt(id) {
   try {
     await call(`/api/listings/${id}/claim`, 'POST');
-    toast('Item claimed! 🎉 Reach out to the owner to arrange pickup.');
+    toast('Item claimed! ð Reach out to the owner to arrange pickup.');
     closeDetail(); await load(); switchTab('claimed');
   } catch(e) { toast(e.message||'Could not claim item.'); }
 }
@@ -665,13 +665,13 @@ async function pickupIt(id) {
   if (!confirm('Confirm you picked up this item? It will be removed from the feed.')) return;
   try {
     await call(`/api/listings/${id}/pickup`, 'POST');
-    toast('🎉 Enjoy your new item!'); closeDetail(); await load(); switchTab('browse');
+    toast('ð Enjoy your new item!'); closeDetail(); await load(); switchTab('browse');
   } catch(e) { toast(e.message||'Could not confirm pickup.'); }
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // POST / EDIT
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 function openPost() {
   S.editId = null; S.photo = null;
   document.getElementById('post-title').textContent = 'Post an Item';
@@ -740,7 +740,7 @@ async function submitPost() {
       toast('Listing updated!');
     } else {
       await call('/api/listings', 'POST', body);
-      toast('Item posted! 🎉');
+      toast('Item posted! ð');
     }
     closePost(); await load();
     switchTab(S.editId ? 'mine' : 'mine');
@@ -756,9 +756,9 @@ async function delListing(id) {
   } catch(e) { toast('Could not delete listing.'); }
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // API
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 async function call(path, method='GET', body=null) {
   const opts = { method, headers: {'Content-Type':'application/json'} };
   if (S.token) opts.headers['Authorization'] = `Bearer ${S.token}`;
@@ -772,9 +772,9 @@ async function call(path, method='GET', body=null) {
   return data;
 }
 
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 // UTILS
-// ════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââ
 let _tt;
 function toast(msg, ms=3200) {
   const el=document.getElementById('toast');
@@ -801,7 +801,7 @@ document.getElementById('email-in').addEventListener('keydown',e=>{ if(e.key==='
 
 boot();
 
-// ── Bypass Code ──
+// ââ Bypass Code ââ
 document.getElementById('email-in').addEventListener('input', function() {
   const isEdu = this.value.trim().endsWith('.edu');
   const hasAt = this.value.includes('@');
@@ -820,7 +820,7 @@ function bypassLogin() {
   }
 }
 
-// ── Search + filter + My Listings ────────────────────────────
+// ââ Search + filter + My Listings ââââââââââââââââââââââââââââ
 let showingMine = false;
 const _origRender = typeof render === 'function' ? render : null;
 
@@ -832,6 +832,7 @@ function toggleMyListings() {
 }
 
 // Patch render() to apply search + free + mine filters
+  handleDeepLink();
 const _baseRender = render;
 window.render = function() {
   _baseRender();
@@ -851,14 +852,14 @@ window.render = function() {
   });
 };
 
-// ── Urgent badge helper ───────────────────────────────────────
+// ââ Urgent badge helper âââââââââââââââââââââââââââââââââââââââ
 function isUrgent(mustGoBy) {
   if (!mustGoBy) return false;
   const diff = (new Date(mustGoBy) - new Date()) / 86400000;
   return diff >= 0 && diff <= 7;
 }
 
-// ── "I want this" contact ─────────────────────────────────────
+// ââ "I want this" contact âââââââââââââââââââââââââââââââââââââ
 let _currentDetailId = null;
 const _baseOpenDetail = typeof openDetail === 'function' ? openDetail : null;
 if (_baseOpenDetail) {
@@ -877,7 +878,7 @@ if (_baseOpenDetail) {
       }
       if (badges && isUrgent(listing.must_go_by)) {
         const urg = document.createElement('span');
-        urg.textContent = '🔥 Urgent';
+        urg.textContent = 'ð¥ Urgent';
         urg.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:#FEE2E2;color:#DC2626;';
         badges.appendChild(urg);
       }
@@ -905,7 +906,7 @@ async function sendContact() {
 }
 
 function shareItem() {
-  const url = window.location.origin + '/?item=' + _currentDetailId;
+  const url = `https://furnishu.app/app?listing=${_currentDetailId}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url).then(() => showToast('Link copied!'));
   } else {
@@ -921,8 +922,33 @@ async function reportItem() {
     showToast('Report submitted. Thank you.');
   } catch(e) { showToast('Could not send report'); }
 }
+
+// ── Deep-link: open app directly to a shared listing ──────────────────
+function handleDeepLink() {
+  const params = new URLSearchParams(window.location.search);
+  const targetId = params.get('listing') || params.get('item');
+  if (!targetId) return;
+  window.history.replaceState({}, '', '/app');
+  setTimeout(() => {
+    const card = document.querySelector('[data-listing-id="' + targetId + '"]');
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('deep-link-highlight');
+      setTimeout(() => card.classList.remove('deep-link-highlight'), 2500);
+    }
+    openDetail(targetId);
+  }, 400);
+}
 </script>
 
 <div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;"><a href="/about.html" style="color:#3D1C02;text-decoration:none;font-weight:500;">About FurnishU</a></div>
+<style>
+@keyframes deepLinkPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(217,119,6,.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(217,119,6,0); }
+  100% { box-shadow: 0 0 0 0 rgba(217,119,6,0); }
+}
+.deep-link-highlight { animation: deepLinkPulse .8s ease-out 2; outline: 2px solid #D97706; border-radius: 10px; }
+</style>
 </body>
 </html>
