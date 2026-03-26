@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FurnishU Admin</title>
+<style>
+:root {
+  --primary: #6B1A23;
+  --primary-h: #8B2535;
+  --primary-pale: #F9EFEF;
+  --green: #16A34A;
+  --green-pale: #DCFCE7;
+  --yellow: #D97706;
+  --yellow-pale: #FEF3C7;
+  --blue: #1D4ED8;
+  --blue-pale: #DBEAFE;
+  --gray: #6B7280;
+  --gray-light: #F3F4F6;
+  --gray-med: #D1D5DB;
+  --text: #111827;
+  --white: #fff;
+  --radius: 10px;
+  --shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--gray-light);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── LOCK SCREEN ── */
+#lock-screen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(150deg, var(--primary) 0%, #2A0910 100%);
+  padding: 24px;
+}
+.lock-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 32px;
+  width: 100%; max-width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  text-align: center;
+}
+.lock-logo { font-size: 30px; font-weight: 900; color: var(--primary); letter-spacing: -1px; margin-bottom: 4px; }
+.lock-badge {
+  display: inline-block;
+  background: var(--primary-pale);
+  color: var(--primary);
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  margin-bottom: 28px; letter-spacing: .5px;
+}
+.lock-title { font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+.lock-input {
+  width: 100%;
+  border: 1.5px solid var(--gray-med);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 16px;
+  outline: none;
+  transition: border .2s;
+  margin-bottom: 12px;
+}
+.lock-input:focus { border-color: var(--primary); }
+.lock-btn {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer;
+  transition: background .2s;
+}
+.lock-btn:hover { background: var(--primary-h); }
+.lock-err { color: #DC2626; font-size: 13px; margin-top: 10px; display: none; }
+
+/* ── SETUP SCREEN ── */
+#setup-screen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--gray-light);
+  padding: 24px;
+}
+.setup-card {
+  background: white;
+  border-radius: 16px;
+  padding: 36px 32px;
+  width: 100%; max-width: 480px;
+  box-shadow: var(--shadow);
+}
+.setup-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.setup-sub { color: var(--gray); font-size: 14px; margin-bottom: 24px; }
+.setup-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; display: block; }
+.setup-help { font-sipe: 12px; color: var(--gray); margin-bottom: 12px; }
+.setup-input {
+  width: 100%;
+  border: 1.5px solid var(--gray-med);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: monospace;
+  outline: none;
+  margin-bottom: 16px;
+  transition: border .2s;
+}
+.setup-input:focus { border-color: var(--primary); }
+.setup-btn {
+  background: var(--primary); color: white; border: none;
+  border-radius: 8px; padding: 12px 24px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background .2s;
+}
+.setup-btn:hover { background: var(--primary-h); }
+
+/* ── MAIN APP ── */
+#admin-app { display: none; min-height: 100vh; }
+
+/* Header */
+.admin-header {
+  background: var(--primary);
+  color: white;
+  padding: 0 24px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.admin-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+.admin-logo span { opacity: .6; font-size: 12px; font-weight: 600; letter-spacing: .5px; margin-left: 8px; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.refresh-btn {
+  background: rgba(255,255,255,.15);
+  color: white; border: none;
+  border-radius: 8px; padding: 7px 14px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background .2s;
+}
+.refresh-btn:hover { background: rgba(255,255,255,.25); }
+.last-updated { font-size: 12px; opacity: .7; }
+
+/* Nav tabs */
+.admin-nav {
+  background: white;
+  border-bottom: 1px solid var(--gray-med);
+  padding: 0 24px;
+  display: flex; gap: 0;
+  overflow-x: auto;
+}
+.nav-tab {
+  padding: 14px 20px;
+  font-size: 14px; font-weight: 600;
+  color: var(--gray);
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.nav-tab:hover:not(.active) { color: var(--text); }
+
+/* Content */
+.admin-content { padding: 24px; max-width: 1200px; margin: 0 auto; }
+
+/* Panels */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.stat-label { font-size: 12px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.stat-value { font-size: 32px; font-weight: 900; line-height: 1; }
+.stat-sub { font-size: 12px; color: var(--gray); margin-top: 4px; }
+.stat-card.green .stat-value { color: var(--green); }
+.stat-card.yellow .stat-value { color: var(--yellow); }
+.stat-card.blue .stat-value { color: var(--blue); }
+.stat-card.red .stat-value { color: var(--primary); }
+
+/* Section header */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title { font-size: 16px; font-weight: 800; }
+.section-count {
+  background: var(--gray-light);
+  color: var(--gray);
+  font-size: 12px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+
+/* Search bar */
+.search-bar {
+  display: flex; gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.search-input {
+  flex: 1; min-width: 180px;
+  border: 1.5px solid var(--gray-med);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: border .2s;
+}
+.search-input:focus { border-color: var(--primary); }
+.filter-select {
+  border: 1.5px solid var(--gray-med);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+  cursor: pointer;
+}
+
+/* Table */
+.table-wrap {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: var(--gray-light);
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--gray);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--gray-light);
+  vertical-align: middle;
+}
+.data-table tr:hover td { background: #FAFAFA; }
+.empty-row td {
+  text-align: center;
+  padding: 40px;
+  color: var(--gray);
+  font-size: 14px;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+}
+.badge-available { background: var(--green-pale); color: var(--green); }
+.badge-pending   { background: var(--yellow-pale); color: var(--yellow); }
+.badge-claimed   { background: var(--blue-pale); color: var(--blue); }
+.badge-free      { background: var(--green-pale); color: var(--green); }
+.badge-paid      { background: #EDE9FE; color: #6D28D9; }
+
+/* Activity */
+.activity-list { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.activity-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--gray-light);
+}
+.activity-item:first-child { border-top: none; }
+.activity-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.dot-post    { background: var(--primary-pale); }
+.dot-claim   { background: var(--blue-pale); }
+.dot-pickup  { background: var(--green-pale); }
+.dot-delete  { background: #FEE2E2; }
+.dot-signup  { background: var(--yellow-pale); }
+.activity-body { flex: 1; }
+.activity-msg  { font-size: 13px; line-height: 1.4; }
+.activity-msg strong { font-weight: 700; }
+.activity-time { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+/* Loading */
+.loading {
+  text-align: center; padding: 48px;
+  color: var(--gray); font-size: 14px;
+}
+.spin {
+  display: inline-block;
+  width: 20px; height: 20px;
+  border: 2px solid var(--gray-med);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Truncate */
+.trunc { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .admin-content { padding: 16px; }
+  .data-table th, .data-table td { padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-logo">FurnishU</div>
+    <div class="lock-badge">ADMIN</div>
+    <div class="lock-title">🔒 Dashboard Access</div>
+    <input type="password" class="lock-input" id="pw-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')unlock()"/>
+    <button class="lock-btn" onclick="unlock()">Unlock Dashboard</button>
+    <div class="lock-err" id="pw-err">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- SETUP SCREEN (first-time Supabase config) -->
+<div id="setup-screen" style="display:none">
+  <div class="setup-card">
+    <div class="setup-title">⚙️ One-Time Setup</div>
+    <div class="setup-sub">Connect your Supabase project to power the dashboard. You only do this once — it's saved in your browser.</div>
+    <label class="setup-label">Supabase Project URL</label>
+    <div class="setup-help">Found in Supabase → Settings → API → Project URL</div>
+    <input type="text" class="setup-input" id="sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co"/>
+    <label class="setup-label">Supabase Anon Key</label>
+    <div class="setup-help">Found in Supabase → Settings → API → Project API Keys → anon / public</div>
+    <input type="text" class="setup-input" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."/>
+    <button class="setup-btn" onclick="saveSetup()">Save &amp; Load Dashboard →</button>
+  </div>
+</div>
+
+<!-- MAIN ADMIN APP -->
+<div id="admin-app">
+  <header class="admin-header">
+    <div class="admin-logo">FurnishU <span>ADMIN</span></div>
+    <div class="header-right">
+      <span class="last-updated" id="last-updated"></span>
+      <button class="refresh-btn" onclick="loadAll()">↻ Refresh</button>
+    </div>
+  </header>
+
+  <nav class="admin-nav">
+    <div class="nav-tab active" onclick="switchTab('overview')" id="tab-overview">📊 Overview</div>
+    <div class="nav-tab" onclick="switchTab('listings')" id="tab-listings">📦 Listings</div>
+    <div class="nav-tab" onclick="switchTab('users')" id="tab-users">👥 Users</div>
+    <div class="nav-tab" onclick="switchTab('activity')" id="tab-activity">📋 Activity</div>
+  </nav>
+
+  <div class="admin-content">
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="panel-overview">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Listings</div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-sub">all time</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">Available</div>
+          <div class="stat-value" id="stat-available">—</div>
+          <div class="stat-sub">ready to claim</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-label">Claimed</div>
+          <div class="stat-value" id="stat-claimed">—</div>
+          <div class="stat-sub">pending pickup</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-label">Users</div>
+          <div class="stat-value" id="stat-users">—</div>
+          <div class="stat-sub">signed up</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Recent Listings</div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="overview-table">
+          <thead>
+            <tr>
+              <th>Item</th><th>Category</th><th>Building</th>
+              <th>Price</th><th>Status</th><th>Posted By</th><th>Posted</th>
+            </tr>
+          </thead>
+          <tbody id="overview-body">
+            <tr><td colspan="7" class="loading"><span class="spin"></span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LISTINGS -->
+    <div class="panel" id="panel-listings">
+      <div class="section-header">
+        <div class="section-title">All Listings</div>
+        <div class="section-count" id="listings-count">—</div>
+      </div>
+      <div class="search-bar">
+        <input class="search-input" id="listings-search" placeholder="Search by name, building…" oninput="filterListings()"/>
+        <select class="filter-select" id="listings-status" onchange="filterListings()">
+          <option value="">All statuses</option>
+          <option value="available">Available</option>
+          <option value="pending">Pending pickup</option>
+          <option value="claimed">Claimed</option>
+        </select>
+        <select class="filter-select" id="listings-cat" onchange="filterListings()">
+          <option value="">All categories</option>
+          <option>Furniture</option><option>Bedding</option><option>Kitchen</option>
+          <option>Electronics</option><option>Decor</option><option>Clothing</option>
+          <option>Books</option><option>Other</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Item</th><th>Category</th><th>Building</th>
+              <th>Price</th><th>Status</th><th>Owner</th>
+              <th>Claimed By</th><th>Must Go By</th><th>Posted</th>
+            </tr>
+          </thead>
+          <tbody id="listings-body">
+            <tr><td colspan="9" class="loading"><span class="spin"></span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="panel" id="panel-users">
+      <div class="section-header">
+        <div class="section-title">All Users</div>
+        <div class="section-count" id="users-count">—</div>
+      </div>
+      <div class="search-bar">
+        <input class="search-input" id="users-search" placeholder="Search by email…" oninput="filterUsers()"/>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Email</th><th>School</th><th>Items Posted</th>
+              <th>Items Claimed</th><th>First Seen</th><th>Last Active</th>
+            </tr>
+          </thead>
+          <tbody id="users-body">
+            <tr><td colspan="6" class="loading"><span class="spin"></span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="panel" id="panel-activity">
+      <div class="section-header">
+        <div class="section-title">Activity Feed</div>
+        <div class="section-count" id="activity-count">—</div>
+      </div>
+      <div class="activity-list" id="activity-list">
+        <div class="loading"><span class="spin"></span>Loading…</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// CONFIG — change ADMIN_PASSWORD to something personal
+// ─────────────────────────────────────────────
+const ADMIN_PASSWORD = 'FurnishU2025!';
+
+let SB_URL = '';
+let SB_KEY = '';
+let allListings = [];
+let allUsers    = [];
+
+// ─────────────────────────────────────────────
+// LOCK
+// ─────────────────────────────────────────────
+function unlock() {
+  const pw = document.getElementById('pw-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('lock-screen').style.display = 'none';
+    SB_URL = localStorage.getItem('fu_sb_url') || '';
+    SB_KEY = localStorage.getItem('fu_sb_key') || '';
+    if (!SB_URL || !SB_KEY) {
+      document.getElementById('setup-screen').style.display = 'flex';
+    } else {
+      launchApp();
+    }
+  } else {
+    const err = document.getElementById('pw-err');
+    err.style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+// ─────────────────────────────────────────────
+// SETUP
+// ─────────────────────────────────────────────
+function saveSetup() {
+  const url = document.getElementById('sb-url').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('sb-key').value.trim();
+  if (!url || !key) { alert('Please enter both fields.'); return; }
+  localStorage.setItem('fu_sb_url', url);
+  localStorage.setItem('fu_sb_key', key);
+  SB_URL = url; SB_KEY = key;
+  document.getElementById('setup-screen').style.display = 'none';
+  launchApp();
+}
+
+// ─────────────────────────────────────────────
+// SUPABASE QUERY
+// ─────────────────────────────────────────────
+async function sbQuery(table, params = '') {
+  const res = await fetch(`${SB_URL}/rest/v1/${table}?${params}`, {
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': `Bearer ${SB_KEY}`,
+      'Accept': 'application/json',
+      'Prefer': 'count=exact'
+    }
+  });
+  if (!res.ok) throw new Error(`Supabase error ${res.status} on ${table}`);
+  return res.json();
+}
+
+// ─────────────────────────────────────────────
+// LAUNCH
+// ─────────────────────────────────────────────
+function launchApp() {
+  document.getElementById('admin-app').style.display = 'block';
+  loadAll();
+}
+
+async function loadAll() {
+  document.getElementById('last-updated').textContent = 'Loading…';
+  try {
+    await Promise.all([loadListings(), loadUsers()]);
+    const now = new Date();
+    document.getElementById('last-updated').textContent =
+      'Updated ' + now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  } catch(e) {
+    document.getElementById('last-updated').textContent = 'Error loading data';
+    console.error(e);
+    alert('Could not load data. Check your Supabase URL and key.\n\n' + e.message);
+  }
+}
+
+// ─────────────────────────────────────────────
+// LISTINGS
+// ─────────────────────────────────────────────
+async function loadListings() {
+  allListings = await sbQuery('listings', 'order=created_at.desc&limit=500&select=*');
+  renderStats();
+  renderOverview();
+  renderListings();
+  renderActivity();
+}
+
+function renderStats() {
+  const total     = allListings.length;
+  const available = allListings.filter(l => l.status === 'available').length;
+  const claimed   = allListings.filter(l => l.status === 'pending' || l.status === 'claimed').length;
+  document.getElementById('stat-total').textContent     = total;
+  document.getElementById('stat-available').textContent = available;
+  document.getElementById('stat-claimed').textContent   = claimed;
+}
+
+function renderOverview() {
+  const recent = allListings.slice(0, 20);
+  const tbody = document.getElementById('overview-body');
+  if (!recent.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No listings yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = recent.map(l => listingRow(l, false)).join('');
+}
+
+function renderListings() {
+  filterListings();
+}
+
+function filterListings() {
+  const q   = (document.getElementById('listings-search').value || '').toLowerCase();
+  const st  = document.getElementById('listings-status').value;
+  const cat = document.getElementById('listings-cat').value;
+  let items = allListings;
+  if (q)   items = items.filter(l => (l.name||'').toLowerCase().includes(q) || (l.building||'').toLowerCase().includes(q) || (l.owner_email||'').toLowerCase().includes(q));
+  if (st)  items = items.filter(l => l.status === st);
+  if (cat) items = items.filter(l => l.category === cat);
+  document.getElementById('listings-count').textContent = items.length + ' items';
+  const tbody = document.getElementById('listings-body');
+  if (!items.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="9">No listings match your filters.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = items.map(l => listingRow(l, true)).join('');
+}
+
+function listingRow(l, full) {
+  const statusBadge = l.status === 'available'
+    ? '<span class="badge badge-available">Available</span>'
+    : l.status === 'pending'
+    ? '<span class="badge badge-pending">Pending</span>'
+    : '<span class="badge badge-claimed">Claimed</span>';
+  const priceBadge = l.free
+    ? '<span class="badge badge-free">FREE</span>'
+    : `$span class="badge badge-paid">$${(+l.price||0).toFixed(2)}</span>`;
+  const posted = l.created_at ? fmtDate(l.created_at) : '—';
+  const mustGo = l.must_go_by ? fmtDate(l.must_go_by) : '—';
+  if (full) {
+    return `<tr>
+      <td><strong class="trunc" style="max-width:140px;display:block">${esc(l.name)}</strong></td>
+      <td>${esc(l.category||'—')}</td>
+      <td class="trunc">${esc(l.building||'—')}</td>
+      <td>${priceBadge}</td>
+      <td>${statusBadge}</td>
+      <td class="trunc" style="max-width:160px">${esc(l.owner_email||'—')}</td>
+      <td class="trunc" style="max-width:160px">${esc(l.claimed_by||'—')}</td>
+      <td>${mustGo}</td>
+      <td>${posted}</td>
+    </tr>`;
+  }
+  return `<tr>
+    <td><strong>${esc(l.name)}</strong></td>
+    <td>${esc(l.category||'—')}</td>
+    <td class="trunc">${esc(l.building||'—')}</td>
+    <td>${priceBadge}</td>
+    <td>${statusBadge}</td>
+    <td class="trunc" style="max-width:160px">${esc(l.owner_email||'—')}</td>
+    <td>${posted}</td>
+  </tr>`;
+}
+
+// ─────────────────────────────────────────────
+// USERS
+// ─────────────────────────────────────────────
+async function loadUsers() {
+  // Try 'users' table first, fallback to 'profiles'
+  let rows = [];
+  try { rows = await sbQuery('users', 'order=created_at.desc&limit=500&select=*'); }
+  catch { try { rows = await sbQuery('profiles', 'order=created_at.desc&limit=500&select=*'); } catch {} }
+  allUsers = rows;
+
+  document.getElementById('stat-users').textContent = rows.length;
+  renderUsers();
+}
+
+function renderUsers() {
+  filterUsers();
+}
+
+function filterUsers() {
+  const q = (document.getElementById('users-search').value || '').toLowerCase();
+  let items = allUsers;
+  if (q) items = items.filter(u => (u.email||'').toLowerCase().includes(q));
+  document.getElementById('users-count').textContent = items.length + ' users';
+  const tbody = document.getElementById('users-body');
+  if (!items.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No users found. The users table may have a different name in your Supabase project.</td></tr>';
+    return;
+  }
+
+  // Compute per-user listing stats
+  const posted  = {};
+  const claimed = {};
+  allListings.forEach(l => {
+    if (l.owner_email)  posted[l.owner_email]  = (posted[l.owner_email]  || 0) + 1;
+    if (l.claimed_by)   claimed[l.claimed_by]  = (claimed[l.claimed_by]  || 0) + 1;
+  });
+
+  tbody.innerHTML = items.map(u => {
+    const email   = u.email || u.id || '—';
+    const school  = email.includes('@') ? email.split('@')[1] : '—';
+    const created = u.created_at ? fmtDate(u.created_at) : '—';
+    const updated = u.updated_at || u.last_sign_in_at ? fmtDate(u.updated_at || u.last_sign_in_at) : '—';
+    return `<tr>
+      <td>${esc(email)}</td>
+      <td>${esc(school)}</td>
+      <td style="text-align:center">${posted[email] || 0}</td>
+      <td style="text-align:center">${claimed[email] || 0}</td>
+      <td>${created}</td>
+      <td>${updated}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// ACTIVITY FEED  (derived from listing timestamps)
+// ─────────────────────────────────────────────
+function renderActivity() {
+  const events = [];
+
+  allListings.forEach(l => {
+    if (l.created_at) events.push({
+      type: 'post', time: new Date(l.created_at),
+      msg: `<strong>${esc(l.owner_email)}</strong> posted <strong>${esc(l.name)}</strong> (${esc(l.category)})`,
+    });
+    if (l.claimed_at || (l.claimed_by && l.status === 'pending')) events.push({
+      type: 'claim', time: new Date(l.claimed_at || l.updated_at || l.created_at),
+      msg: `<strong>${esc(l.claimed_by)}</strong> claimed <strong>${esc(l.name)}</strong>`,
+    });
+    if (l.status === 'claimed' && l.updated_at) events.push({
+      type: 'pickup', time: new Date(l.updated_at),
+      msg: `<strong>${esc(l.name)}</strong> was picked up by <strong>${esc(l.claimed_by)}</strong>`,
+    });
+  });
+
+  // Sort newest first
+  events.sort((a,b) => b.time - a.time);
+  const top = events.slice(0, 60);
+
+  document.getElementById('activity-count').textContent = top.length + ' events';
+  const el = document.getElementById('activity-list');
+
+  if (!top.length) {
+    el.innerHTML = '<div class="loading">No activity yet.</div>';
+    return;
+  }
+
+  const icons = { post:'📦', claim:'🤝', pickup:'✅', delete:'🗑️', signup:'👋' };
+  const dotClass = { post:'dot-post', claim:'dot-claim', pickup:'dot-pickup', delete:'dot-delete', signup:'dot-signup' };
+
+  el.innerHTML = top.map(e => `
+    <div class="activity-item">
+      <div class="activity-dot ${dotClass[e.type]||''}">${icons[e.type]||'•'}</div>
+      <div class="activity-body">
+        <div class="activity-msg">${e.msg}</div>
+        <div class="activity-time">${fmtDateTime(e.time)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────
+function switchTab(name) {
+  ['overview','listings','users','activity'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===name);
+    document.getElementById('panel-'+t).classList.toggle('active', t===name);
+  });
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+}
+function fmtDateTime(d) {
+  return new Date(d).toLocaleString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+// Enter key on password field
+document.getElementById('pw-input').addEventListener('keydown',e => { if(e.key==='Enter') unlock(); });
+</script>
+</body>
+</html>
