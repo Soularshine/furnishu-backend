@@ -20,101 +20,57 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-.header {
-  background: var(--primary);
-  color: #fff;
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 6px rgba(0,0,0,.25);
-}
+.header { background: var(--primary); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
 .header .logo { font-size: 22px; font-weight: 800; letter-spacing: -.5px; }
 .header .logo span { color: var(--gold); }
-.header .tagline { font-size: 12px; opacity: .7; }
-#login-overlay {
-  position: fixed; inset: 0;
-  background: rgba(29,18,8,.55);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 100;
-}
-.login-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 36px 32px;
-  width: 100%; max-width: 360px;
-  box-shadow: 0 12px 40px rgba(0,0,0,.2);
-  text-align: center;
-}
+.header .sub { font-size: 12px; opacity: .7; }
+#login-overlay { position: fixed; inset: 0; background: rgba(29,18,8,.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.login-card { background: var(--card); border-radius: var(--radius); padding: 36px 32px; width: 100%; max-width: 360px; box-shadow: 0 12px 40px rgba(0,0,0,.2); text-align: center; }
 .login-card .logo { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
 .login-card .logo span { color: var(--gold); }
 .login-card h2 { font-size: 16px; color: var(--muted); font-weight: 500; margin-bottom: 24px; }
-.field { margin-bottom: 16px; text-align: left; }
-.field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-.field input {
-  width: 100%; padding: 10px 14px;
-  border: 1.5px solid var(--border); border-radius: 8px;
-  font-size: 15px; outline: none; transition: border-color .2s;
-}
-.field input:focus { border-color: var(--primary); }
-.btn {
-  width: 100%; padding: 12px;
-  background: var(--primary); color: #fff;
-  border: none; border-radius: 8px;
-  font-size: 15px; font-weight: 700;
-  cursor: pointer; transition: background .2s;
-}
-.btn:hover { background: var(--primary-h); }
-.error-msg { color: #DC2626; font-size: 13px; margin-top: 10px; display: none; }
-#setup-overlay {
-  position: fixed; inset: 0;
-  background: rgba(29,18,8,.55);
-  display: none; align-items: center; justify-content: center;
-  z-index: 100;
-}
-.setup-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 32px 28px;
-  width: 100%; max-width: 420px;
-  box-shadow: 0 12px 40px rgba(0,0,0,.2);
-}
+#setup-overlay { position: fixed; inset: 0; background: rgba(29,18,8,.6); display: none; align-items: center; justify-content: center; z-index: 100; }
+.setup-card { background: var(--card); border-radius: var(--radius); padding: 32px 28px; width: 100%; max-width: 420px; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
 .setup-card h2 { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
 .setup-card p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.field { margin-bottom: 16px; text-align: left; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+.field input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 15px; outline: none; transition: border-color .2s; }
+.field input:focus { border-color: var(--primary); }
+.btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s; }
+.btn:hover { background: var(--primary-h); }
+.error-msg { color: #DC2626; font-size: 13px; margin-top: 10px; display: none; }
 #dashboard { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
-.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 16px; margin-bottom: 28px; }
-.stat-card {
-  background: var(--card); border-radius: var(--radius);
-  padding: 20px; box-shadow: var(--shadow);
-  border-left: 4px solid var(--primary);
-}
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border-left: 4px solid var(--primary); }
 .stat-card.gold { border-color: var(--gold); }
 .stat-card.green { border-color: var(--green); }
+.stat-card.red { border-color: #DC2626; }
 .stat-card .num { font-size: 32px; font-weight: 800; color: var(--primary); }
 .stat-card.gold .num { color: var(--gold); }
 .stat-card.green .num { color: var(--green); }
+.stat-card.red .num { color: #DC2626; }
 .stat-card .lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
 .card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 24px; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 0 12px 10px; text-transform: uppercase; letter-spacing: .5px; }
-td { padding: 12px; border-top: 1px solid var(--border); vertical-align: top; }
-tr:hover td { background: #FDFAF5; }
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-.badge-available { background: #DCFCE7; color: #15803D; }
-.badge-claimed { background: #FEF9C3; color: #A16207; }
-.badge-pending { background: #FEE2E2; color: #DC2626; }
-.action-btn { padding: 5px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-right: 4px; }
-.btn-approve { background: #DCFCE7; color: #15803D; }
-.btn-remove { background: #FEE2E2; color: #DC2626; }
-.btn-approve:hover { background: #BBF7D0; }
-.btn-remove:hover { background: #FECACA; }
 .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
 .tab { padding: 10px 18px; font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color .2s, border-color .2s; }
 .tab.active { color: var(--primary); border-color: var(--primary); }
 .filter-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-row select, .filter-row input { padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; }
 .filter-row select:focus, .filter-row input:focus { border-color: var(--primary); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 0 12px 10px; text-transform: uppercase; letter-spacing: .5px; }
+td { padding: 11px 12px; border-top: 1px solid var(--border); vertical-align: top; }
+tr:hover td { background: #FDFAF5; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-available { background: #DCFCE7; color: #15803D; }
+.badge-pending { background: #FEF9C3; color: #A16207; }
+.badge-completed { background: #E0E7FF; color: #4338CA; }
+.action-btn { padding: 5px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-right: 4px; transition: background .15s; }
+.btn-restore { background: #DCFCE7; color: #15803D; }
+.btn-remove { background: #FEE2E2; color: #DC2626; }
+.btn-restore:hover { background: #BBF7D0; }
+.btn-remove:hover { background: #FECACA; }
 .loading { text-align: center; padding: 40px; color: var(--muted); }
 .empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 15px; }
 .toast { position: fixed; bottom: 24px; right: 24px; background: var(--primary); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,.2); opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 200; }
@@ -126,10 +82,7 @@ tr:hover td { background: #FDFAF5; }
 </head>
 <body>
 <div class="header">
-  <div>
-    <div class="logo">Furnish<span>U</span></div>
-    <div class="tagline">Admin Dashboard</div>
-  </div>
+  <div><div class="logo">Furnish<span>U</span></div><div class="sub">Admin Dashboard</div></div>
   <button class="sign-out-btn" id="sign-out-btn" style="display:none" onclick="signOut()">Sign Out</button>
 </div>
 <div id="login-overlay">
@@ -144,18 +97,19 @@ tr:hover td { background: #FDFAF5; }
 <div id="setup-overlay">
   <div class="setup-card">
     <h2>Connect to Supabase</h2>
-    <p>Enter your Supabase project credentials. Find these in Supabase &rarr; Settings &rarr; API.</p>
+    <p>Find these in your Supabase project under Settings &rarr; API.</p>
     <div class="field"><label>Project URL</label><input type="text" id="sb-url" placeholder="https://xxxx.supabase.co" /></div>
-    <div class="field"><label>Anon Key</label><input type="text" id="sb-key" placeholder="eyJh..." /></div>
-    <button class="btn" onclick="saveSupabaseConfig()">Connect</button>
+    <div class="field"><label>Anon / Public Key</label><input type="text" id="sb-key" placeholder="eyJhbGci..." /></div>
+    <button class="btn" onclick="saveConfig()">Connect</button>
   </div>
 </div>
 <div id="dashboard">
   <div class="stats-row">
-    <div class="stat-card"><div class="num" id="stat-total">&mdash;</div><div class="lbl">Total Listings</div></div>
-    <div class="stat-card green"><div class="num" id="stat-available">&mdash;</div><div class="lbl">Available</div></div>
-    <div class="stat-card gold"><div class="num" id="stat-claimed">&mdash;</div><div class="lbl">Claimed</div></div>
-    <div class="stat-card"><div class="num" id="stat-users">&mdash;</div><div class="lbl">Users</div></div>
+    <div class="stat-card"><div class="num" id="s-total">&#8212;</div><div class="lbl">Total Listings</div></div>
+    <div class="stat-card green"><div class="num" id="s-avail">&#8212;</div><div class="lbl">Available</div></div>
+    <div class="stat-card gold"><div class="num" id="s-pend">&#8212;</div><div class="lbl">Pending</div></div>
+    <div class="stat-card red"><div class="num" id="s-comp">&#8212;</div><div class="lbl">Completed</div></div>
+    <div class="stat-card"><div class="num" id="s-users">&#8212;</div><div class="lbl">Users</div></div>
   </div>
   <div class="tabs">
     <div class="tab active" onclick="switchTab('listings')">Listings</div>
@@ -163,139 +117,142 @@ tr:hover td { background: #FDFAF5; }
   </div>
   <div id="tab-listings">
     <div class="filter-row">
-      <select id="filter-status" onchange="applyFilters()"><option value="">All Statuses</option><option value="available">Available</option><option value="claimed">Claimed</option><option value="pending">Pending</option></select>
-      <input type="text" id="filter-search" placeholder="Search listings..." oninput="applyFilters()" />
+      <select id="f-status" onchange="applyFilters()"><option value="">All Statuses</option><option value="available">Available</option><option value="pending">Pending</option><option value="completed">Completed</option></select>
+      <select id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select>
+      <input type="text" id="f-search" placeholder="Search listings…" oninput="applyFilters()" />
     </div>
     <div class="card">
-      <div class="loading" id="listings-loading">Loading listings...</div>
-      <table id="listings-table" style="display:none"><thead><tr><th>Item</th><th>Category</th><th>Status</th><th>Posted By</th><th>Date</th><th>Actions</th></tr></thead><tbody id="listings-body"></tbody></table>
-      <div class="empty-state" id="listings-empty" style="display:none">No listings found.</div>
+      <div class="loading" id="l-load">Loading listings…</div>
+      <table id="l-table" style="display:none"><thead><tr><th>Item</th><th>Category</th><th>Owner</th><th>Claimed By</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="l-body"></tbody></table>
+      <div class="empty-state" id="l-empty" style="display:none">No listings found.</div>
     </div>
   </div>
   <div id="tab-users" style="display:none">
     <div class="card">
-      <div class="loading" id="users-loading">Loading users...</div>
-      <table id="users-table" style="display:none"><thead><tr><th>Email</th><th>Joined</th><th>Listings</th><th>Actions</th></tr></thead><tbody id="users-body"></tbody></table>
-      <div class="empty-state" id="users-empty" style="display:none">No users found.</div>
+      <div class="loading" id="u-load">Loading users…</div>
+      <table id="u-table" style="display:none"><thead><tr><th>Email</th><th>Joined</th><th>Listings Posted</th><th>Actions</th></tr></thead><tbody id="u-body"></tbody></table>
+      <div class="empty-state" id="u-empty" style="display:none">No users found.</div>
     </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
-const ADMIN_PW = 'FurnishU2025!';
-let supabaseUrl = localStorage.getItem('fu_sb_url') || '';
-let supabaseKey = localStorage.getItem('fu_sb_key') || '';
-let allListings = [], allUsers = [];
-function checkPassword() {
-  const val = document.getElementById('pw-input').value;
-  if (val === ADMIN_PW) {
-    document.getElementById('login-overlay').style.display = 'none';
-    document.getElementById('sign-out-btn').style.display = '';
-    if (!supabaseUrl || !supabaseKey) { document.getElementById('setup-overlay').style.display = 'flex'; }
-    else { initDashboard(); }
-  } else { document.getElementById('pw-error').style.display = 'block'; }
+const ADMIN_PW='FurnishU2025!';
+let SB_URL=localStorage.getItem('fu_sb_url')||'';
+let SB_KEY=localStorage.getItem('fu_sb_key')||'';
+let allListings=[],allUsers=[];
+function checkPassword(){
+  const v=document.getElementById('pw-input').value;
+  if(v===ADMIN_PW){
+    document.getElementById('login-overlay').style.display='none';
+    document.getElementById('sign-out-btn').style.display='';
+    if(!SB_URL||!SB_KEY){document.getElementById('setup-overlay').style.display='flex';}else{initDashboard();}
+  }else{document.getElementById('pw-error').style.display='block';}
 }
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
-});
-function signOut() { location.reload(); }
-function saveSupabaseConfig() {
-  const url = document.getElementById('sb-url').value.trim();
-  const key = document.getElementById('sb-key').value.trim();
-  if (!url || !key) { alert('Both fields are required.'); return; }
-  localStorage.setItem('fu_sb_url', url); localStorage.setItem('fu_sb_key', key);
-  supabaseUrl = url; supabaseKey = key;
-  document.getElementById('setup-overlay').style.display = 'none';
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
+function signOut(){localStorage.removeItem('fu_sb_url');localStorage.removeItem('fu_sb_key');location.reload();}
+function saveConfig(){
+  const url=document.getElementById('sb-url').value.trim().replace(/\/$/,'');
+  const key=document.getElementById('sb-key').value.trim();
+  if(!url||!key){alert('Both fields are required.');return;}
+  localStorage.setItem('fu_sb_url',url);localStorage.setItem('fu_sb_key',key);
+  SB_URL=url;SB_KEY=key;
+  document.getElementById('setup-overlay').style.display='none';
   initDashboard();
 }
-async function sbFetch(path, opts = {}) {
-  const url = supabaseUrl.replace(/\/$/, '') + '/rest/v1/' + path;
-  const headers = { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + supabaseKey, 'Content-Type': 'application/json', 'Prefer': 'return=representation', ...opts.headers };
-  const resp = await fetch(url, { ...opts, headers });
-  if (!resp.ok) throw new Error(await resp.text());
-  return resp.json();
+async function sb(path,opts={}){
+  const url=SB_URL+'/rest/v1/'+path;
+  const headers={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation',...(opts.headers||{})};
+  const resp=await fetch(url,{...opts,headers});
+  const text=await resp.text();
+  if(!resp.ok)throw new Error(text);
+  return text?JSON.parse(text):[];
 }
-async function initDashboard() {
-  document.getElementById('dashboard').style.display = 'block';
-  await Promise.all([loadListings(), loadUsers()]);
+async function initDashboard(){
+  document.getElementById('dashboard').style.display='block';
+  await Promise.all([loadListings(),loadUsers()]);
 }
-async function loadListings() {
-  document.getElementById('listings-loading').style.display = 'block';
-  document.getElementById('listings-table').style.display = 'none';
-  try {
-    const data = await sbFetch('listings?select=*,profiles(email)&order=created_at.desc');
-    allListings = data; renderListings(data); updateStats(data);
-  } catch(e) { document.getElementById('listings-loading').textContent = 'Error: ' + e.message; }
+async function loadListings(){
+  show('l-load');hide('l-table');hide('l-empty');
+  try{
+    const data=await sb('listings?select=id,name,category,building,description,status,owner_email,claimed_by,created_at,free,price&order=created_at.desc');
+    allListings=data;populateCategoryFilter(data);renderListings(data);updateStats(data);
+  }catch(e){document.getElementById('l-load').textContent='Error: '+e.message;}
 }
-async function loadUsers() {
-  document.getElementById('users-loading').style.display = 'block';
-  document.getElementById('users-table').style.display = 'none';
-  try {
-    const data = await sbFetch('profiles?select=*&order=created_at.desc');
-    allUsers = data; renderUsers(data);
-    document.getElementById('stat-users').textContent = data.length;
-  } catch(e) { document.getElementById('users-loading').textContent = 'Error: ' + e.message; }
+function updateStats(d){
+  document.getElementById('s-total').textContent=d.length;
+  document.getElementById('s-avail').textContent=d.filter(l=>l.status==='available').length;
+  document.getElementById('s-pend').textContent=d.filter(l=>l.status==='pending').length;
+  document.getElementById('s-comp').textContent=d.filter(l=>l.status==='completed').length;
 }
-function updateStats(l) {
-  document.getElementById('stat-total').textContent = l.length;
-  document.getElementById('stat-available').textContent = l.filter(x => x.status==='available').length;
-  document.getElementById('stat-claimed').textContent = l.filter(x => x.status==='claimed').length;
+function populateCategoryFilter(d){
+  const cats=[...new Set(d.map(l=>l.category).filter(Boolean))].sort();
+  const sel=document.getElementById('f-category');
+  sel.innerHTML='<option value="">All Categories</option>';
+  cats.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
 }
-function renderListings(listings) {
-  document.getElementById('listings-loading').style.display = 'none';
-  const tbody = document.getElementById('listings-body');
-  tbody.innerHTML = '';
-  if (!listings.length) { document.getElementById('listings-empty').style.display='block'; return; }
-  document.getElementById('listings-empty').style.display='none';
-  document.getElementById('listings-table').style.display='table';
-  listings.forEach(l => {
-    const tr = document.createElement('tr');
-    const email = l.profiles ? l.profiles.email : (l.user_email||'&mdash;');
-    const date = l.created_at ? new Date(l.created_at).toLocaleDateString() : '&mdash;';
-    const bc = l.status==='available'?'badge-available':l.status==='claimed'?'badge-claimed':'badge-pending';
-    tr.innerHTML = '<td><strong>'+esc(l.title||l.name||'&mdash;')+'</strong><br><small style="color:var(--muted)">'+esc((l.description||'').substring(0,60))+'</small></td><td>'+esc(l.category||'&mdash;')+'</td><td><span class="badge '+bc+'">'+esc(l.status||'unknown')+'</span></td><td style="font-size:13px">'+esc(email)+'</td><td style="font-size:13px;color:var(--muted)">'+date+'</td><td>'+(l.status!=='available'?'<button class="action-btn btn-approve" onclick="approveListing(\'' +l.id+ '\')">Restore</button>':'')+'<button class="action-btn btn-remove" onclick="removeListing(\'' +l.id+ '\')">Remove</button></td>';
+function renderListings(d){
+  hide('l-load');const tbody=document.getElementById('l-body');tbody.innerHTML='';
+  if(!d.length){show('l-empty');return;}hide('l-empty');show('l-table');
+  d.forEach(l=>{
+    const tr=document.createElement('tr');
+    const date=l.created_at?new Date(l.created_at).toLocaleDateString():'&#8212;';
+    const bc=l.status==='available'?'badge-available':l.status==='pending'?'badge-pending':'badge-completed';
+    const price=l.free?'Free':('$'+(parseFloat(l.price)||0).toFixed(2));
+    tr.innerHTML='<td><strong>'+x(l.name)+'</strong><br><small style="color:var(--muted)">'+x(l.building||'')+'&bull;'+price+'</small></td>'
+      +'<td>'+x(l.category)+'</td>'
+      +'<td style="font-size:13px">'+x(l.owner_email)+'</td>'
+      +'<td style="font-size:13px;color:var(--muted)">'+(l.claimed_by?x(l.claimed_by):'&#8212;')+'</td>'
+      +'<td><span class="badge '+bc+'">'+x(l.status)+'</span></td>'
+      +'<td style="font-size:13px;color:var(--muted)">'+date+'</td>'
+      +'<td>'+(l.status!=='available'?'<button class="action-btn btn-restore" onclick="restoreListing(\''+l.id+'\')">Restore</button>':'')+'<button class="action-btn btn-remove" onclick="removeListing(\''+l.id+'\')">Remove</button></td>';
     tbody.appendChild(tr);
   });
 }
-function renderUsers(users) {
-  document.getElementById('users-loading').style.display = 'none';
-  const tbody = document.getElementById('users-body');
-  tbody.innerHTML = '';
-  if (!users.length) { document.getElementById('users-empty').style.display='block'; return; }
-  document.getElementById('users-empty').style.display='none';
-  document.getElementById('users-table').style.display='table';
-  users.forEach(u => {
-    const tr = document.createElement('tr');
-    const date = u.created_at ? new Date(u.created_at).toLocaleDateString() : '&mdash;';
-    const count = allListings.filter(l => l.user_id===u.id||l.user_email===u.email).length;
-    tr.innerHTML = '<td>'+esc(u.email||'&mdash;')+'</td><td style="font-size:13px;color:var(--muted)">'+date+'</td><td>'+count+'</td><td><button class="action-btn btn-remove" onclick="removeUser(\'' +u.id+ '\')">Remove</button></td>';
+async function loadUsers(){
+  show('u-load');hide('u-table');hide('u-empty');
+  try{
+    const data=await sb('users?select=id,email,created_at&order=created_at.desc');
+    allUsers=data;renderUsers(data);document.getElementById('s-users').textContent=data.length;
+  }catch(e){document.getElementById('u-load').textContent='Error: '+e.message;}
+}
+function renderUsers(d){
+  hide('u-load');const tbody=document.getElementById('u-body');tbody.innerHTML='';
+  if(!d.length){show('u-empty');return;}hide('u-empty');show('u-table');
+  d.forEach(u=>{
+    const tr=document.createElement('tr');
+    const date=u.created_at?new Date(u.created_at).toLocaleDateString():'&#8212;';
+    const count=allListings.filter(l=>l.owner_email===u.email).length;
+    tr.innerHTML='<td>'+x(u.email)+'</td><td style="font-size:13px;color:var(--muted)">'+date+'</td><td>'+count+'</td><td><button class="action-btn btn-remove" onclick="removeUser(\''+u.id+'\',\''+x(u.email)+'\')" >Remove</button></td>';
     tbody.appendChild(tr);
   });
 }
-async function approveListing(id) {
-  try { await sbFetch('listings?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'available'})}); showToast('Listing restored'); await loadListings(); } catch(e){showToast('Error: '+e.message);}
+async function restoreListing(id){
+  try{await sb('listings?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'available',claimed_by:null})});toast('Listing restored');await loadListings();}catch(e){toast('Error: '+e.message);}
 }
-async function removeListing(id) {
-  if(!confirm('Remove this listing?'))return;
-  try { await sbFetch('listings?id=eq.'+id,{method:'DELETE'}); showToast('Listing removed'); await loadListings(); } catch(e){showToast('Error: '+e.message);}
+async function removeListing(id){
+  if(!confirm('Permanently remove this listing?'))return;
+  try{await sb('listings?id=eq.'+id,{method:'DELETE'});toast('Listing removed');await loadListings();}catch(e){toast('Error: '+e.message);}
 }
-async function removeUser(id) {
-  if(!confirm('Remove this user? This cannot be undone.'))return;
-  try { await sbFetch('profiles?id=eq.'+id,{method:'DELETE'}); showToast('User removed'); await loadUsers(); } catch(e){showToast('Error: '+e.message);}
+async function removeUser(id,email){
+  if(!confirm('Remove user '+email+'?'))return;
+  try{await sb('users?id=eq.'+id,{method:'DELETE'});toast('User removed');await loadUsers();}catch(e){toast('Error: '+e.message);}
 }
-function applyFilters() {
-  const status = document.getElementById('filter-status').value;
-  const q = document.getElementById('filter-search').value.toLowerCase();
-  renderListings(allListings.filter(l => (!status||l.status===status)&&(!q||(l.title||l.name||'').toLowerCase().includes(q)||(l.description||'').toLowerCase().includes(q))));
+function applyFilters(){
+  const status=document.getElementById('f-status').value;
+  const cat=document.getElementById('f-category').value;
+  const q=document.getElementById('f-search').value.toLowerCase();
+  renderListings(allListings.filter(l=>(!status||l.status===status)&&(!cat||l.category===cat)&&(!q||(l.name||'').toLowerCase().includes(q)||(l.description||'').toLowerCase().includes(q)||(l.owner_email||'').toLowerCase().includes(q))));
 }
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => { if(t.textContent.toLowerCase()===name) t.classList.add('active'); });
-  document.getElementById('tab-listings').style.display = name==='listings'?'':'none';
-  document.getElementById('tab-users').style.display = name==='users'?'':'none';
+function switchTab(n){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.textContent.toLowerCase()===n));
+  document.getElementById('tab-listings').style.display=n==='listings'?'':'none';
+  document.getElementById('tab-users').style.display=n==='users'?'':'none';
 }
-function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+function x(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function show(id){const el=document.getElementById(id);if(el)el.style.display='';}
+function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
 </body>
 </html>
