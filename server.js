@@ -19,7 +19,7 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
 
@@ -500,6 +500,56 @@ app.delete('/api/listings/:id', async (req, res) => {
     return res.json({ success: true });
   } catch(err) { return res.status(500).json({ error: err.message }); }
 });
+
+// GET /api/needs
+app.get('/api/needs', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('needs').select('*').order('created_at', { ascending: false });
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json(data || []);
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+// POST /api/needs
+app.post('/api/needs', async (req, res) => {
+  try {
+    const { user_email, title, description, category, building } = req.body || {};
+    if (!user_email || !title) return res.status(400).json({ error: 'user_email and title required' });
+    const { data, error } = await supabase.from('needs').insert([{ user_email, title, description, category, building }]).select().single();
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(201).json(data);
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+// DELETE /api/needs/:id
+app.delete('/api/needs/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user_email = (req.body || {}).user_email || req.query.user_email;
+    if (!user_email) return res.status(400).json({ error: 'user_email required' });
+    const { data: need } = await supabase.from('needs').select('user_email').eq('id', id).single();
+    if (!need) return res.status(404).json({ error: 'Not found' });
+    if (need.user_email !== user_email) return res.status(403).json({ error: 'Not the owner' });
+    const { error } = await supabase.from('needs').delete().eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json({ success: true });
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+// POST /api/listings/:id/report
+app.post('/api/listings/:id/report', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reporter_email, reason } = req.body || {};
+    if (!reporter_email) return res.status(400).json({ error: 'reporter_email required' });
+    const { data: listing } = await supabase.from('listings').select('id').eq('id', id).single();
+    if (!listing) return res.status(404).json({ error: 'Listing not found' });
+    const { error } = await supabase.from('reports').insert([{ listing_id: id, reporter_email, reason: reason || '' }]);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json({ success: true });
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
 
 async function notifySubscribers(listing) {
   if (!listing) return;
