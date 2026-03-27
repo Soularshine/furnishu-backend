@@ -703,6 +703,12 @@ function openDetail(id) {
       + '<button onclick="deleteListing(\'' + l.id + '\')" style="padding:8px 14px;background:#fef2f2;border:1.5px solid #f87171;color:#b91c1c;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px">🗑️ Delete</button>';
     document.getElementById('d-actions').appendChild(ob);
   }
+    if (!isOwner && S.email) {
+      const rb = document.createElement('div');
+      rb.style.cssText = 'padding:6px 0;text-align:right';
+      rb.innerHTML = '<button onclick="reportListing(\'' + l.id + '\')" style="padding:5px 12px;background:none;border:1px solid #e5e7eb;color:#9ca3af;border-radius:8px;cursor:pointer;font-size:12px">&#x1F6A9; Report</button>';
+      document.getElementById('d-actions').appendChild(rb);
+    }
   show('detail-overlay');
 }
 function closeDetail() { hide('detail-overlay'); }
@@ -1214,6 +1220,17 @@ async function deleteNeed(id) {
     await call('/api/needs/' + id + '?user_email=' + encodeURIComponent(S.email), 'DELETE', { user_email: S.email });
     await loadNeeds();
     toast('Request removed.');
+  } catch(e) { toast('Error: ' + e.message); }
+}
+
+
+async function reportListing(id) {
+  if (!S.email) { toast('Sign in to report a listing'); return; }
+  const reason = prompt('Reason for reporting (optional):') ;
+  if (reason === null) return; // user cancelled
+  try {
+    await call('/api/listings/' + id + '/report', 'POST', { reporter_email: S.email, reason: reason || '' });
+    toast('Listing reported. Thank you.');
   } catch(e) { toast('Error: ' + e.message); }
 }
 
