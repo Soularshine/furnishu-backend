@@ -282,10 +282,12 @@ app.post('/api/listings/:id/pickup', requireAuth, async (req, res) => {
       reply_to: req.user.email,
       subject: 'Your "' + listing.name + '" was picked up! Ã¢ÂÂ FurnishU',
       html: '<div style="font-family:sans-serif;max-width:480px;margin:auto;padding:24px">'+
-        '<h2 style="color:#6C63FF">Ã°ÂÂÂ Great news!</h2>'+
-        '<p><strong>' + req.user.email.split('@')[0] + '</strong> just confirmed they picked up your <strong>' + listing.name + '</strong>.</p>'+
-        '<p style="color:#888;font-size:13px">The listing has been marked complete. Thanks for giving it a new home!</p>'+
-        '</div>'
+        '<div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px;background:#f9fbe7;border-radius:10px">' +
+        '<h2 style="color:#2e7d32;margin-top:0">&#x1F389; You just made someone\'s day!</h2>' +
+        '<p style="font-size:16px">Your <strong>' + listing.name + '</strong> has been picked up and is now in good hands.</p>' +
+        '<p style="color:#555">By sharing instead of discarding, you helped a fellow student settle in — and that means more than you know. The FurnishU community is stronger because of people like you.</p>' +
+        '<p style="color:#888;font-size:13px">Keep an eye out — your reputation for generosity is building on campus. &#x2764;&#xFE0F;</p>' +
+        '<p style="font-size:12px;color:#aaa;margin-bottom:0">— The FurnishU team</p>' +
     }).catch(e => console.error('[pickup-owner-email]', e.message));
     return res.json({ success: true });
   } catch (err) {
