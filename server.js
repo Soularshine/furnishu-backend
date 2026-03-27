@@ -349,6 +349,29 @@ app.post('/api/listings/:id/report', async (req, res) => {
   }
 });
 
+// --- ADMIN ---
+
+app.get('/api/admin/reports', async (req, res) => {
+  if (req.headers['x-admin-code'] !== 'FU-OWNER-2025') return res.status(403).json({ error: 'Forbidden' });
+  try {
+    const { data, error } = await supabase
+      .from('reports')
+      .select('id, listing_id, reporter_email, reason, created_at, listings(title, category, owner_email, image_url)')
+      .order('created_at', { ascending: false });
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data || []);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.delete('/api/admin/reports/:id', async (req, res) => {
+  if (req.headers['x-admin-code'] !== 'FU-OWNER-2025') return res.status(403).json({ error: 'Forbidden' });
+  try {
+    const { error } = await supabase.from('reports').delete().eq('id', req.params.id);
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ success: true });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // --- STARTUP ---
 
 const PORT = process.env.PORT || 3000;
