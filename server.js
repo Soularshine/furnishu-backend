@@ -501,6 +501,42 @@ app.delete('/api/listings/:id', async (req, res) => {
   } catch(err) { return res.status(500).json({ error: err.message }); }
 });
 
+// GET /api/needs — list all need requests
+app.get('/api/needs', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('needs').select('*').order('created_at', { ascending: false });
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json(data || []);
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+// POST /api/needs — create a need request
+app.post('/api/needs', async (req, res) => {
+  try {
+    const { user_email, title, description, category, building } = req.body || {};
+    if (!user_email || !title) return res.status(400).json({ error: 'user_email and title required' });
+    const { data, error } = await supabase.from('needs').insert([{ user_email, title, description, category, building }]).select().single();
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(201).json(data);
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+// DELETE /api/needs/:id — owner removes need request
+app.delete('/api/needs/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user_email = (req.body || {}).user_email || req.query.user_email;
+    if (!user_email) return res.status(400).json({ error: 'user_email required' });
+    const { data: need } = await supabase.from('needs').select('user_email').eq('id', id).single();
+    if (!need) return res.status(404).json({ error: 'Not found' });
+    if (need.user_email !== user_email) return res.status(403).json({ error: 'Not the owner' });
+    const { error } = await supabase.from('needs').delete().eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json({ success: true });
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+
 async function notifySubscribers(listing) {
   if (!listing) return;
   const { data: subs } = await supabase.from('subscriptions')
