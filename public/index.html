@@ -359,6 +359,16 @@ textarea { resize: vertical; min-height: 80px; }
       </select></div>
     <div class="field"><label>Dorm / Building *</label>
       <input type="text" id="p-bldg" placeholder="e.g. Tiger Village, Lanier Hall" /></div>
+        <div style="margin-bottom:12px">
+          <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:4px">Condition</label>
+          <select id="p-cond" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff">
+            <option value="">— select —</option>
+            <option value="Like New">Like New</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Worn">Worn</option>
+          </select>
+        </div>
     <div class="field"><label>Description</label>
       <textarea id="p-desc" placeholder="Condition, size, any details worth knowingÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦"></textarea></div>
     <div class="field">
@@ -603,6 +613,7 @@ function cardHTML(l) {
     <div class="card-body">
       <div class="card-name">${esc(l.name)}</div>
           + (l.avg_rating ? '<div style="font-size:12px;color:#f59e0b;margin-top:2px">' + '★'.repeat(Math.round(l.avg_rating)) + '☆'.repeat(5-Math.round(l.avg_rating)) + ' <span style="color:#888;font-size:11px">(' + l.avg_rating + ')</span></div>' : '')
+      + (l.condition ? '<span style="display:inline-block;margin-top:3px;padding:2px 7px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;font-size:11px;color:#15803d;font-weight:600">' + l.condition + '</span>' : '')
       <div class="card-loc">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ${esc(l.building)}</div>
       <div class="card-foot">${pBadge}${mine?'<span class="badge badge-mine">Mine</span>':''}${urgTxt}</div>
     </div></div>`;
@@ -766,6 +777,7 @@ function openPost() {
   document.getElementById('post-title').textContent = 'Post an Item';
   document.getElementById('post-btn').textContent   = 'Post Item';
   ['p-name','p-bldg','p-desc','p-price'].forEach(id=>document.getElementById(id).value='');
+    const condEl2 = document.getElementById('p-cond'); if (condEl2) condEl2.value = l.condition || '';
   document.getElementById('p-cat').value    = '';
   document.getElementById('p-date').value   = '';
   document.getElementById('p-free').checked = true;
@@ -785,6 +797,7 @@ function openEdit(id) {
   document.getElementById('p-name').value   = l.name;
   document.getElementById('p-cat').value    = l.category;
   document.getElementById('p-bldg').value   = l.building;
+      condition: (document.getElementById('p-cond')||{}).value || undefined,
   document.getElementById('p-desc').value   = l.description||'';
   document.getElementById('p-free').checked = l.free;
   document.getElementById('p-price').value  = l.price||'';
