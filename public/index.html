@@ -316,6 +316,7 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="tab active" id="tab-browse" onclick="switchTab('browse')">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Browse</div>
     <div class="tab" id="tab-mine"   onclick="switchTab('mine')">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦ My Items</div>
     <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¤ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Claimed</div>
+      <div id="tab-requests" onclick="switchTab('requests')" style="flex:1;padding:10px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;color:#6b7280;border-bottom:2px solid transparent;transition:all .15s">Requests</div>
   </div>
 
   <div class="filters" id="filter-bar">
@@ -335,6 +336,19 @@ textarea { resize: vertical; min-height: 80px; }
 
   <div class="listings-wrap">
     <div class="listings-grid" id="grid"></div>
+    <div id="req-panel" style="display:none;padding:16px;max-width:900px;margin:0 auto">
+      <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+        <h3 style="margin:0 0 12px;font-size:16px;font-weight:700;color:#111827">Post a Request</h3>
+        <input id="rq-title" placeholder="What are you looking for?" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:8px">
+        <textarea id="rq-desc" placeholder="Details (optional)" rows="2" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;resize:vertical;margin-bottom:8px"></textarea>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <select id="rq-cat" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px"><option value="">Any category</option><option>Furniture</option><option>Electronics</option><option>Kitchen</option><option>Bedding</option><option>Decor</option><option>Other</option></select>
+          <input id="rq-bldg" placeholder="Building (optional)" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px">
+        </div>
+        <button onclick="submitNeed()" style="width:100%;padding:10px;background:#f59e0b;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">Post Request</button>
+      </div>
+      <div id="rq-list"></div>
+    </div>
   </div>
 
   <button class="fab" id="fab" onclick="openPost()" title="Post an item">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¼ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</button>
@@ -533,11 +547,13 @@ function logout() {
 
 function switchTab(t) {
   S.tab = t;
-  ['browse','mine','claimed'].forEach(x => {
+  ['browse','mine','claimed','requests'].forEach(x => {
     document.getElementById(`tab-${x}`).classList.toggle('active', x===t);
   });
   document.getElementById('filter-bar').style.display = t==='browse' ? 'flex' : 'none';
   document.getElementById('fab').style.display        = t==='browse' ? 'flex' : 'none';
+  document.getElementById('req-panel').style.display = t==='requests' ? '' : 'none';
+  document.getElementById('grid').style.display      = t==='requests' ? 'none' : '';
   render();
 }
 
@@ -566,6 +582,7 @@ async function load() {
 }
 
 function render() {
+  if (S.tab === 'requests') { renderNeeds(); return; }
   const q   = (document.getElementById('q-in')?.value||'').toLowerCase();
   const cat = document.getElementById('cat-in')?.value || '';
   const bld = (document.getElementById('bld-in')||{}).value || '';
@@ -1139,6 +1156,67 @@ function toggleMoveOut() {
     toast('Move-Out Mode off.');
   }
 }
+
+async function loadNeeds() {
+  try {
+    const data = await call('/api/needs', 'GET');
+    S.needs = data;
+    if (S.tab === 'requests') renderNeeds();
+  } catch(e) { console.warn('loadNeeds:', e.message); }
+}
+
+function renderNeeds() {
+  if (S.needs == null) { loadNeeds(); return; }
+  const list = document.getElementById('rq-list');
+  if (!list) return;
+  const needs = S.needs || [];
+  if (!needs.length) { list.innerHTML = '<p style="text-align:center;color:#9ca3af;padding:32px">No requests yet — be the first!</p>'; return; }
+  list.innerHTML = needs.map(n => {
+    const isOwner = S.email && n.user_email === S.email;
+    return '<div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.08)">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start">'
+      + '<div style="flex:1"><div style="font-weight:700;font-size:15px;color:#111827">' + (n.title||'') + '</div>'
+      + (n.description ? '<div style="font-size:13px;color:#6b7280;margin-top:4px">' + n.description + '</div>' : '')
+      + '<div style="margin-top:6px;font-size:12px;color:#9ca3af">'
+      + (n.category ? '<span style="background:#f3f4f6;padding:2px 8px;border-radius:10px;margin-right:6px">' + n.category + '</span>' : '')
+      + (n.building ? '\uD83D\uDCCD ' + n.building + ' &nbsp;' : '')
+      + new Date(n.created_at).toLocaleDateString()
+      + '</div></div>'
+      + (isOwner ? '<button onclick="deleteNeed(\'' + n.id + '\')" style="margin-left:12px;padding:4px 10px;background:#fef2f2;border:1px solid #fca5a5;color:#b91c1c;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0">Remove</button>' : '')
+      + '</div></div>';
+  }).join('');
+}
+
+async function submitNeed() {
+  if (!S.email) { toast('Sign in to post a request'); return; }
+  const titleEl = document.getElementById('rq-title');
+  const title = (titleEl||{}).value || '';
+  if (!title.trim()) { toast('Enter what you are looking for'); return; }
+  const body = {
+    user_email: S.email,
+    title: title.trim(),
+    description: (document.getElementById('rq-desc')||{}).value || '',
+    category:    (document.getElementById('rq-cat')||{}).value  || '',
+    building:    (document.getElementById('rq-bldg')||{}).value || ''
+  };
+  try {
+    await call('/api/needs', 'POST', body);
+    titleEl.value = '';
+    document.getElementById('rq-desc').value = '';
+    await loadNeeds();
+    toast('Request posted!');
+  } catch(e) { toast('Error: ' + e.message); }
+}
+
+async function deleteNeed(id) {
+  if (!confirm('Remove this request?')) return;
+  try {
+    await call('/api/needs/' + id + '?user_email=' + encodeURIComponent(S.email), 'DELETE', { user_email: S.email });
+    await loadNeeds();
+    toast('Request removed.');
+  } catch(e) { toast('Error: ' + e.message); }
+}
+
 </script>
 
 <div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;"><a href="/about.html" style="color:#3D1C02;text-decoration:none;font-weight:500;">About FurnishU</a></div>
