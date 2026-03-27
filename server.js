@@ -536,6 +536,21 @@ app.delete('/api/needs/:id', async (req, res) => {
   } catch(err) { return res.status(500).json({ error: err.message }); }
 });
 
+// POST /api/listings/:id/report — flag a listing
+app.post('/api/listings/:id/report', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reporter_email, reason } = req.body || {};
+    if (!reporter_email) return res.status(400).json({ error: 'reporter_email required' });
+    const { data: listing } = await supabase.from('listings').select('id').eq('id', id).single();
+    if (!listing) return res.status(404).json({ error: 'Listing not found' });
+    const { error } = await supabase.from('reports').insert([{ listing_id: id, reporter_email, reason: reason || '' }]);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json({ success: true });
+  } catch(err) { return res.status(500).json({ error: err.message }); }
+});
+
+
 
 async function notifySubscribers(listing) {
   if (!listing) return;
