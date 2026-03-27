@@ -294,12 +294,13 @@ textarea { resize: vertical; min-height: 80px; }
       <div class="auth-title">Enter your code</div>
       <div class="auth-sub" id="otp-sub">We sent a 4-digit code to your email.</div>
       <div class="code-wrap">
-  3     <input type="tel" maxlength="1" id="d0" oninput="otpIn(0)" onkeydown="otpKey(event,0)" />
+        <input type="tel" maxlength="1" id="d0" oninput="otpIn(0)" onkeydown="otpKey(event,0)" />
         <input type="tel" maxlength="1" id="d1" oninput="otpIn(1)" onkeydown="otpKey(event,1)" />
         <input type="tel" maxlength="1" id="d2" oninput="otpIn(2)" onkeydown="otpKey(event,2)" />
         <input type="tel" maxlength="1" id="d3" oninput="otpIn(3)" onkeydown="otpKey(event,3)" />
       </div>
       <button class="btn" id="verify-btn" onclick="verifyCode()">Verify Code</button>
+      <p style="margin-top:14px;font-size:0.85rem;color:#888">Didn't receive it? <button onclick="resendCode()" style="background:none;border:none;color:#D97706;cursor:pointer;font-size:inherit;text-decoration:underline;padding:0">Resend code</button></p>
       <div class="back-link"><a href="#" onclick="backToEmail();return false;">Use a different email</a></div>
     </div>
   </div>
@@ -479,6 +480,21 @@ function showApp() {
 
 
 // AUTH
+
+async function resendCode() {
+  const email = document.getElementById('email-in').value.trim();
+  if (!email) { toast('Go back and enter your email first.'); return; }
+  try {
+    await fetch('/api/auth/send-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    toast('Code resent! Check your inbox (and spam folder).');
+    ['d0','d1','d2','d3'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('d0').focus();
+  } catch(e) { toast('Could not resend — please try again.'); }
+}
 
 async function sendCode() {
   const email = document.getElementById('email-in').value.trim();
@@ -718,8 +734,13 @@ function closeDetail() { hide('detail-overlay'); }
 
 async function claimIt(id) {
   try {
-    await call(`/api/listings/${id}/claim`, 'POST');
-    toast('Item claimed! 📬 Reach out to the owner to arrange pickup.');
+    const listing = await call(`/api/listings/${id}/claim`, 'POST');
+    const ownerEmail = listing?.owner_email || '';
+    if (ownerEmail) {
+      toast(`Item claimed! ✉ Owner: ${ownerEmail}`, 9000);
+    } else {
+      toast('Item claimed! 📬 Reach out to the owner to arrange pickup.');
+    }
     closeDetail(); await load(); switchTab('claimed');
   } catch(e) { toast(e.message||'Could not claim item.'); }
 }
