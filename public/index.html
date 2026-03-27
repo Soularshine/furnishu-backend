@@ -577,7 +577,7 @@ function switchTab(t) {
 // LISTINGS
 
 async function load() {
-  try { S.listings = await call('/api/listings') || []; render(); }
+  try { S.listings = await call('/api/listings') || []; render(); } catch(e) { console.error('load error', e); }
   // Populate building filter from live listings
   const _bldSel = document.getElementById('bld-in');
   if (_bldSel) {
