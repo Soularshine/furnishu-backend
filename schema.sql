@@ -1,16 +1,16 @@
--- ══════════════════════════════════════════════════════════════
---  FurnishU — Supabase Database Schema
+-- ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+--  FurnishU â Supabase Database Schema
 --  Run this in your Supabase SQL Editor (Project > SQL Editor)
--- ══════════════════════════════════════════════════════════════
+-- ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
--- ── Users ────────────────────────────────────────────────────
+-- ââ Users ââââââââââââââââââââââââââââââââââââââââââââââââââââ
 create table if not exists users (
   id         uuid primary key default gen_random_uuid(),
   email      text unique not null,
   created_at timestamptz default now()
 );
 
--- ── Verification Codes ───────────────────────────────────────
+-- ââ Verification Codes âââââââââââââââââââââââââââââââââââââââ
 create table if not exists verification_codes (
   id         uuid primary key default gen_random_uuid(),
   email      text not null,
@@ -24,7 +24,7 @@ create table if not exists verification_codes (
 create index if not exists idx_codes_email on verification_codes(email);
 create index if not exists idx_codes_expires on verification_codes(expires_at);
 
--- ── Listings ─────────────────────────────────────────────────
+-- ââ Listings âââââââââââââââââââââââââââââââââââââââââââââââââ
 create table if not exists listings (
   id            uuid primary key default gen_random_uuid(),
   name          text not null,
@@ -46,7 +46,19 @@ create index if not exists idx_listings_category on listings(category);
 create index if not exists idx_listings_building on listings(building);
 create index if not exists idx_listings_owner    on listings(owner_email);
 
--- ── Disable Row Level Security (backend handles auth) ────────
+-- ââ Disable Row Level Security (backend handles auth) ââââââââ
 alter table users              disable row level security;
 alter table verification_codes disable row level security;
 alter table listings           disable row level security;
+
+-- ── Reviews table ─────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS reviews (
+  id            uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  listing_id    uuid REFERENCES listings(id) ON DELETE CASCADE,
+  reviewer_email text NOT NULL,
+  reviewee_email text NOT NULL,
+  rating        int  NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment       text,
+  created_at    timestamptz DEFAULT now(),
+  UNIQUE(listing_id, reviewer_email)
+);
