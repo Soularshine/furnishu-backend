@@ -349,7 +349,7 @@ app.post('/api/listings/:id/report', async (req, res) => {
   }
 });
 
-// --- ADMIN ---
+// --- ADMIN --- (v2)
 
 app.get('/api/admin/reports', async (req, res) => {
   if (req.headers['x-admin-code'] !== 'FU-OWNER-2025') return res.status(403).json({ error: 'Forbidden' });
