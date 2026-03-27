@@ -8,13 +8,13 @@ const { Resend }       = require('resend');
 
 const app = express()
 
-// ── Middleware ──────────────────────────────────────────────────────────
+// ââ Middleware ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 app.use(cors());
 app.use(express.json({ limit: '15mb' })); // allow base64 photo uploads
 app.use((req,res,next)=>{ res.set('Cache-Control','no-store'); next(); });
 app.use(express.static(path.join(__dirname, 'public'), { index: 'about.html' }));
 
-// ── Clients ─────────────────────────────────────────────────────────────
+// ââ Clients âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -22,9 +22,9 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
-// ══════════════════════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  AUTH MIDDLEWARE
-// ══════════════════════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function requireAuth(req, res, next) {
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
@@ -36,9 +36,9 @@ function requireAuth(req, res, next) {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  AUTH ROUTES
-// ══════════════════════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 // POST /api/auth/send-code
 // Generates a 4-digit code, stores it, emails it via Resend
@@ -65,7 +65,7 @@ app.post('/api/auth/send-code', async (req, res) => {
   const { error: emailErr } = await resend.emails.send({
     from:    'FurnishU <noreply@furnishu.app>',
     to:      email,
-    subject: `${code} — your FurnishU verification code`,
+    subject: `${code} â your FurnishU verification code`,
     html: `
       <div style="font-family:-apple-system,sans-serif;max-width:420px;margin:0 auto;padding:24px;">
         <h2 style="color:#6C3FC5;margin-bottom:4px;">Furnish<span style="color:#F5A623;">U</span></h2>
@@ -119,11 +119,11 @@ app.post('/api/auth/verify-code', async (req, res) => {
   res.json({ token, email: emailLower });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  LISTINGS ROUTES
-// ══════════════════════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
-// GET /api/listings — browse all active listings
+// GET /api/listings â browse all active listings
 app.get('/api/listings', async (req, res) => {
   const { category, building, q } = req.query;
 
@@ -142,7 +142,7 @@ app.get('/api/listings', async (req, res) => {
   res.json(data);
 });
 
-// POST /api/listings — create a listing (auth required)
+// POST /api/listings â create a listing (auth required)
 app.post('/api/listings', requireAuth, async (req, res) => {
   const { name, category, building, description, free, price, must_go_by, photo_base64 } = req.body;
 
@@ -167,7 +167,7 @@ app.post('/api/listings', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// PUT /api/listings/:id — update a listing (owner only)
+// PUT /api/listings/:id â update a listing (owner only)
 app.put('/api/listings/:id', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -191,7 +191,7 @@ app.put('/api/listings/:id', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// DELETE /api/listings/:id — remove a listing (owner only)
+// DELETE /api/listings/:id â remove a listing (owner only)
 app.delete('/api/listings/:id', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -206,7 +206,7 @@ app.delete('/api/listings/:id', requireAuth, async (req, res) => {
   res.json({ success: true });
 });
 
-// POST /api/listings/:id/claim — claim an item
+// POST /api/listings/:id/claim â claim an item
 app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -227,7 +227,7 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// POST /api/listings/:id/unclaim — release a claim
+// POST /api/listings/:id/unclaim â release a claim
 app.post('/api/listings/:id/unclaim', requireAuth, async (req, res) => {
   const { id } = req.params;
 
@@ -248,7 +248,7 @@ app.post('/api/listings/:id/unclaim', requireAuth, async (req, res) => {
   res.json(data);
 });
 
-// POST /api/listings/:id/pickup — confirm pickup (removes listing)
+// POST /api/listings/:id/pickup â confirm pickup (removes listing)
 app.post('/api/listings/:id/pickup', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -260,7 +260,7 @@ app.post('/api/listings/:id/pickup', requireAuth, async (req, res) => {
   }
 });
 
-// POST /api/listings/:id/contact — “I Want This” button
+// POST /api/listings/:id/contact â âI Want Thisâ button
 app.post('/api/listings/:id/contact', async (req, res) => {
   try {
     const { id } = req.params;
@@ -272,10 +272,10 @@ app.post('/api/listings/:id/contact', async (req, res) => {
     const shareUrl = `https://furnishu.app/app?listing=${listing.id}`;
     const displayName = claimerName || claimerEmail.split('@')[0];
     await resend.emails.send({ from: 'FurnishU <no-reply@furnishu.app>', to: claimerEmail,
-      subject: `You expressed interest in "${listing.name}" – FurnishU`,
+      subject: `You expressed interest in "${listing.name}" â FurnishU`,
       html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3"><p>Hi ${displayName}, you expressed interest in <strong>${listing.name}</strong> (${listing.building}). The owner will reach out at <strong>${claimerEmail}</strong>.</p><a href="${shareUrl}" style="display:inline-block;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none">View Listing</a></div></div>` });
     await resend.emails.send({ from: 'FurnishU <no-reply@furnishu.app>', to: listing.owner_email,
-      subject: `Someone wants your "${listing.name}" – FurnishU`,
+      subject: `Someone wants your "${listing.name}" â FurnishU`,
       html: `<div style="font-family:sans-serif;max-width:600px;margin:auto"><div style="background:#3D1C02;padding:24px;border-radius:8px 8px 0 0"><h1 style="color:#D97706;margin:0">FurnishU</h1></div><div style="padding:24px;background:#fdf8f3"><p><strong>${displayName}</strong> wants your listing: <strong>${listing.name}</strong>.</p><p>Reply at: <a href="mailto:${claimerEmail}" style="color:#D97706">${claimerEmail}</a></p>${message ? '<p><em>' + message + '</em></p>' : ''}<a href="${shareUrl}" style="display:inline-block;padding:12px 24px;background:#D97706;color:#fff;border-radius:6px;text-decoration:none">View Listing</a></div></div>` });
     await supabase.from('listings').update({ status: 'pending', claimed_by: claimerEmail }).eq('id', id);
     return res.json({ success: true, message: 'Emails sent to both parties' });
@@ -312,17 +312,17 @@ app.post('/api/listings/:id/report', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── Catch-all: serve frontend ────────────────────────────────────────────
+// ââ Catch-all: serve frontend ââââââââââââââââââââââââââââââââââââââââââââ
 app.get('/app', (req,res) => res.sendFile(path.join(__dirname,'public','index.html')));
 
 app.get('*', (req, res) => {
   res.redirect(302, '/about.html');
 });
 
-// ── Start ────────────────────────────────────────────────────────────────
+// ââ Start ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const PORT = process.env.PORT || 3000;
 
-// POST /api/cron/expire-listings — Railway Cron: 0 3 * * *
+// POST /api/cron/expire-listings â Railway Cron: 0 3 * * *
 app.post('/api/cron/expire-listings', async (req, res) => {
   try {
     if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) return res.status(401).json({ error: 'Unauthorized' });
@@ -337,6 +337,31 @@ app.post('/api/cron/expire-listings', async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 });
+
+// POST /api/cron/expire-listings — Railway Cron: 0 3 * * *
+app.post('/api/cron/expire-listings', async (req, res) => {
+  try {
+    const auth = req.headers.authorization || '';
+    if (auth !== 'Bearer ' + process.env.CRON_SECRET) return res.status(401).json({ error: 'Unauthorized' });
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 90);
+    const { data: expiring, error: fetchErr } = await supabase.from('listings')
+      .select('id, name, owner_email')
+      .in('status', ['available','pending'])
+      .lt('created_at', cutoff.toISOString());
+    if (fetchErr) throw fetchErr;
+    if (!expiring || !expiring.length) return res.json({ expired: 0, message: 'No listings to expire' });
+    await supabase.from('listings').update({ status: 'completed' }).in('id', expiring.map(l => l.id));
+    await Promise.allSettled(expiring.map(l => resend.emails.send({
+      from: 'FurnishU <no-reply@furnishu.app>',
+      to: l.owner_email,
+      subject: 'Your listing has expired - FurnishU',
+      html: '<p>Your listing <strong>' + l.name + '</strong> was removed after 90 days. <a href="https://furnishu.app/app">Re-post it here.</a></p>'
+    }).catch(e => console.error('[expire]', e.message))));
+    return res.json({ expired: expiring.length });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 app.listen(PORT, () => {
-  console.log(`\n🎓 FurnishU server running on http://localhost:${PORT}\n`);
+  console.log(`\nð FurnishU server running on http://localhost:${PORT}\n`);
 });
