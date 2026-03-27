@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '15mb' }));
 app.use((req,res,next)=>{ res.set('Cache-Control','no-store'); next(); });
-app.use(express.static(path.join(__dirname, 'public'), { index: 'about.html' }));
+app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }));
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
