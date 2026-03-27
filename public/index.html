@@ -317,6 +317,7 @@ textarea { resize: vertical; min-height: 80px; }
     <div class="tab active" id="tab-browse" onclick="switchTab('browse')">🏠 Browse</div>
     <div class="tab" id="tab-mine"   onclick="switchTab('mine')">📦 My Items</div>
     <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">🎁 Claimed</div>
+    <div class="tab" id="tab-admin" onclick="switchTab('admin')" style="display:none">🚩 Admin</div>
       <div id="tab-requests" onclick="switchTab('requests')" style="flex:1;padding:10px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;color:#6b7280;border-bottom:2px solid transparent;transition:all .15s">Requests</div>
   </div>
 
@@ -346,6 +347,7 @@ textarea { resize: vertical; min-height: 80px; }
           <select id="rq-cat" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px"><option value="">Any category</option><option>Furniture</option><option>Electronics</option><option>Kitchen</option><option>Bedding</option><option>Decor</option><option>Other</option></select>
           <input id="rq-bldg" placeholder="Building (optional)" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px">
         </div>
+    <div id="admin-panel" style="display:none;overflow-y:auto;padding-bottom:80px"></div>
         <button onclick="submitNeed()" style="width:100%;padding:10px;background:#f59e0b;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">Post Request</button>
       </div>
       <div id="rq-list"></div>
@@ -563,14 +565,14 @@ function logout() {
 
 function switchTab(t) {
   S.tab = t;
-  ['browse','mine','claimed','requests'].forEach(x => {
-    document.getElementById(`tab-${x}`).classList.toggle('active', x===t);
+  ['browse','mine','claimed','requests','admin'].forEach(x => {
+    const el = document.getElementById(`tab-${x}`); if(el) el.classList.toggle('active', x===t);
   });
   document.getElementById('filter-bar').style.display = t==='browse' ? 'flex' : 'none';
-  document.getElementById('fab').style.display        = t==='browse' ? 'flex' : 'none';
   document.getElementById('req-panel').style.display = t==='requests' ? '' : 'none';
-  document.getElementById('grid').style.display      = t==='requests' ? 'none' : '';
-  render();
+  document.getElementById('admin-panel').style.display = t==='admin' ? '' : 'none';
+  document.getElementById('grid').style.display = (t==='requests'||t==='admin') ? 'none' : '';
+  if (t === 'admin') loadReports(); else render();
 }
 
 
@@ -965,11 +967,72 @@ document.getElementById('email-in').addEventListener('input', function() {
   const hasAt = this.value.includes('@');
   document.getElementById('bypass-wrap').style.display = (!isEdu && hasAt) ? '' : 'none';
 });
+
+async function callAdmin(path, method='GET', body) {
+  const opts = { method, headers: { 'Content-Type': 'application/json', 'x-admin-code': 'FU-OWNER-2025' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(path, opts);
+  if (!r.ok) { const e = await r.json().catch(()=>({error:r.statusText})); throw new Error(e.error); }
+  return r.json();
+}
+
+async function loadReports() {
+  const el = document.getElementById('admin-panel');
+  if (!el) return;
+  el.innerHTML = '<p style="padding:20px;color:#888;text-align:center">Loading reports…</p>';
+  try {
+    const reports = await callAdmin('/api/admin/reports');
+    renderReports(reports);
+  } catch(e) { el.innerHTML = '<p style="padding:20px;color:#dc2626;text-align:center">Error: ' + e.message + '</p>'; }
+}
+
+function renderReports(reports) {
+  const el = document.getElementById('admin-panel');
+  if (!reports.length) {
+    el.innerHTML = '<p style="padding:40px 20px;color:#6b7280;text-align:center">No reports. All clear! 🎉</p>';
+    return;
+  }
+  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#D97706;font-size:1rem">🚩 Flagged Listings (' + reports.length + ')</div>' +
+    reports.map(r => {
+      const l = r.listings || {};
+      return '<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin:0 12px 12px;padding:16px">' +
+        '<div style="display:flex;gap:12px;align-items:flex-start">' +
+        (l.image_url ? '<img src="' + l.image_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0">' : '<div style="width:60px;height:60px;background:#f3f4f6;border-radius:8px;flex-shrink:0"></div>') +
+        '<div style="flex:1;min-width:0">' +
+        '<div style="font-weight:600;color:#111827;margin-bottom:2px">' + (l.title||'Unknown listing') + '</div>' +
+        '<div style="font-size:0.78rem;color:#6b7280">Owner: ' + (l.owner_email||'?') + (l.category?' · '+l.category:'') + '</div>' +
+        '<div style="font-size:0.82rem;margin-top:6px"><b>Reporter:</b> ' + r.reporter_email + '</div>' +
+        '<div style="font-size:0.82rem"><b>Reason:</b> ' + (r.reason||'(none)') + '</div>' +
+        '<div style="font-size:0.73rem;color:#9ca3af;margin-top:3px">' + new Date(r.created_at).toLocaleDateString() + '</div>' +
+        '</div></div>' +
+        '<div style="display:flex;gap:8px;margin-top:12px">' +
+        '<button onclick="dismissReport('' + r.id + '')" style="flex:1;padding:8px 0;background:#f3f4f6;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Dismiss</button>' +
+        '<button onclick="adminRemoveListing('' + r.listing_id + '','' + r.id + '')" style="flex:1;padding:8px 0;background:#fee2e2;color:#dc2626;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Remove Listing</button>' +
+        '</div></div>';
+    }).join('');
+}
+
+async function dismissReport(id) {
+  try { await callAdmin('/api/admin/reports/'+id,'DELETE'); toast('Report dismissed.'); loadReports(); }
+  catch(e) { toast(e.message||'Could not dismiss report.'); }
+}
+
+async function adminRemoveListing(listingId, reportId) {
+  if (!confirm('Remove this listing and dismiss the report? This cannot be undone.')) return;
+  try {
+    await call('/api/listings/'+listingId,'DELETE');
+    await callAdmin('/api/admin/reports/'+reportId,'DELETE').catch(()=>{});
+    toast('Listing removed.'); loadReports(); load();
+  } catch(e) { toast(e.message||'Could not remove listing.'); }
+}
+
 function bypassLogin() {
   const code = document.getElementById('bypass-in').value.trim();
   const email = document.getElementById('email-in').value.trim();
   if (!email) { alert('Enter your email first.'); return; }
   if (code === 'FU-OWNER-2025') {
+    S.isAdmin = true;
+    const at = document.getElementById('tab-admin'); if(at) at.style.display='';
     showApp(email);
   } else {
     const el = document.getElementById('bypass-in');
