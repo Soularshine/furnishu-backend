@@ -354,12 +354,18 @@ app.post('/api/listings/:id/report', async (req, res) => {
 app.get('/api/admin/reports', async (req, res) => {
   if (req.headers['x-admin-code'] !== 'FU-OWNER-2025') return res.status(403).json({ error: 'Forbidden' });
   try {
-    const { data, error } = await supabase
+    const { data: reports, error: rErr } = await supabase
       .from('reports')
-      .select('id, listing_id, reporter_email, reason, created_at, listings(title, category, owner_email, image_url)')
+      .select('id, listing_id, reporter_email, reason, created_at')
       .order('created_at', { ascending: false });
-    if (error) return res.status(500).json({ error: error.message });
-    res.json(data || []);
+    if (rErr) return res.status(500).json({ error: rErr.message });
+    const ids = [...new Set((reports||[]).map(r => r.listing_id).filter(Boolean))];
+    let listingsMap = {};
+    if (ids.length) {
+      const { data: ls } = await supabase.from('listings').select('id, title, category, owner_email, image_url').in('id', ids);
+      (ls||[]).forEach(l => { listingsMap[l.id] = l; });
+    }
+    res.json((reports||[]).map(r => ({ ...r, listings: listingsMap[r.listing_id] || null })));
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
