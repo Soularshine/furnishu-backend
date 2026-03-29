@@ -186,6 +186,15 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
       .select()
       .single();
     if (error) return res.status(500).json({ error: error.message });
+    // Notify owner of pickup
+    if (resend && listing && listing.owner_email) {
+      resend.emails.send({
+        from: 'FurnishU <noreply@furnishu.app>',
+        to: listing.owner_email,
+        subject: 'Your item was picked up on FurnishU!',
+        html: `<p>Hi there!</p><p>Someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Thank you for giving furniture a new home. 🎉</p><p>— The FurnishU Team</p>`
+      }).catch(e => console.error('pickup-notify email error:', e.message));
+    }
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
