@@ -411,6 +411,9 @@ app.get('/api/my-listings', requireAuth, async (req, res) => {
   }
 });
 
+// HEALTH CHECK
+app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
+
 app.listen(PORT, () => {
   console.log('FurnishU running on port ' + PORT);
 });
