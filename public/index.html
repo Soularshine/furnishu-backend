@@ -605,7 +605,7 @@ function render() {
   const bld = (document.getElementById('bld-in')||{}).value || '';
   let items = S.listings;
   if (S.tab==='mine')    items = items.filter(l=>l.owner_email===S.email);
-  else if (S.tab==='claimed') items = items.filter(l=>l.claimed_by===S.email);
+  else if (S.tab==='claimed') items = items.filter(l=>l.claimer_email===S.email);
   else {
     if (cat) items = items.filter(l=>l.category===cat);
   if (bld) items = items.filter(l => l.building === bld);
@@ -637,7 +637,7 @@ function cardHTML(l) {
   const photo = l.photo_base64
     ? `<div class="card-img"><img src="${l.photo_base64}" alt="" loading="lazy"/></div>`
     : `<div class="card-img">${catIcon(l.category)}</div>`;
-  const pBadge = l.status==='pending'
+  const pBadge = l.status==='claimed'
     ? `<span class="badge badge-pend">Claimed</span>`
     : l.free ? `<span class="badge badge-free">FREE</span>`
              : `<span class="badge badge-paid">$${(+l.price).toFixed(2)}</span>`;
@@ -664,7 +664,7 @@ function openDetail(id) {
   const l = S.listings.find(x=>x.id===id);
   if (!l) return;
   const mine    = l.owner_email===S.email;
-  const claimer = l.claimed_by===S.email;
+  const claimer = l.claimer_email===S.email;
 
   document.getElementById('d-title').textContent = l.name;
   document.getElementById('d-name').textContent  = l.name;
@@ -679,7 +679,7 @@ function openDetail(id) {
   const pb = l.free
     ? `<span class="badge badge-free detail-badge">FREE</span>`
     : `<span class="badge badge-paid detail-badge">$${(+l.price).toFixed(2)}</span>`;
-  const sb = l.status==='pending' ? `<span class="badge badge-pend detail-badge">Claimed</span>` : '';
+  const sb = l.status==='claimed' ? `<span class="badge badge-pend detail-badge">Claimed</span>` : '';
   const cb = `<span class="badge detail-badge" style="background:var(--gray-light);color:var(--text)">${esc(l.category)}</span>`;
   document.getElementById('d-badges').innerHTML = pb+cb+sb;
 
