@@ -289,6 +289,7 @@ app.post('/api/cron/expire-listings', async (req, res) => {
   if (CRON_SECRET && secret !== CRON_SECRET) return res.status(401).json({ error: 'Unauthorized' });
   try {
     await expireOldListings();
+    await warnExpiringListings();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -393,6 +394,22 @@ const PORT = process.env.PORT || 3000;
 
 expireOldListings();
 setInterval(expireOldListings, 24 * 60 * 60 * 1000);
+
+
+// MY LISTINGS
+app.get('/api/my-listings', requireAuth, async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('listings')
+      .select('id, name, description, category, building, room, condition, status, created_at, claimed_at, claimer_email, avg_rating, rating_count')
+      .eq('owner_email', req.user.email)
+      .order('created_at', { ascending: false });
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log('FurnishU running on port ' + PORT);
