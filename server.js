@@ -282,6 +282,36 @@ async function expireOldListings() {
   }
 }
 
+
+async function warnExpiringListings() {
+  const cutoffEnd   = new Date(); cutoffEnd.setDate(cutoffEnd.getDate() - 27);
+  const cutoffStart = new Date(); cutoffStart.setDate(cutoffStart.getDate() - 28);
+
+  const { data: expiring } = await supabase
+    .from('listings')
+    .select('id, owner_email')
+    .eq('status', 'available')
+    .lt('created_at', cutoffEnd.toISOString())
+    .gt('created_at', cutoffStart.toISOString());
+
+  if (!expiring || expiring.length === 0) return;
+
+  await Promise.allSettled(
+    expiring.map(l => {
+      if (resend) {
+        return resend.emails.send({
+          from:    'FurnishU <noreply@furnishu.app>',
+          to:      l.owner_email,
+          subject: 'Your FurnishU listing expires in 3 days',
+          html:    '<p>Your listing will be automatically removed in 3 days. Visit FurnishU to renew or mark it as sold.</p>'
+        }).catch(e => console.error('[warn email]', e.message));
+      }
+    })
+  );
+
+  console.log('[warned]', expiring.length, 'listing(s)');
+}
+
 // --- CRON ENDPOINT ---
 
 app.post('/api/cron/expire-listings', async (req, res) => {
