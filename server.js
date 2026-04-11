@@ -203,7 +203,7 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
         from: 'FurnishU <noreply@furnishu.app>',
         to: listing.owner_email,
         subject: 'Your item was picked up on FurnishU!',
-        html: `<p>Hi there!</p><p>Great news â someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! ð</p><p>â The FurnishU Team</p>`
+        html: `<p>Hi there!</p><p>Great news Ã¢ÂÂ someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! Ã°ÂÂÂ</p><p>Ã¢ÂÂ The FurnishU Team</p>`
       }).catch(e => console.error('pickup-notify email error:', e.message));
     }
     res.json(data);
@@ -324,7 +324,7 @@ async function warnExpiringListings() {
 }
 
 
-// POST /api/listings/:id/extend  — push must_go_by out 30 days
+// POST /api/listings/:id/extend  â push must_go_by out 30 days
 app.post('/api/listings/:id/extend', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -471,6 +471,9 @@ app.get('/api/my-listings', requireAuth, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// APP ROUTE — serves sign-in page
+app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 // HEALTH CHECK
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
