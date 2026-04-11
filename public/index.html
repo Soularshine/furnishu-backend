@@ -10,7 +10,7 @@
 <title>FurnishU</title>
 <style>
 :root {
-  --primary: #dade58;
+  --primary: #69b259;
   --primary-h: #6b3132;
   --primary-pale: #f5f9e0;
   --gray: #6B7280;
@@ -105,7 +105,7 @@ textarea { resize: vertical; min-height: 80px; }
 #app-screen { display: none; min-height: 100vh; flex-direction: column; }
 
 .topbar {
-  background: var(--primary); color: #2d2d2d;
+  background: #dade58; color: #2d2d2d;
   padding: 0 16px; height: 54px;
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 100;
@@ -165,7 +165,7 @@ textarea { resize: vertical; min-height: 80px; }
 
 .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
 .badge-free  { background: #D1FAE5; color: #c94d80; }
-.badge-paid  { background: #FEF3C7; color: #dade58; }
+.badge-paid  { background: #FEF3C7; color: #69b259; }
 .badge-pend  { background: #DBEAFE; color: #1E40AF; }
 .badge-mine  { background: var(--primary-pale); color: var(--primary); }
 .urgent { font-size: 11px; font-weight: 700; color: #DC2626; }
@@ -436,7 +436,7 @@ textarea { resize: vertical; min-height: 80px; }
 const CFG = {
   school:   'FurnishU',
   short:    'EDU',
-  primary:  '#dade58',   // walnut
+  primary:  '#69b259',   // walnut
   hover:    '#6b3132',
   pale:     '#f5f9e0',
   valid:    e => e.endsWith('.edu')};
@@ -724,7 +724,7 @@ function openDetail(id) {
   if (isOwner) {
     const ob = document.createElement('div');
     ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f5f9e0';
-    ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #69b259;color:#dade58;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
+    ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #69b259;color:#69b259;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
       + '<button onclick="deleteListing(\'' + l.id + '\')" style="padding:8px 14px;background:#fef2f2;border:1.5px solid #f87171;color:#b91c1c;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Delete</button>';
     document.getElementById('d-actions').appendChild(ob);
   }
@@ -768,7 +768,7 @@ function launchConfetti() {
   const pieces = Array.from({length:120}, () => ({
     x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
     r: Math.random() * 7 + 3, d: Math.random() * 0.8 + 0.5,
-    color: ['#f44336','#e084a5','#dade58','#dade58','#e084a5','#00bcd4','#e084a5','#69b259','#69b259'][Math.floor(Math.random()*9)],
+    color: ['#f44336','#e084a5','#69b259','#69b259','#e084a5','#00bcd4','#e084a5','#69b259','#69b259'][Math.floor(Math.random()*9)],
     tilt: Math.random() * 10 - 5, tiltAngle: 0, tiltSpeed: Math.random() * 0.07 + 0.05
   }));
   let frame = 0;
@@ -1365,7 +1365,7 @@ async function reportListing(id) {
 
 </script>
 
-<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;display:flex;justify-content:center;gap:20px;"><a href="/about.html" style="color:#dade58;text-decoration:none;font-weight:500;">About FurnishU</a><a href="/feedback" style="color:#69b259;text-decoration:none;font-weight:500;">Give Feedback</a></div>
+<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;display:flex;justify-content:center;gap:20px;"><a href="/about.html" style="color:#69b259;text-decoration:none;font-weight:500;">About FurnishU</a><a href="/feedback" style="color:#69b259;text-decoration:none;font-weight:500;">Give Feedback</a></div>
 <style>
 @keyframes deepLinkPulse {
   0%   { box-shadow: 0 0 0 0 rgba(217,119,6,.55); }
