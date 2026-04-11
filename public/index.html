@@ -271,7 +271,7 @@ textarea { resize: vertical; min-height: 80px; }
   <div class="auth-card">
     <div class="logo">Furnish<span>U</span></div>
     <div class="tagline">Furnish your college life. Help others furnish theirs.</div>
-    <div class="school-badge" id="school-badge">Any .edu ✓ All Welcome</div>
+    <div class="school-badge" id="school-badge">Any .edu â All Welcome</div>
 
     <!-- Step 1 -->
     <div id="step-email">
@@ -314,15 +314,15 @@ textarea { resize: vertical; min-height: 80px; }
   </div>
 
   <div class="tabs">
-    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">🏠 Browse</div>
-    <div class="tab" id="tab-mine"   onclick="switchTab('mine')">📦 My Items</div>
-    <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">🎁 Claimed</div>
-    <div class="tab" id="tab-admin" onclick="switchTab('admin')" style="display:none">🚩 Admin</div>
+    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">ð  Browse</div>
+    <div class="tab" id="tab-mine"   onclick="switchTab('mine')">ð¦ My Items</div>
+    <div class="tab" id="tab-claimed" onclick="switchTab('claimed')">ð Claimed</div>
+    <div class="tab" id="tab-admin" onclick="switchTab('admin')" style="display:none">ð© Admin</div>
       <div id="tab-requests" onclick="switchTab('requests')" style="flex:1;padding:10px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;color:#6b7280;border-bottom:2px solid transparent;transition:all .15s">Requests</div>
   </div>
 
   <div class="filters" id="filter-bar">
-    <input  type="text" id="q-in"  placeholder="🔍 Search…" oninput="render()" />
+    <input  type="text" id="q-in"  placeholder="ð Searchâ¦" oninput="render()" />
     <select id="cat-in" onchange="render()">
       <option value="">All Categories</option>
       <option>Furniture</option><option>Bedding</option><option>Kitchen</option>
@@ -332,8 +332,8 @@ textarea { resize: vertical; min-height: 80px; }
     <select id="bld-in" onchange="render()">
       <option value="">All Buildings</option>
     </select>
-      <input id="srch-in" type="search" placeholder="Search listings…" oninput="render()" style="padding:6px 10px;border:1px solid #ccc;border-radius:6px;font-size:14px;width:180px">
-    <button id="notify-btn" onclick="toggleSubscribe()" title="Get notified of new listings" style="background:none;border:1px solid var(--gray-med);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;color:var(--gray);white-space:nowrap;">🔔 Notify me</button>
+      <input id="srch-in" type="search" placeholder="Search listingsâ¦" oninput="render()" style="padding:6px 10px;border:1px solid #ccc;border-radius:6px;font-size:14px;width:180px">
+    <button id="notify-btn" onclick="toggleSubscribe()" title="Get notified of new listings" style="background:none;border:1px solid var(--gray-med);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;color:var(--gray);white-space:nowrap;">ð Notify me</button>
   </div>
 
   <div class="listings-wrap">
@@ -362,7 +362,7 @@ textarea { resize: vertical; min-height: 80px; }
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title" id="post-title">Post an Item</div>
-    <button id="moveout-btn" onclick="toggleMoveOut()" title="Post multiple items back-to-back" style="background:none;border:1px solid var(--gray-med);border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer;color:var(--gray);">📦 Move-Out Mode</button>
+    <button id="moveout-btn" onclick="toggleMoveOut()" title="Post multiple items back-to-back" style="background:none;border:1px solid var(--gray-med);border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer;color:var(--gray);">ð¦ Move-Out Mode</button>
       <button class="close-btn" onclick="closePost()">&#x2715;</button>
     </div>
     <div class="field"><label>Item Name *</label>
@@ -379,7 +379,7 @@ textarea { resize: vertical; min-height: 80px; }
         <div style="margin-bottom:12px">
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:4px">Condition</label>
           <select id="p-cond" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff">
-            <option value="">— select —</option>
+            <option value="">â select â</option>
             <option value="Like New">Like New</option>
             <option value="Good">Good</option>
             <option value="Fair">Fair</option>
@@ -387,7 +387,7 @@ textarea { resize: vertical; min-height: 80px; }
           </select>
         </div>
     <div class="field"><label>Description</label>
-      <textarea id="p-desc" placeholder="Condition, size, any details worth knowing…"></textarea></div>
+      <textarea id="p-desc" placeholder="Condition, size, any details worth knowingâ¦"></textarea></div>
     <div class="field">
       <div class="free-row">
         <input type="checkbox" id="p-free" checked onchange="togglePrice()" />
@@ -402,7 +402,7 @@ textarea { resize: vertical; min-height: 80px; }
       <input type="date" id="p-date" /></div>
     <div class="field"><label>Photo (optional)</label>
       <div class="photo-zone" onclick="document.getElementById('photo-in').click()">
-        📷 Tap to add a photo
+        ð· Tap to add a photo
         <img id="photo-prev" alt="preview" />
       </div>
       <input type="file" id="photo-in" accept="image/*" style="display:none" onchange="handlePhoto()" />
@@ -450,7 +450,7 @@ R.setProperty('--primary-pale', CFG.pale);
 document.getElementById('school-badge').textContent = CFG.school;
 document.getElementById('auth-sub').textContent = `Use your ${CFG.short} .edu email to get started.`;
 document.getElementById('email-in').placeholder = `you@tsu.edu`;
-document.title = `FurnishU — ${CFG.school}`;
+document.title = `FurnishU â ${CFG.school}`;
 
 
 // STATE
@@ -477,7 +477,14 @@ function showAuth() {
 function showApp() {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('app-screen').style.display  = 'flex';
-  load();
+  load().then(() => {
+    const params = new URLSearchParams(window.location.search);
+    const lid = params.get('listing');
+    if (lid) {
+      const match = S.listings.find(x => String(x.id) === lid);
+      if (match) openDetail(match.id);
+    }
+  });
 }
 
 
@@ -495,7 +502,7 @@ async function resendCode() {
     toast('Code resent! Check your inbox (and spam folder).');
     ['d0','d1','d2','d3'].forEach(id => { document.getElementById(id).value = ''; });
     document.getElementById('d0').focus();
-  } catch(e) { toast('Could not resend — please try again.'); }
+  } catch(e) { toast('Could not resend â please try again.'); }
 }
 
 async function sendCode() {
@@ -511,7 +518,7 @@ async function sendCode() {
       show('step-otp'); hide('step-email');
       document.getElementById('d0').focus();
     } else toast(r.error || 'Could not send code.');
-  } catch(e) { toast('Network error — please try again.'); }
+  } catch(e) { toast('Network error â please try again.'); }
   setLoading(btn, false, 'Send Verification Code');
 }
 
@@ -544,7 +551,7 @@ async function verifyCode() {
       [0,1,2,3].forEach(n=>{ document.getElementById(`d${n}`).value=''; });
       document.getElementById('d0').focus();
     }
-  } catch(e) { toast('Network error — please try again.'); }
+  } catch(e) { toast('Network error â please try again.'); }
   setLoading(btn, false, 'Verify Code');
 }
 
@@ -620,9 +627,9 @@ function render() {
   const grid = document.getElementById('grid');
   if (!items.length) {
     const m = {
-      browse:  {i:'🏠', h:'No listings yet',      p:'Be the first to post something!'},
-      mine:    {i:'📦', h:'You haven\'t posted anything yet', p:'Tap + to list an item.'},
-      claimed: {i:'🎁', h:'Nothing claimed yet',   p:'Browse items and claim one.'},
+      browse:  {i:'ð ', h:'No listings yet',      p:'Be the first to post something!'},
+      mine:    {i:'ð¦', h:'You haven\'t posted anything yet', p:'Tap + to list an item.'},
+      claimed: {i:'ð', h:'Nothing claimed yet',   p:'Browse items and claim one.'},
     }[S.tab];
     grid.innerHTML = `<div class="empty"><div class="empty-icon">${m.i}</div><h3>${m.h}</h3><p>${m.p}</p></div>`;
     return;
@@ -641,20 +648,20 @@ function cardHTML(l) {
     ? `<span class="badge badge-pend">Claimed</span>`
     : l.free ? `<span class="badge badge-free">FREE</span>`
              : `<span class="badge badge-paid">$${(+l.price).toFixed(2)}</span>`;
-  const urgTxt = urg ? `<span class="urgent">⚡ ${days<=0?'Today!':days===1?'1 day':days+'d'}</span>` : '';
+  const urgTxt = urg ? `<span class="urgent">â¡ ${days<=0?'Today!':days===1?'1 day':days+'d'}</span>` : '';
   return `<div class="card" data-listing-id="${l.id}" onclick="openDetail('${l.id}')">
     ${photo}
     <div class="card-body">
       <div class="card-name">${esc(l.name)}</div>
           + (l.avg_rating ? '<div style="font-size:12px;color:#f59e0b;margin-top:2px">' + ''.repeat(Math.round(l.avg_rating)) + ''.repeat(5-Math.round(l.avg_rating)) + ' <span style="color:#888;font-size:11px">(' + l.avg_rating + ')</span></div>' : '')
       + (l.condition ? '<span style="display:inline-block;margin-top:3px;padding:2px 7px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;font-size:11px;color:#15803d;font-weight:600">' + l.condition + '</span>' : '')
-      <div class="card-loc">📍 ${esc(l.building)}</div>
+      <div class="card-loc">ð ${esc(l.building)}</div>
       <div class="card-foot">${pBadge}${mine?'<span class="badge badge-mine">Mine</span>':''}${urgTxt}</div>
     </div></div>`;
 }
 
 function catIcon(c) {
-  return {Furniture:'🛋️',Bedding:'🛏️',Kitchen:'🍳',Electronics:'💻',Decor:'🎨',Clothing:'👕',Books:'📚',Other:'📦'}[c]||'ð¦';
+  return {Furniture:'ðï¸',Bedding:'ðï¸',Kitchen:'ð³',Electronics:'ð»',Decor:'ð¨',Clothing:'ð',Books:'ð',Other:'ð¦'}[c]||'Ã°ÂÂÂ¦';
 }
 
 
@@ -689,7 +696,7 @@ function openDetail(id) {
   if (l.description) info += `<p>${esc(l.description)}</p><br>`;
   info += `<p> <strong>${esc(l.building)}</strong></p>`;
   if (days!==null) {
-    const dStr = days<=0 ? '⚠️ Needed gone today!' : days===1 ? '⚠️ Must go tomorrow!'
+    const dStr = days<=0 ? 'â ï¸ Needed gone today!' : days===1 ? 'â ï¸ Must go tomorrow!'
       : `Must be picked up by ${new Date(l.must_go_by).toLocaleDateString()}`;
     info += `<p style="margin-top:6px;${days<=2?'color:#DC2626;font-weight:700;':''}">${dStr}</p>`;
   }
@@ -700,14 +707,15 @@ function openDetail(id) {
   if (mine) {
     act = `<div style="display:flex;gap:8px">
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="openEdit('${l.id}');closeDetail()"> Edit</button>
-      <button class="btn btn-danger btn-sm" style="flex:1" onclick="delListing('${l.id}')">🗑 Delete</button>
+      <button class="btn btn-danger btn-sm" style="flex:1" onclick="delListing('${l.id}')">ð Delete</button>
+      <button class="btn btn-sm" style="flex:1;background:#15803d;color:#fff" onclick="extendListing('${l.id}')">ð +30 days</button>
     </div>`;
   } else if (l.status==='available') {
     act = `<button class="btn" onclick="claimIt('${l.id}')"> Claim Claim This Item</button>`;
   } else if (claimer) {
     act = `<div style="display:flex;gap:8px">
-      <button class="btn btn-gray btn-sm" style="flex:1" onclick="unclaimIt('${l.id}')">✕ Unclaim</button>
-      <button class="btn btn-sm" style="flex:1" onclick="pickupIt('${l.id}')">✓ Confirm Pickup</button>
+      <button class="btn btn-gray btn-sm" style="flex:1" onclick="unclaimIt('${l.id}')">â Unclaim</button>
+      <button class="btn btn-sm" style="flex:1" onclick="pickupIt('${l.id}')">â Confirm Pickup</button>
     </div>`;
   } else {
     act = `<p style="text-align:center;color:var(--gray);font-size:14px;padding:10px">This item has already been claimed.</p>`;
@@ -738,9 +746,9 @@ async function claimIt(id) {
     const listing = await call(`/api/listings/${id}/claim`, 'POST');
     const ownerEmail = listing?.owner_email || '';
     if (ownerEmail) {
-      toast(`Item claimed! ✉ Owner: ${ownerEmail}`, 9000);
+      toast(`Item claimed! â Owner: ${ownerEmail}`, 9000);
     } else {
-      toast('Item claimed! 📬 Reach out to the owner to arrange pickup.');
+      toast('Item claimed! ð¬ Reach out to the owner to arrange pickup.');
     }
     closeDetail(); await load(); switchTab('claimed');
   } catch(e) { toast(e.message||'Could not claim item.'); }
@@ -783,7 +791,7 @@ async function pickupIt(id) {
   if (!confirm('Confirm you picked up this item? It will be removed from the feed.')) return;
   try {
     await call(`/api/listings/${id}/pickup`, 'POST');
-    launchConfetti(); closeDetail(); toast('🎉 Pickup confirmed! You just made someone\'s day!'); await load(); switchTab('browse');
+    launchConfetti(); closeDetail(); toast('ð Pickup confirmed! You just made someone\'s day!'); await load(); switchTab('browse');
   } catch(e) { toast(e.message||'Could not confirm pickup.'); }
 }
 
@@ -800,7 +808,7 @@ async function editListing(id) {
   if (bldEl) bldEl.value = l.building || '';
   S._editId = id;
   switchTab('post');
-  toast('Editing "' + l.name + '" — update fields and resubmit');
+  toast('Editing "' + l.name + '" â update fields and resubmit');
 }
 
 async function deleteListing(id) {
@@ -907,11 +915,11 @@ async function submitPost() {
     } else {
     const data = S._editId ? await call('/api/listings/' + S._editId, 'PATCH', {...body, owner_email: S.email}) : await call('/api/listings', 'POST', body);
     S._editId = null;
-      toast('Item posted! ✓');
+      toast('Item posted! â');
     }
       if (window._moveOutMode) {
         window._moveOutCount = (window._moveOutCount || 0) + 1;
-        toast('✓ Posted! ' + window._moveOutCount + ' item(s) listed — form ready for next.');
+        toast('â Posted! ' + window._moveOutCount + ' item(s) listed â form ready for next.');
         ['p-name','p-desc','p-price','p-date'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
         const fc = document.getElementById('p-free'); if(fc) fc.checked = false;
         const pc = document.getElementById('photo-prev'); if(pc){pc.src='';pc.style.display='none';}
@@ -933,6 +941,26 @@ async function delListing(id) {
     toast('Listing deleted.'); closeDetail(); await load();
   } catch(e) { toast('Could not delete listing.'); }
 }
+async function extendListing(id) {
+  if (!confirm('Extend this listing by 30 days?')) return;
+  try {
+    const data = await call('/api/listings/' + id + '/extend', 'POST');
+    if (data.success) {
+      toast('Listing extended by 30 days!');
+      // Update local state
+      const l = S.listings.find(x => x.id === id);
+      if (l) l.must_go_by = data.must_go_by;
+      closeDetail();
+      render();
+    } else {
+      toast(data.error || 'Could not extend listing.');
+    }
+  } catch (e) {
+    toast('Could not extend listing.');
+  }
+}
+
+
 
 
 // API
@@ -997,7 +1025,7 @@ async function callAdmin(path, method='GET', body) {
 async function loadReports() {
   const el = document.getElementById('admin-panel');
   if (!el) return;
-  el.innerHTML = '<p style="padding:20px;color:#888;text-align:center">Loading reports…</p>';
+  el.innerHTML = '<p style="padding:20px;color:#888;text-align:center">Loading reportsâ¦</p>';
   try {
     const reports = await callAdmin('/api/admin/reports');
     renderReports(reports);
@@ -1007,10 +1035,10 @@ async function loadReports() {
 function renderReports(reports) {
   const el = document.getElementById('admin-panel');
   if (!reports.length) {
-    el.innerHTML = '<p style="padding:40px 20px;color:#6b7280;text-align:center">No reports. All clear! 🎉</p>';
+    el.innerHTML = '<p style="padding:40px 20px;color:#6b7280;text-align:center">No reports. All clear! ð</p>';
     return;
   }
-  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#D97706;font-size:1rem">🚩 Flagged Listings (' + reports.length + ')</div>' +
+  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#D97706;font-size:1rem">ð© Flagged Listings (' + reports.length + ')</div>' +
     reports.map(r => {
       const l = r.listings || {};
       return '<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin:0 12px 12px;padding:16px">' +
@@ -1018,7 +1046,7 @@ function renderReports(reports) {
         (l.image_url ? '<img src="' + l.image_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0">' : '<div style="width:60px;height:60px;background:#f3f4f6;border-radius:8px;flex-shrink:0"></div>') +
         '<div style="flex:1;min-width:0">' +
         '<div style="font-weight:600;color:#111827;margin-bottom:2px">' + (l.title||'Unknown listing') + '</div>' +
-        '<div style="font-size:0.78rem;color:#6b7280">Owner: ' + (l.owner_email||'?') + (l.category?' · '+l.category:'') + '</div>' +
+        '<div style="font-size:0.78rem;color:#6b7280">Owner: ' + (l.owner_email||'?') + (l.category?' Â· '+l.category:'') + '</div>' +
         '<div style="font-size:0.82rem;margin-top:6px"><b>Reporter:</b> ' + r.reporter_email + '</div>' +
         '<div style="font-size:0.82rem"><b>Reason:</b> ' + (r.reason||'(none)') + '</div>' +
         '<div style="font-size:0.73rem;color:#9ca3af;margin-top:3px">' + new Date(r.created_at).toLocaleDateString() + '</div>' +
@@ -1117,7 +1145,7 @@ if (_baseOpenDetail) {
       }
       if (badges && isUrgent(listing.must_go_by)) {
         const urg = document.createElement('span');
-        urg.textContent = '⚡ Urgent Urgent — tap to remove';
+        urg.textContent = 'â¡ Urgent Urgent â tap to remove';
         urg.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:#FEE2E2;color:#DC2626;';
         badges.appendChild(urg);
       }
@@ -1220,7 +1248,7 @@ async function toggleSubscribe() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, category: cat })
     });
-    if (r.ok) toast('🔔 Subscribed! You\'ll be notified of new ' + label + '.');
+    if (r.ok) toast('ð Subscribed! You\'ll be notified of new ' + label + '.');
     else toast('Could not subscribe. Try again.');
   } catch(e) { toast('Error: ' + e.message); }
 }
@@ -1238,7 +1266,7 @@ async function toggleSubscribe() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: e, category: cat })
     });
-    toast(r.ok ? '✓ Unsubscribed successfully.' : 'Could not unsubscribe.');
+    toast(r.ok ? 'â Unsubscribed successfully.' : 'Could not unsubscribe.');
   } catch(e2) { toast('Error: ' + e2.message); }
 })();
 
@@ -1254,7 +1282,7 @@ function toggleMoveOut() {
     btn.style.color = 'white';
     btn.style.borderColor = '#6C63FF';
     btn.textContent = ' Move-Out ON';
-    toast('📦 Move-Out Mode on — form stays open after each post!', 3000);
+    toast('ð¦ Move-Out Mode on â form stays open after each post!', 3000);
   } else {
     btn.style.background = '';
     btn.style.color = 'var(--gray)';
