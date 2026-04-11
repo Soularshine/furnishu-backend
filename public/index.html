@@ -10,9 +10,9 @@
 <title>FurnishU</title>
 <style>
 :root {
-  --primary: #3D1C02;
-  --primary-h: #5C2A0A;
-  --primary-pale: #FDF6EC;
+  --primary: #8b4041;
+  --primary-h: #6b3132;
+  --primary-pale: #f6dceb;
   --gray: #6B7280;
   --gray-light: #F3F4F6;
   --gray-med: #D1D5DB;
@@ -164,8 +164,8 @@ textarea { resize: vertical; min-height: 80px; }
 .card-foot { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
 
 .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
-.badge-free  { background: #D1FAE5; color: #065F46; }
-.badge-paid  { background: #FEF3C7; color: #92400E; }
+.badge-free  { background: #D1FAE5; color: #c94d80; }
+.badge-paid  { background: #FEF3C7; color: #8b4041; }
 .badge-pend  { background: #DBEAFE; color: #1E40AF; }
 .badge-mine  { background: var(--primary-pale); color: var(--primary); }
 .urgent { font-size: 11px; font-weight: 700; color: #DC2626; }
@@ -300,7 +300,7 @@ textarea { resize: vertical; min-height: 80px; }
         <input type="tel" maxlength="1" id="d3" oninput="otpIn(3)" onkeydown="otpKey(event,3)" />
       </div>
       <button class="btn" id="verify-btn" onclick="verifyCode()">Verify Code</button>
-      <p style="margin-top:14px;font-size:0.85rem;color:#888">Didn't receive it? <button onclick="resendCode()" style="background:none;border:none;color:#D97706;cursor:pointer;font-size:inherit;text-decoration:underline;padding:0">Resend code</button></p>
+      <p style="margin-top:14px;font-size:0.85rem;color:#888">Didn't receive it? <button onclick="resendCode()" style="background:none;border:none;color:#f9dc0f;cursor:pointer;font-size:inherit;text-decoration:underline;padding:0">Resend code</button></p>
       <div class="back-link"><a href="#" onclick="backToEmail();return false;">Use a different email</a></div>
     </div>
   </div>
@@ -348,7 +348,7 @@ textarea { resize: vertical; min-height: 80px; }
           <input id="rq-bldg" placeholder="Building (optional)" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px">
         </div>
     <div id="admin-panel" style="display:none;overflow-y:auto;padding-bottom:80px"></div>
-        <button onclick="submitNeed()" style="width:100%;padding:10px;background:#f59e0b;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">Post Request</button>
+        <button onclick="submitNeed()" style="width:100%;padding:10px;background:#f9dc0f;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">Post Request</button>
       </div>
       <div id="rq-list"></div>
     </div>
@@ -436,9 +436,9 @@ textarea { resize: vertical; min-height: 80px; }
 const CFG = {
   school:   'FurnishU',
   short:    'EDU',
-  primary:  '#3D1C02',   // walnut
-  hover:    '#5C2A0A',
-  pale:     '#FDF6EC',
+  primary:  '#8b4041',   // walnut
+  hover:    '#6b3132',
+  pale:     '#f6dceb',
   valid:    e => e.endsWith('.edu')};
 
 // Apply colors
@@ -653,8 +653,8 @@ function cardHTML(l) {
     ${photo}
     <div class="card-body">
       <div class="card-name">${esc(l.name)}</div>
-          + (l.avg_rating ? '<div style="font-size:12px;color:#f59e0b;margin-top:2px">' + ''.repeat(Math.round(l.avg_rating)) + ''.repeat(5-Math.round(l.avg_rating)) + ' <span style="color:#888;font-size:11px">(' + l.avg_rating + ')</span></div>' : '')
-      + (l.condition ? '<span style="display:inline-block;margin-top:3px;padding:2px 7px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;font-size:11px;color:#15803d;font-weight:600">' + l.condition + '</span>' : '')
+          + (l.avg_rating ? '<div style="font-size:12px;color:#f9dc0f;margin-top:2px">' + ''.repeat(Math.round(l.avg_rating)) + ''.repeat(5-Math.round(l.avg_rating)) + ' <span style="color:#888;font-size:11px">(' + l.avg_rating + ')</span></div>' : '')
+      + (l.condition ? '<span style="display:inline-block;margin-top:3px;padding:2px 7px;background:#fce8f3;border:1px solid #ffd6ea;border-radius:12px;font-size:11px;color:#ee6a99;font-weight:600">' + l.condition + '</span>' : '')
       <div class="card-loc">ð ${esc(l.building)}</div>
       <div class="card-foot">${pBadge}${mine?'<span class="badge badge-mine">Mine</span>':''}${urgTxt}</div>
     </div></div>`;
@@ -708,7 +708,7 @@ function openDetail(id) {
     act = `<div style="display:flex;gap:8px">
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="openEdit('${l.id}');closeDetail()"> Edit</button>
       <button class="btn btn-danger btn-sm" style="flex:1" onclick="delListing('${l.id}')">ð Delete</button>
-      <button class="btn btn-sm" style="flex:1;background:#15803d;color:#fff" onclick="extendListing('${l.id}')">ð +30 days</button>
+      <button class="btn btn-sm" style="flex:1;background:#ee6a99;color:#fff" onclick="extendListing('${l.id}')">ð +30 days</button>
     </div>`;
   } else if (l.status==='available') {
     act = `<button class="btn" onclick="claimIt('${l.id}')"> Claim Claim This Item</button>`;
@@ -724,7 +724,7 @@ function openDetail(id) {
   if (isOwner) {
     const ob = document.createElement('div');
     ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f3f4f6';
-    ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fffbeb;border:1.5px solid #f59e0b;color:#92400e;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
+    ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #f9dc0f;color:#8b4041;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
       + '<button onclick="deleteListing(\'' + l.id + '\')" style="padding:8px 14px;background:#fef2f2;border:1.5px solid #f87171;color:#b91c1c;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Delete</button>';
     document.getElementById('d-actions').appendChild(ob);
   }
@@ -768,7 +768,7 @@ function launchConfetti() {
   const pieces = Array.from({length:120}, () => ({
     x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
     r: Math.random() * 7 + 3, d: Math.random() * 0.8 + 0.5,
-    color: ['#f44336','#e91e63','#9c27b0','#3f51b5','#2196f3','#00bcd4','#4caf50','#ffeb3b','#ff9800'][Math.floor(Math.random()*9)],
+    color: ['#f44336','#ee6a99','#8b4041','#8b4041','#ee6a99','#00bcd4','#ee6a99','#f9dc0f','#f9dc0f'][Math.floor(Math.random()*9)],
     tilt: Math.random() * 10 - 5, tiltAngle: 0, tiltSpeed: Math.random() * 0.07 + 0.05
   }));
   let frame = 0;
@@ -1038,7 +1038,7 @@ function renderReports(reports) {
     el.innerHTML = '<p style="padding:40px 20px;color:#6b7280;text-align:center">No reports. All clear! ð</p>';
     return;
   }
-  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#D97706;font-size:1rem">ð© Flagged Listings (' + reports.length + ')</div>' +
+  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#f9dc0f;font-size:1rem">ð© Flagged Listings (' + reports.length + ')</div>' +
     reports.map(r => {
       const l = r.listings || {};
       return '<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin:0 12px 12px;padding:16px">' +
@@ -1365,14 +1365,14 @@ async function reportListing(id) {
 
 </script>
 
-<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;display:flex;justify-content:center;gap:20px;"><a href="/about.html" style="color:#3D1C02;text-decoration:none;font-weight:500;">About FurnishU</a><a href="/feedback" style="color:#D97706;text-decoration:none;font-weight:500;">Give Feedback</a></div>
+<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;display:flex;justify-content:center;gap:20px;"><a href="/about.html" style="color:#8b4041;text-decoration:none;font-weight:500;">About FurnishU</a><a href="/feedback" style="color:#f9dc0f;text-decoration:none;font-weight:500;">Give Feedback</a></div>
 <style>
 @keyframes deepLinkPulse {
   0%   { box-shadow: 0 0 0 0 rgba(217,119,6,.55); }
   70%  { box-shadow: 0 0 0 14px rgba(217,119,6,0); }
   100% { box-shadow: 0 0 0 0 rgba(217,119,6,0); }
 }
-.deep-link-highlight { animation: deepLinkPulse .8s ease-out 2; outline: 2px solid #D97706; border-radius: 10px; }
+.deep-link-highlight { animation: deepLinkPulse .8s ease-out 2; outline: 2px solid #f9dc0f; border-radius: 10px; }
 </style>
 </body>
 </html>
