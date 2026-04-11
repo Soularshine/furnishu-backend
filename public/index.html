@@ -14,7 +14,7 @@
   --primary-h: #6b3132;
   --primary-pale: #f6dceb;
   --gray: #6B7280;
-  --gray-light: #F3F4F6;
+  --gray-light: #f6dceb;
   --gray-med: #D1D5DB;
   --text: #111827;
   --white: #fff;
@@ -37,7 +37,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: linear-gradient(150deg, var(--primary) 0%, #2A0910 100%);
+  background: linear-gradient(150deg, #f6dceb 0%, #fce8f3 100%);
 }
 .auth-card {
   background: white;
@@ -723,7 +723,7 @@ function openDetail(id) {
   document.getElementById('d-actions').innerHTML = act;
   if (isOwner) {
     const ob = document.createElement('div');
-    ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f3f4f6';
+    ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f6dceb';
     ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #f9dc0f;color:#8b4041;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
       + '<button onclick="deleteListing(\'' + l.id + '\')" style="padding:8px 14px;background:#fef2f2;border:1.5px solid #f87171;color:#b91c1c;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Delete</button>';
     document.getElementById('d-actions').appendChild(ob);
@@ -1043,7 +1043,7 @@ function renderReports(reports) {
       const l = r.listings || {};
       return '<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin:0 12px 12px;padding:16px">' +
         '<div style="display:flex;gap:12px;align-items:flex-start">' +
-        (l.image_url ? '<img src="' + l.image_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0">' : '<div style="width:60px;height:60px;background:#f3f4f6;border-radius:8px;flex-shrink:0"></div>') +
+        (l.image_url ? '<img src="' + l.image_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0">' : '<div style="width:60px;height:60px;background:#f6dceb;border-radius:8px;flex-shrink:0"></div>') +
         '<div style="flex:1;min-width:0">' +
         '<div style="font-weight:600;color:#111827;margin-bottom:2px">' + (l.title||'Unknown listing') + '</div>' +
         '<div style="font-size:0.78rem;color:#6b7280">Owner: ' + (l.owner_email||'?') + (l.category?' Â· '+l.category:'') + '</div>' +
@@ -1052,7 +1052,7 @@ function renderReports(reports) {
         '<div style="font-size:0.73rem;color:#9ca3af;margin-top:3px">' + new Date(r.created_at).toLocaleDateString() + '</div>' +
         '</div></div>' +
         '<div style="display:flex;gap:8px;margin-top:12px">' +
-        '<button onclick="dismissReport(' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#f3f4f6;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Dismiss</button>' +
+        '<button onclick="dismissReport(' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#f6dceb;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Dismiss</button>' +
         '<button onclick="adminRemoveListing(' + JSON.stringify(r.listing_id) + ',' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#fee2e2;color:#dc2626;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Remove Listing</button>' +
         '</div></div>';
     }).join('');
@@ -1140,7 +1140,7 @@ if (_baseOpenDetail) {
       if (badges && listing.condition) {
         const cond = document.createElement('span');
         cond.textContent = listing.condition;
-        cond.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:#F3F4F6;color:#374151;margin-right:6px;';
+        cond.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:#f6dceb;color:#374151;margin-right:6px;';
         badges.appendChild(cond);
       }
       if (badges && isUrgent(listing.must_go_by)) {
@@ -1313,7 +1313,7 @@ function renderNeeds() {
       + '<div style="flex:1"><div style="font-weight:700;font-size:15px;color:#111827">' + (n.title||'') + '</div>'
       + (n.description ? '<div style="font-size:13px;color:#6b7280;margin-top:4px">' + n.description + '</div>' : '')
       + '<div style="margin-top:6px;font-size:12px;color:#9ca3af">'
-      + (n.category ? '<span style="background:#f3f4f6;padding:2px 8px;border-radius:10px;margin-right:6px">' + n.category + '</span>' : '')
+      + (n.category ? '<span style="background:#f6dceb;padding:2px 8px;border-radius:10px;margin-right:6px">' + n.category + '</span>' : '')
       + (n.building ? '\uD83D\uDCCD ' + n.building + ' &nbsp;' : '')
       + new Date(n.created_at).toLocaleDateString()
       + '</div></div>'
