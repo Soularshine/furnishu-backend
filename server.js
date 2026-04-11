@@ -36,11 +36,22 @@ function requireAuth(req, res, next) {
 
 // --- AUTH ROUTES ---
 
+// In-memory rate limit: one send-code request per email per 60 seconds
+const sendCodeCooldown = new Map();
+
 // POST /api/auth/send-code
 app.post('/api/auth/send-code', async (req, res) => {
   try {
     const { email } = req.body || {};
     if (!email) return res.status(400).json({ error: 'email required' });
+
+    // Rate limit: 60s cooldown per email
+    const now = Date.now();
+    const last = sendCodeCooldown.get(email) || 0;
+    if (now - last < 60000) {
+      return res.status(429).json({ error: 'Please wait 60 seconds before requesting another code.' });
+    }
+    sendCodeCooldown.set(email, now);
 
     const code = crypto.randomInt(100000, 999999).toString();
     const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
@@ -192,7 +203,7 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
         from: 'FurnishU <noreply@furnishu.app>',
         to: listing.owner_email,
         subject: 'Your item was picked up on FurnishU!',
-        html: `<p>Hi there!</p><p>Great news — someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! 🎉</p><p>— The FurnishU Team</p>`
+        html: `<p>Hi there!</p><p>Great news â someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! ð</p><p>â The FurnishU Team</p>`
       }).catch(e => console.error('pickup-notify email error:', e.message));
     }
     res.json(data);
@@ -311,6 +322,26 @@ async function warnExpiringListings() {
 
   console.log('[warned]', expiring.length, 'listing(s)');
 }
+
+
+// POST /api/listings/:id/extend  — push must_go_by out 30 days
+app.post('/api/listings/:id/extend', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data: listing } = await supabase.from('listings').select('*').eq('id', id).single();
+    if (!listing) return res.status(404).json({ error: 'Not found' });
+    if (listing.owner_email !== req.user.email) return res.status(403).json({ error: 'Forbidden' });
+    const base = (listing.must_go_by && new Date(listing.must_go_by) > new Date())
+      ? new Date(listing.must_go_by)
+      : new Date();
+    const newDate = new Date(base.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const { error } = await supabase.from('listings').update({ must_go_by: newDate.toISOString() }).eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ success: true, must_go_by: newDate.toISOString() });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // --- CRON ENDPOINT ---
 
