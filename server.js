@@ -203,7 +203,7 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
         from: 'FurnishU <noreply@furnishu.app>',
         to: listing.owner_email,
         subject: 'Your item was picked up on FurnishU!',
-        html: `<p>Hi there!</p><p>Great news Ã¢ÂÂ someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! Ã°ÂÂÂ</p><p>Ã¢ÂÂ The FurnishU Team</p>`
+        html: `<p>Hi there!</p><p>Great news ÃÂ¢ÃÂÃÂ someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! ÃÂ°ÃÂÃÂÃÂ</p><p>ÃÂ¢ÃÂÃÂ The FurnishU Team</p>`
       }).catch(e => console.error('pickup-notify email error:', e.message));
     }
     res.json(data);
@@ -324,7 +324,7 @@ async function warnExpiringListings() {
 }
 
 
-// POST /api/listings/:id/extend  â push must_go_by out 30 days
+// POST /api/listings/:id/extend  Ã¢ÂÂ push must_go_by out 30 days
 app.post('/api/listings/:id/extend', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -472,7 +472,39 @@ app.get('/api/my-listings', requireAuth, async (req, res) => {
   }
 });
 
-// APP ROUTE — serves sign-in page
+
+// FEEDBACK PAGE
+app.get('/feedback', (req, res) => res.sendFile(path.join(__dirname, 'public', 'feedback.html')));
+
+// POST /api/feedback — emails feedback to owner
+app.post('/api/feedback', async (req, res) => {
+  try {
+    const { rating, worked, broken, name } = req.body || {};
+    const stars = rating ? '★'.repeat(rating) + '☆'.repeat(5 - rating) : 'No rating';
+    const from  = name ? name : 'Anonymous';
+    const html  = `
+      <h2>New FurnishU Feedback</h2>
+      <p><strong>From:</strong> ${from}</p>
+      <p><strong>Rating:</strong> ${stars} (${rating || 0}/5)</p>
+      <hr/>
+      <p><strong>What worked:</strong><br/>${worked || '(not answered)'}</p>
+      <p><strong>What didn't work:</strong><br/>${broken || '(not answered)'}</p>
+      <hr/>
+      <p style="color:#888;font-size:12px">Sent from furnishu.app/feedback</p>
+    `;
+    await resend.emails.send({
+      from: 'FurnishU Feedback <onboarding@resend.dev>',
+      to:   'shawnowenslemons@gmail.com',
+      subject: `FurnishU Feedback — ${stars} from ${from}`,
+      html
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// APP ROUTE â serves sign-in page
 app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 // HEALTH CHECK
