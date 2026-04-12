@@ -59,7 +59,7 @@ app.post('/api/auth/send-code', async (req, res) => {
     const { error: dbErr } = await supabase
       .from('magic_codes')
       .upsert({ email, code, expires_at: expires, used: false });
-    if (dbErr) return res.status(500).json({ error: 'Could not generate code' });
+    if (dbErr) return res.status(500).json({ error: 'Could not generate code', detail: dbErr.message, code: dbErr.code });
 
     if (!resend) return res.status(500).json({ error: 'Email service not configured' });
 
