@@ -266,8 +266,10 @@ textarea { resize: vertical; min-height: 80px; }
   /* == BACKGROUND GHOST EMOJIS == */
   .bg-emoji {
     position: fixed; pointer-events: none; user-select: none;
-    opacity: 0.09; line-height: 1; z-index: 0;
-    animation: furnDrift 9s ease-in-out infinite;
+    font-size: var(--sz, 32px);
+    opacity: 0.2;
+    animation: furnDrift var(--dur, 10s) ease-in-out infinite alternate;
+    animation-delay: var(--del, 0s);
   }
   .bg-emoji:nth-child(1)  { top:3%;  left:2%;  font-size:88px; animation-delay:0s;   animation-duration:10s; }
   .bg-emoji:nth-child(2)  { top:10%; left:80%; font-size:66px; animation-delay:1.3s; animation-duration:7s;  }
