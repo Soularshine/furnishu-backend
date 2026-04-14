@@ -1104,7 +1104,7 @@ document.getElementById('email-in').addEventListener('input', function() {
 });
 
 async function callAdmin(path, method='GET', body) {
-  const opts = { method, headers: { 'Content-Type': 'application/json', 'x-admin-code': 'FU-OWNER-2025' } };
+  const opts = { method, headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + S.token } };
   if (body) opts.body = JSON.stringify(body);
   const r = await fetch(path, opts);
   if (!r.ok) { const e = await r.json().catch(()=>({error:r.statusText})); throw new Error(e.error); }
@@ -1161,19 +1161,25 @@ async function adminRemoveListing(listingId, reportId) {
   } catch(e) { toast(e.message||'Could not remove listing.'); }
 }
 
-function bypassLogin() {
+async function bypassLogin() {
   const code = document.getElementById('bypass-in').value.trim();
   const email = document.getElementById('email-in').value.trim();
-  if (!email) { alert('Enter your email first.'); return; }
-  if (code === 'FU-OWNER-2025') {
-    S.isAdmin = true;
-    const at = document.getElementById('tab-admin'); if(at) at.style.display='';
-    showApp(email);
-  } else {
-    const el = document.getElementById('bypass-in');
-    el.style.borderColor = '#DC2626';
-    setTimeout(() => el.style.borderColor = '', 1500);
-  }
+  if (!email) { toast('Enter your school email first.'); return; }
+  if (!code)  { toast('Enter the access code.'); return; }
+  try {
+    const r = await fetch('/api/auth/bypass', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({code, email})
+    });
+    const data = await r.json();
+    if (!r.ok) { toast(data.error || 'Invalid code.'); return; }
+    S.token = data.token; S.email = data.email || email; S.isAdmin = true;
+    localStorage.setItem('fu_tok', data.token);
+    localStorage.setItem('fu_email', S.email);
+    const at = document.getElementById('tab-admin');
+    if (at) at.style.display = '';
+    showApp(S.email);
+  } catch(e) { toast('Error: ' + e.message); }
 }
 
 
