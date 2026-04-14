@@ -919,7 +919,7 @@ function openPost() {
   document.getElementById('post-title').textContent = 'Post an Item';
   document.getElementById('post-btn').textContent   = 'Post Item';
   ['p-name','p-bldg','p-desc','p-price'].forEach(id=>document.getElementById(id).value='');
-    const condEl2 = document.getElementById('p-cond'); if (condEl2) condEl2.value = l.condition || '';
+    const condEl2 = document.getElementById('p-cond'); if (condEl2) condEl2.value = '';
   document.getElementById('p-cat').value    = '';
   document.getElementById('p-date').value   = '';
   document.getElementById('p-free').checked = true;
