@@ -10,11 +10,11 @@
 <title>FurnishU</title>
 <style>
 :root {
-  --primary: #5e5d77;
-  --primary-h: #6b3132;
-  --primary-pale: #eceaff;
+  --primary: #7b5ea7;
+  --primary-h: #4e3473;
+  --primary-pale: #f0e8ff;
   --gray: #6B7280;
-  --gray-light: #f5f4fc;
+  --gray-light: #f5f0ff;
   --gray-med: #D1D5DB;
   --text: #111827;
   --white: #fff;
@@ -37,7 +37,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: linear-gradient(135deg,#6571ab 0%,#8b7fb5 30%,#5e5d77 60%,#7b6fa0 100%); background-size:300% 300%; animation: gradientShift 8s ease infinite; position:relative; overflow:hidden;
+  background: linear-gradient(135deg,#9d78c4 0%,#7b5ea7 30%,#7b5ea7 60%,#4e3473 100%); background-size:300% 300%; animation: gradientShift 8s ease infinite; position:relative; overflow:hidden;
 }
 .auth-card {
   background: white;
@@ -81,7 +81,7 @@ textarea { resize: vertical; min-height: 80px; }
   border-radius: 10px; font-size: 16px; font-weight: 700;
   cursor: pointer; transition: background .15s, transform .1s;
 }
-.btn:hover { background: #a4776b; }
+.btn:hover { background: #c9b1d9; }
 .btn:active { transform: scale(.98); }
 .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 .btn-sm { width: auto; padding: 9px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; }
@@ -105,7 +105,7 @@ textarea { resize: vertical; min-height: 80px; }
 #app-screen { display: none; min-height: 100vh; flex-direction: column; }
 
 .topbar {
-  background: #5e5d77; color: #ffffff;
+  background: #7b5ea7; color: #ffffff;
   padding: 0 16px; height: 54px;
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 100;
@@ -164,11 +164,11 @@ textarea { resize: vertical; min-height: 80px; }
 .card-foot { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
 
 .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
-.badge-free  { background: #f0ebe9; color: #a4776b; }
-.badge-paid  { background: #fffbd4; color: #5e5d77; }
-.badge-pend  { background: #eceaff; color: #5e5d77; }
+.badge-free  { background: #ede0ff; color: #c9b1d9; }
+.badge-paid  { background: #fffbd4; color: #7b5ea7; }
+.badge-pend  { background: #f0e8ff; color: #7b5ea7; }
 .badge-mine  { background: var(--primary-pale); color: var(--primary); }
-.urgent { font-size: 11px; font-weight: 700; color: #a4776b; }
+.urgent { font-size: 11px; font-weight: 700; color: #c9b1d9; }
 
 /*  EMPTY STATE  */
 .empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray); }
@@ -299,7 +299,7 @@ textarea { resize: vertical; min-height: 80px; }
   .icon-bubble:hover { transform: scale(1.18) rotate(-5deg); }
   .icon-bubble:nth-child(odd)  { background: #f9e64e; }
   .icon-bubble:nth-child(even) { background: white; }
-  .icon-bubble:nth-child(3n)   { background: #f0ebe9; }
+  .icon-bubble:nth-child(3n)   { background: #ede0ff; }
   .icon-bubble:nth-child(1){animation-delay:.05s}
   .icon-bubble:nth-child(2){animation-delay:.10s}
   .icon-bubble:nth-child(3){animation-delay:.15s}
@@ -321,7 +321,7 @@ textarea { resize: vertical; min-height: 80px; }
     letter-spacing: -0.5px; line-height: 1.25;
   }
   .auth-tagline h1 span { background: #f9e64e; border-radius: 6px; padding: 1px 7px; }
-  .auth-tagline p { font-size: 13px; color: #a4776b; margin-top: 6px; font-weight: 600; }
+  .auth-tagline p { font-size: 13px; color: #c9b1d9; margin-top: 6px; font-weight: 600; }
 
 .star-twinkle{position:fixed;pointer-events:none;z-index:0;font-size:var(--sz,14px);color:rgba(255,255,255,var(--op,0.5));animation:starGlow var(--dur,2.5s) ease-in-out infinite alternate;animation-delay:var(--del,0s);user-select:none;}@keyframes starGlow{from{opacity:0.05;transform:scale(0.6) rotate(-10deg);}to{opacity:0.9;transform:scale(1.3) rotate(15deg);}}@keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}.btn-shimmer{position:relative;overflow:hidden;}.btn-shimmer::after{content:"";position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent);animation:shimmer 3s ease-in-out infinite;}@keyframes shimmer{0%{left:-60%;}100%{left:130%;}}
 </style>
@@ -387,7 +387,7 @@ textarea { resize: vertical; min-height: 80px; }
         <input type="tel" maxlength="1" id="d3" oninput="otpIn(3)" onkeydown="otpKey(event,3)" />
       </div>
       <button class="btn" id="verify-btn" onclick="verifyCode()">Verify Code</button>
-      <p style="margin-top:14px;font-size:0.85rem;color:#888">Didn't receive it? <button onclick="resendCode()" style="background:none;border:none;color:#5e5d77;cursor:pointer;font-size:inherit;text-decoration:underline;padding:0">Resend code</button></p>
+      <p style="margin-top:14px;font-size:0.85rem;color:#888">Didn't receive it? <button onclick="resendCode()" style="background:none;border:none;color:#7b5ea7;cursor:pointer;font-size:inherit;text-decoration:underline;padding:0">Resend code</button></p>
       <div class="back-link"><a href="#" onclick="backToEmail();return false;">Use a different email</a></div>
     </div>
   </div>
@@ -435,7 +435,7 @@ textarea { resize: vertical; min-height: 80px; }
           <input id="rq-bldg" placeholder="Building (optional)" style="flex:1;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:13px">
         </div>
     <div id="admin-panel" style="display:none;overflow-y:auto;padding-bottom:80px"></div>
-        <button onclick="submitNeed()" style="width:100%;padding:10px;background:#5e5d77;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">Post Request</button>
+        <button onclick="submitNeed()" style="width:100%;padding:10px;background:#7b5ea7;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">Post Request</button>
       </div>
       <div id="rq-list"></div>
     </div>
@@ -523,9 +523,9 @@ textarea { resize: vertical; min-height: 80px; }
 const CFG = {
   school:   'FurnishU',
   short:    'EDU',
-  primary:  '#5e5d77',   // walnut
-  hover:    '#6b3132',
-  pale:     '#f5f4fc',
+  primary:  '#7b5ea7',   // walnut
+  hover:    '#4e3473',
+  pale:     '#f5f0ff',
   valid:    e => e.endsWith('.edu')};
 
 // Apply colors
@@ -740,8 +740,8 @@ function cardHTML(l) {
     ${photo}
     <div class="card-body">
       <div class="card-name">${esc(l.name)}</div>
-      ${l.avg_rating ? '<div style="font-size:12px;color:#5e5d77;margin-top:2px">' + '\u2B50'.repeat(Math.round(l.avg_rating)) + '\u2606'.repeat(5-Math.round(l.avg_rating)) + ' <span style="color:#888;font-size:11px">(' + l.avg_rating + ')</span></div>' : ''}
-      ${l.condition ? '<span style="display:inline-block;margin-top:3px;padding:2px 7px;background:#ede9f8;border:1px solid #ffd6ea;border-radius:12px;font-size:11px;color:#f9e64e;font-weight:600">' + l.condition + '</span>' : ''}
+      ${l.avg_rating ? '<div style="font-size:12px;color:#7b5ea7;margin-top:2px">' + '\u2B50'.repeat(Math.round(l.avg_rating)) + '\u2606'.repeat(5-Math.round(l.avg_rating)) + ' <span style="color:#888;font-size:11px">(' + l.avg_rating + ')</span></div>' : ''}
+      ${l.condition ? '<span style="display:inline-block;margin-top:3px;padding:2px 7px;background:#e8d8ff;border:1px solid #ffd6ea;border-radius:12px;font-size:11px;color:#f9e64e;font-weight:600">' + l.condition + '</span>' : ''}
       <div class="card-loc">📍 ${esc(l.building)}</div>
       <div class="card-foot">${pBadge}${mine?'<span class="badge badge-mine">Mine</span>':''}${urgTxt}</div>
     </div></div>`;
@@ -785,7 +785,7 @@ function openDetail(id) {
   if (days!==null) {
     const dStr = days<=0 ? '⚠️ Needed gone today!' : days===1 ? '⚠️ Must go tomorrow!'
       : `Must be picked up by ${new Date(l.must_go_by).toLocaleDateString()}`;
-    info += `<p style="margin-top:6px;${days<=2?'color: #a4776b;font-weight:700;':''}">${dStr}</p>`;
+    info += `<p style="margin-top:6px;${days<=2?'color: #c9b1d9;font-weight:700;':''}">${dStr}</p>`;
   }
   document.getElementById('d-info').innerHTML = info;
 
@@ -810,8 +810,8 @@ function openDetail(id) {
   document.getElementById('d-actions').innerHTML = act;
   if (isOwner) {
     const ob = document.createElement('div');
-    ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f5f4fc';
-    ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #5e5d77;color:#5e5d77;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
+    ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f5f0ff';
+    ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #7b5ea7;color:#7b5ea7;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
       + '<button onclick="deleteListing(\'' + l.id + '\')" style="padding:8px 14px;background:#fef2f2;border:1.5px solid #f87171;color:#b91c1c;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Delete</button>';
     document.getElementById('d-actions').appendChild(ob);
   }
@@ -855,7 +855,7 @@ function launchConfetti() {
   const pieces = Array.from({length:120}, () => ({
     x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
     r: Math.random() * 7 + 3, d: Math.random() * 0.8 + 0.5,
-    color: ['#f44336','#f9e64e','#5e5d77','#5e5d77','#f9e64e','#00bcd4','#f9e64e','#5e5d77','#5e5d77'][Math.floor(Math.random()*9)],
+    color: ['#f44336','#f9e64e','#7b5ea7','#7b5ea7','#f9e64e','#00bcd4','#f9e64e','#7b5ea7','#7b5ea7'][Math.floor(Math.random()*9)],
     tilt: Math.random() * 10 - 5, tiltAngle: 0, tiltSpeed: Math.random() * 0.07 + 0.05
   }));
   let frame = 0;
@@ -1116,7 +1116,7 @@ async function loadReports() {
   try {
     const reports = await callAdmin('/api/admin/reports');
     renderReports(reports);
-  } catch(e) { el.innerHTML = '<p style="padding:20px;color: #a4776b;text-align:center">Error: ' + e.message + '</p>'; }
+  } catch(e) { el.innerHTML = '<p style="padding:20px;color: #c9b1d9;text-align:center">Error: ' + e.message + '</p>'; }
 }
 
 function renderReports(reports) {
@@ -1125,12 +1125,12 @@ function renderReports(reports) {
     el.innerHTML = '<p style="padding:40px 20px;color:#6b7280;text-align:center">No reports. All clear! 🎉</p>';
     return;
   }
-  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#5e5d77;font-size:1rem">🚩 Flagged Listings (' + reports.length + ')</div>' +
+  el.innerHTML = '<div style="padding:16px 20px;font-weight:600;color:#7b5ea7;font-size:1rem">🚩 Flagged Listings (' + reports.length + ')</div>' +
     reports.map(r => {
       const l = r.listings || {};
       return '<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin:0 12px 12px;padding:16px">' +
         '<div style="display:flex;gap:12px;align-items:flex-start">' +
-        (l.image_url ? '<img src="' + l.image_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0">' : '<div style="width:60px;height:60px;background:#f5f4fc;border-radius:8px;flex-shrink:0"></div>') +
+        (l.image_url ? '<img src="' + l.image_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0">' : '<div style="width:60px;height:60px;background:#f5f0ff;border-radius:8px;flex-shrink:0"></div>') +
         '<div style="flex:1;min-width:0">' +
         '<div style="font-weight:600;color:#111827;margin-bottom:2px">' + (l.title||'Unknown listing') + '</div>' +
         '<div style="font-size:0.78rem;color:#6b7280">Owner: ' + (l.owner_email||'?') + (l.category?' · '+l.category:'') + '</div>' +
@@ -1139,8 +1139,8 @@ function renderReports(reports) {
         '<div style="font-size:0.73rem;color:#9ca3af;margin-top:3px">' + new Date(r.created_at).toLocaleDateString() + '</div>' +
         '</div></div>' +
         '<div style="display:flex;gap:8px;margin-top:12px">' +
-        '<button onclick="dismissReport(' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#f5f4fc;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Dismiss</button>' +
-        '<button onclick="adminRemoveListing(' + JSON.stringify(r.listing_id) + ',' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#f5edeb;color: #a4776b;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Remove Listing</button>' +
+        '<button onclick="dismissReport(' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#f5f0ff;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Dismiss</button>' +
+        '<button onclick="adminRemoveListing(' + JSON.stringify(r.listing_id) + ',' + JSON.stringify(r.id) + ')" style="flex:1;padding:8px 0;background:#f0e8ff;color: #c9b1d9;border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500">Remove Listing</button>' +
         '</div></div>';
     }).join('');
 }
@@ -1227,13 +1227,13 @@ if (_baseOpenDetail) {
       if (badges && listing.condition) {
         const cond = document.createElement('span');
         cond.textContent = listing.condition;
-        cond.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:#f5f4fc;color:#374151;margin-right:6px;';
+        cond.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:#f5f0ff;color:#374151;margin-right:6px;';
         badges.appendChild(cond);
       }
       if (badges && isUrgent(listing.must_go_by)) {
         const urg = document.createElement('span');
         urg.textContent = '⚡ Urgent Urgent — tap to remove';
-        urg.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:#f5edeb;color: #a4776b;';
+        urg.style.cssText = 'display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:#f0e8ff;color: #c9b1d9;';
         badges.appendChild(urg);
       }
     }
@@ -1365,9 +1365,9 @@ function toggleMoveOut() {
   window._moveOutCount = 0;
   const btn = document.getElementById('moveout-btn');
   if (window._moveOutMode) {
-    btn.style.background = '#5e5d77';
+    btn.style.background = '#7b5ea7';
     btn.style.color = 'white';
-    btn.style.borderColor = '#5e5d77';
+    btn.style.borderColor = '#7b5ea7';
     btn.textContent = ' Move-Out ON';
     toast('📦 Move-Out Mode on — form stays open after each post!', 3000);
   } else {
@@ -1400,7 +1400,7 @@ function renderNeeds() {
       + '<div style="flex:1"><div style="font-weight:700;font-size:15px;color:#111827">' + (n.title||'') + '</div>'
       + (n.description ? '<div style="font-size:13px;color:#6b7280;margin-top:4px">' + n.description + '</div>' : '')
       + '<div style="margin-top:6px;font-size:12px;color:#9ca3af">'
-      + (n.category ? '<span style="background:#f5f4fc;padding:2px 8px;border-radius:10px;margin-right:6px">' + n.category + '</span>' : '')
+      + (n.category ? '<span style="background:#f5f0ff;padding:2px 8px;border-radius:10px;margin-right:6px">' + n.category + '</span>' : '')
       + (n.building ? '\uD83D\uDCCD ' + n.building + ' &nbsp;' : '')
       + new Date(n.created_at).toLocaleDateString()
       + '</div></div>'
@@ -1452,14 +1452,14 @@ async function reportListing(id) {
 
 </script>
 
-<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;display:flex;justify-content:center;gap:20px;"><a href="/about.html" style="color:#5e5d77;text-decoration:none;font-weight:500;">About FurnishU</a><a href="/feedback" style="color:#5e5d77;text-decoration:none;font-weight:500;">Give Feedback</a></div>
+<div style="text-align:center;padding:12px;font-size:13px;color:#6B7280;display:flex;justify-content:center;gap:20px;"><a href="/about.html" style="color:#7b5ea7;text-decoration:none;font-weight:500;">About FurnishU</a><a href="/feedback" style="color:#7b5ea7;text-decoration:none;font-weight:500;">Give Feedback</a></div>
 <style>
 @keyframes deepLinkPulse {
   0%   { box-shadow: 0 0 0 0 rgba(217,119,6,.55); }
   70%  { box-shadow: 0 0 0 14px rgba(217,119,6,0); }
   100% { box-shadow: 0 0 0 0 rgba(217,119,6,0); }
 }
-.deep-link-highlight { animation: deepLinkPulse .8s ease-out 2; outline: 2px solid #5e5d77; border-radius: 10px; }
+.deep-link-highlight { animation: deepLinkPulse .8s ease-out 2; outline: 2px solid #7b5ea7; border-radius: 10px; }
 </style>
 </body>
 </html>
