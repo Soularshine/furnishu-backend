@@ -986,41 +986,39 @@ async function submitPost() {
   const name  = document.getElementById('p-name').value.trim();
   const cat   = document.getElementById('p-cat').value;
   const bldg  = document.getElementById('p-bldg').value.trim();
-  if (bldg) { S.myBuilding = bldg; const _bldEl = document.getElementById('bld-in'); if(_bldEl) _bldEl.value = bldg; }
-  const desc  = document.getElementById('p-desc').value.trim();
-  const free  = document.getElementById('p-free').checked;
-  const price = free ? 0 : parseFloat(document.getElementById('p-price').value)||0;
-  const date  = document.getElementById('p-date').value||null;
+  const desc  = (document.getElementById('p-desc') || {}).value || '';
+  const price = (document.getElementById('p-price') || {}).value || '';
+  const freeEl = document.getElementById('p-free');
+  const free  = freeEl ? freeEl.checked : false;
+  const date  = (document.getElementById('p-date') || {}).value || '';
+  const condition = (document.getElementById('p-cond') || {}).value || '';
+  if (bldg) { S.myBuilding = bldg; const _bldEl = document.getElementById('bld-in'); if (_bldEl) _bldEl.value = bldg; }
   if (!name) return toast('Please enter an item name.');
   if (!cat)  return toast('Please select a category.');
-  if (!bldg) return toast('Please enter your dorm or bldg name.');
+  if (!bldg) return toast('Please enter your dorm or building name.');
   const btn = document.getElementById('post-btn');
   setLoading(btn, true);
-  const body = { name, category:cat, bldg:bldg, description:desc, free, price, must_go_by:date, photo_base64:S.photo, condition:V('p-cond') };
+  const body = { name, category: cat, bldg, description: desc, free, price, must_go_by: date, photo_base64: S.photo, condition };
   try {
     if (S.editId) {
-      await call(`/api/listings/${S.editId}`, 'PUT', body);
+      await call('/api/listings/' + S.editId, 'PATCH', body);
       toast('Listing updated!');
     } else {
-    const data = S._editId ? await call('/api/listings/' + S._editId, 'PATCH', {...body, owner_email: S.email}) : await call('/api/listings', 'POST', body);
-    S._editId = null;
-      toast('Item posted! ✓');
-    }
+      await call('/api/listings', 'POST', body);
       if (window._moveOutMode) {
         window._moveOutCount = (window._moveOutCount || 0) + 1;
-        toast('✓ Posted! ' + window._moveOutCount + ' item(s) listed — form ready for next.');
-        ['p-name','p-desc','p-price','p-date'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
-        const fc = document.getElementById('p-free'); if(fc) fc.checked = false;
-        const pc = document.getElementById('photo-prev'); if(pc){pc.src='';pc.style.display='none';}
-        const pi = document.getElementById('photo-in'); if(pi) pi.value='';
-        window._photoB64 = null;
-        document.getElementById('p-name').focus();
-        await load();
+        toast('\u2713 Posted! ' + window._moveOutCount + ' item' + (window._moveOutCount !== 1 ? 's' : '') + ' posted');
       } else {
-        closePost(); await load(); switchTab('mine');
+        toast('Item posted! \u2713');
       }
-  } catch(e) { toast(e.message||'Could not save listing.'); }
-  setLoading(btn, false, S.editId?'Save Changes':'Post Item');
+    }
+    closePost();
+    loadListings();
+  } catch(e) {
+    toast('Error: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
 }
 
 async function delListing(id) {
