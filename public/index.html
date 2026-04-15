@@ -994,8 +994,6 @@ async function submitPost() {
   const condition = (document.getElementById('p-cond') || {}).value || '';
   if (bldg) { S.myBuilding = bldg; const _bldEl = document.getElementById('bld-in'); if (_bldEl) _bldEl.value = bldg; }
   if (!name) return toast('Please enter an item name.');
-  if (!cat)  return toast('Please select a category.');
-  if (!bldg) return toast('Please enter your dorm or building name.');
   const btn = document.getElementById('post-btn');
   setLoading(btn, true);
   const body = { name, category: cat, bldg, description: desc, free, price, must_go_by: date, photo_base64: S.photo, condition };
