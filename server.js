@@ -143,8 +143,8 @@ app.get('/api/listings', async (req, res) => {
 // POST /api/listings
 app.post('/api/listings', requireAuth, async (req, res) => {
   try {
-    const { name, description, category, building, room, photo_base64, condition } = req.body || {};
-    if (!name || !building) return res.status(400).json({ error: 'name and building required' });
+    const { name, description, category, building: buildingRaw, bldg, room, photo_base64, condition } = req.body || {}; const building = buildingRaw || bldg || '';
+    if (!name) return res.status(400).json({ error: 'name required' });
     const { data, error } = await supabase
       .from('listings')
       .insert([{ name, description, category, building, room, photo_base64, condition, owner_email: req.user.email }])
