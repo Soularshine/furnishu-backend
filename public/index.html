@@ -986,7 +986,7 @@ async function submitPost() {
   const name  = document.getElementById('p-name').value.trim();
   const cat   = document.getElementById('p-cat').value;
   const bldg  = document.getElementById('p-bldg').value.trim();
-  if (bldg) { S.myBuilding = bldg; if(document.getElementById('bld-in')) _bldSel.value = bldg; }
+  if (bldg) { S.myBuilding = bldg; const _bldEl = document.getElementById('bld-in'); if(_bldEl) _bldEl.value = bldg; }
   const desc  = document.getElementById('p-desc').value.trim();
   const free  = document.getElementById('p-free').checked;
   const price = free ? 0 : parseFloat(document.getElementById('p-price').value)||0;
