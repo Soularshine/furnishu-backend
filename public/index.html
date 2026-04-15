@@ -996,7 +996,7 @@ async function submitPost() {
   if (!name) return toast('Please enter an item name.');
   const btn = document.getElementById('post-btn');
   setLoading(btn, true);
-  const body = { name, category: cat, bldg, description: desc, free, price, must_go_by: date, photo_base64: S.photo, condition };
+  const body = { name, category: cat, building: bldg, description: desc, free, price, must_go_by: date, photo_base64: S.photo, condition };
   try {
     if (S.editId) {
       await call('/api/listings/' + S.editId, 'PATCH', body);
