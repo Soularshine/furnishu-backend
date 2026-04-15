@@ -143,11 +143,11 @@ app.get('/api/listings', async (req, res) => {
 // POST /api/listings
 app.post('/api/listings', requireAuth, async (req, res) => {
   try {
-    const { name, description, category, building: buildingRaw, bldg, room, photo_base64, condition } = req.body || {}; const building = buildingRaw || bldg || '';
+    const { name, description, category, building: buildingRaw, bldg, photo_base64, condition } = req.body || {}; const building = buildingRaw || bldg || '';
     if (!name) return res.status(400).json({ error: 'name required' });
     const { data, error } = await supabase
       .from('listings')
-      .insert([{ name, description, category, building, room, photo_base64, condition, owner_email: req.user.email }])
+      .insert([{ name, description, category, building, photo_base64, condition, owner_email: req.user.email }])
       .select()
       .single();
     if (error) return res.status(500).json({ error: error.message });
@@ -472,7 +472,7 @@ app.get('/api/my-listings', requireAuth, async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('listings')
-      .select('id, name, description, category, building, room, condition, status, created_at, claimed_at, claimer_email, avg_rating, rating_count')
+      .select('id, name, description, category, building, condition, status, created_at, claimed_at, claimer_email, avg_rating, rating_count')
       .eq('owner_email', req.user.email)
       .order('created_at', { ascending: false });
     if (error) return res.status(500).json({ error: error.message });
