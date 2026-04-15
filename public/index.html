@@ -986,17 +986,17 @@ async function submitPost() {
   const name  = document.getElementById('p-name').value.trim();
   const cat   = document.getElementById('p-cat').value;
   const bldg  = document.getElementById('p-bldg').value.trim();
-  if (building) { S.myBuilding = building; if(document.getElementById('bld-in')) _bldSel.value = building; }
+  if (bldg) { S.myBuilding = bldg; if(document.getElementById('bld-in')) _bldSel.value = bldg; }
   const desc  = document.getElementById('p-desc').value.trim();
   const free  = document.getElementById('p-free').checked;
   const price = free ? 0 : parseFloat(document.getElementById('p-price').value)||0;
   const date  = document.getElementById('p-date').value||null;
   if (!name) return toast('Please enter an item name.');
   if (!cat)  return toast('Please select a category.');
-  if (!bldg) return toast('Please enter your dorm or building name.');
+  if (!bldg) return toast('Please enter your dorm or bldg name.');
   const btn = document.getElementById('post-btn');
   setLoading(btn, true);
-  const body = { name, category:cat, building:bldg, description:desc, free, price, must_go_by:date, photo_base64:S.photo, condition:V('p-cond') };
+  const body = { name, category:cat, bldg:bldg, description:desc, free, price, must_go_by:date, photo_base64:S.photo, condition:V('p-cond') };
   try {
     if (S.editId) {
       await call(`/api/listings/${S.editId}`, 'PUT', body);
