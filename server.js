@@ -53,7 +53,7 @@ app.post('/api/auth/send-code', async (req, res) => {
     }
     sendCodeCooldown.set(email, now);
 
-    const code = crypto.randomInt(100000, 999999).toString();
+    const code = crypto.randomInt(1000, 9999).toString();
     const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
     const { error: dbErr } = await supabase
@@ -214,7 +214,7 @@ app.post('/api/listings/:id/claim', requireAuth, async (req, res) => {
         from: 'FurnishU <noreply@furnishu.app>',
         to: listing.owner_email,
         subject: 'Your item was picked up on FurnishU!',
-        html: `<p>Hi there!</p><p>Great news ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</p><p>ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ The FurnishU Team</p>`
+        html: `<p>Hi there!</p><p>Great news ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ someone just confirmed pickup of your listing: <strong>${listing.name || 'your item'}</strong>.</p><p>Their contact email is: <strong>${req.user.email}</strong></p><p>Feel free to reach out to coordinate anything. Thank you for giving furniture a new home! ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</p><p>ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ The FurnishU Team</p>`
       }).catch(e => console.error('pickup-notify email error:', e.message));
     }
     res.json(data);
@@ -335,7 +335,7 @@ async function warnExpiringListings() {
 }
 
 
-// POST /api/listings/:id/extend  ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ push must_go_by out 30 days
+// POST /api/listings/:id/extend  ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ push must_go_by out 30 days
 app.post('/api/listings/:id/extend', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -487,11 +487,11 @@ app.get('/api/my-listings', requireAuth, async (req, res) => {
 // FEEDBACK PAGE
 app.get('/feedback', (req, res) => res.sendFile(path.join(__dirname, 'public', 'feedback.html')));
 
-// POST /api/feedback Ã¢ÂÂ emails feedback to owner
+// POST /api/feedback ÃÂ¢ÃÂÃÂ emails feedback to owner
 app.post('/api/feedback', async (req, res) => {
   try {
     const { rating, worked, broken, name } = req.body || {};
-    const stars = rating ? 'Ã¢ÂÂ'.repeat(rating) + 'Ã¢ÂÂ'.repeat(5 - rating) : 'No rating';
+    const stars = rating ? 'ÃÂ¢ÃÂÃÂ'.repeat(rating) + 'ÃÂ¢ÃÂÃÂ'.repeat(5 - rating) : 'No rating';
     const from  = name ? name : 'Anonymous';
     const html  = `
       <h2>New FurnishU Feedback</h2>
@@ -506,7 +506,7 @@ app.post('/api/feedback', async (req, res) => {
     await resend.emails.send({
       from: 'FurnishU Feedback <onboarding@resend.dev>',
       to:   'shawnowenslemons@gmail.com',
-      subject: `FurnishU Feedback Ã¢ÂÂ ${stars} from ${from}`,
+      subject: `FurnishU Feedback ÃÂ¢ÃÂÃÂ ${stars} from ${from}`,
       html
     });
     res.json({ success: true });
@@ -515,7 +515,7 @@ app.post('/api/feedback', async (req, res) => {
   }
 });
 
-// APP ROUTE ÃÂ¢ÃÂÃÂ serves sign-in page
+// APP ROUTE ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ serves sign-in page
 app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 // HEALTH CHECK
