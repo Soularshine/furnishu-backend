@@ -1104,7 +1104,7 @@ const _deepLinkId = new URLSearchParams(location.search).get('listing');
 boot();
 if (_deepLinkId) {
   const _dlWait = setInterval(() => {
-    if (window.S && S.listings && S.listings.length && S.listings.find(x => x.id === _deepLinkId)) {
+    if (S.listings && S.listings.length && S.listings.find(x => x.id === _deepLinkId)) {
       clearInterval(_dlWait);
       openDetail(_deepLinkId);
     }
