@@ -1099,19 +1099,18 @@ function esc(s) {
 });
 document.getElementById('email-in').addEventListener('keydown',e=>{ if(e.key==='Enter') sendCode(); });
 
+// deep-link: capture param BEFORE boot() clears the URL
+const _deepLinkId = new URLSearchParams(location.search).get('listing');
 boot();
-// deep-link: auto-open listing if ?listing=<id> in URL
-(function() {
-  const dlId = new URLSearchParams(location.search).get('listing');
-  if (!dlId) return;
-  const wait = setInterval(() => {
-    if (window.S && S.listings && S.listings.find(x => x.id === dlId)) {
-      clearInterval(wait);
-      openDetail(dlId);
+if (_deepLinkId) {
+  const _dlWait = setInterval(() => {
+    if (window.S && S.listings && S.listings.length && S.listings.find(x => x.id === _deepLinkId)) {
+      clearInterval(_dlWait);
+      openDetail(_deepLinkId);
     }
   }, 250);
-  setTimeout(() => clearInterval(wait), 8000);
-})();
+  setTimeout(() => clearInterval(_dlWait), 8000);
+}
 
 
 document.getElementById('email-in').addEventListener('input', function() {
