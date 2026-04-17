@@ -819,14 +819,14 @@ function openDetail(id) {
   }
   document.getElementById('d-actions').innerHTML = act +
     `<button class="btn btn-outline btn-sm" style="width:100%;margin-top:8px;background:transparent;border:1px solid #D97706;color:#D97706" onclick="shareItem('${l.id}')">🔗 Share this listing</button>`;
-  if (isOwner) {
+  if (mine) {
     const ob = document.createElement('div');
     ob.style.cssText = 'display:flex;gap:8px;padding:10px 0;margin-top:8px;border-top:1px solid #f5f0ff';
     ob.innerHTML = '<button onclick="editListing(\'' + l.id + '\')" style="flex:1;padding:8px 12px;background:#fff0f8;border:1.5px solid #7b5ea7;color:#7b5ea7;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Edit</button>'
       + '<button onclick="deleteListing(\'' + l.id + '\')" style="padding:8px 14px;background:#fef2f2;border:1.5px solid #f87171;color:#b91c1c;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px"> Delete</button>';
     document.getElementById('d-actions').appendChild(ob);
   }
-    if (!isOwner && S.email) {
+    if (!mine && S.email) {
       const rb = document.createElement('div');
       rb.style.cssText = 'padding:6px 0;text-align:right';
       rb.innerHTML = '<button onclick="reportListing(\'' + l.id + '\')" style="padding:5px 12px;background:none;border:1px solid #e5e7eb;color:#9ca3af;border-radius:8px;cursor:pointer;font-size:12px">&#x1F6A9; Report</button>';
@@ -1418,7 +1418,7 @@ function renderNeeds() {
   const needs = S.needs || [];
   if (!needs.length) { list.innerHTML = '<p style="text-align:center;color:#9ca3af;padding:32px">No requests yet  be the first!</p>'; return; }
   list.innerHTML = needs.map(n => {
-    const isOwner = S.email && n.user_email === S.email;
+    const mine = S.email && n.user_email === S.email;
     return '<div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.08)">'
       + '<div style="display:flex;justify-content:space-between;align-items:flex-start">'
       + '<div style="flex:1"><div style="font-weight:700;font-size:15px;color:#111827">' + (n.title||'') + '</div>'
@@ -1428,7 +1428,7 @@ function renderNeeds() {
       + (n.building ? '\uD83D\uDCCD ' + n.building + ' &nbsp;' : '')
       + new Date(n.created_at).toLocaleDateString()
       + '</div></div>'
-      + (isOwner ? '<button onclick="deleteNeed(\'' + n.id + '\')" style="margin-left:12px;padding:4px 10px;background:#fef2f2;border:1px solid #fca5a5;color:#b91c1c;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0">Remove</button>' : '')
+      + (mine ? '<button onclick="deleteNeed(\'' + n.id + '\')" style="margin-left:12px;padding:4px 10px;background:#fef2f2;border:1px solid #fca5a5;color:#b91c1c;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0">Remove</button>' : '')
       + '</div></div>';
   }).join('');
 }
