@@ -88,7 +88,8 @@ app.post('/api/auth/bypass', async (req, res) => {
   if (!code || code !== BYPASS) return res.status(401).json({ error: 'Invalid code' });
   try {
     const token = jwt.sign({ email: email || 'admin@furnishu.app', isAdmin: true }, JWT_SECRET, { expiresIn: '30d' });
-    res.json({ token, email: email || 'admin@furnishu.app', isAdmin: true });
+    if (email) await supabase.from('users').upsert({ email }, { onConflict: 'email' });
+  res.json({ token, email: email || 'admin@furnishu.app', isAdmin: true });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
